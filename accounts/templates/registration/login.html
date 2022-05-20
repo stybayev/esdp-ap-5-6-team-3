@@ -1,0 +1,31 @@
+{% extends 'base_register.html' %}
+{% load static %}
+{% block content %}
+    <div class="container form-auth">
+        <div class="row row-cols-2">
+            <div class="col">
+                <h4 style="font-family: Calibri; text-align: center; font-size: 35px">Логиниться</h4>
+                <form action="{% url 'login' %}{% if next %}?next={{ next }}{% endif %}" method="post"
+                      class="row align-items-center">
+                    <div>
+                        {% csrf_token %}
+                        {% if has_error %}
+                            <p class="form-error">Неверное имя пользователя или пароль.</p>
+                        {% endif %}
+                        <input type="text" class="form-control" id="inputUsername3" name="username"
+                               placeholder="Введите имя пользователя или эл. адрес">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Пароль">
+                        <button type="submit" class="btn btn-primary form-control">Войти</button>
+                    </div>
+                    <div class="col-6 py-3">
+                        У вас еще нету аккаунта?
+                        <a class="btn btn-outline-primary" aria-current="page"
+                           href="{% url 'register' %}">Зарегистрироваться</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+
+{% csrf_token %}
+
+<label for="text"></label>
+<textarea
+  class="form-control"
+  name="text"
+  id="text"
+  cols="20"
+  rows="8"
+  placeholder="Напишите отзыв"
+>
+{{ form.text.value|default:''}}</textarea
+>
+<label for="evaluation"></label>
+<input type="number" class="form-control" name="evaluation" id="evaluation" placeholder="Оцените от 1 до 5"
+
+{{ form.evaluation.value|default:''}}/>
+
+<input type="submit" value="{{ button_text }}" />
+
+

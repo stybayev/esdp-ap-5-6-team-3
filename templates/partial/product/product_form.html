@@ -1,0 +1,14 @@
+
+
+
+     {% csrf_token %}
+
+
+    <div class="form-group" style="display: flex; flex-direction: column; ">
+        {% for field in form %}
+            <div class="mb-2">{{ field }}</div>
+        {% endfor %}
+
+    </div>
+<button class="btn btn-sm btn-primary" type="submit">{{ button_text }}</button>
+

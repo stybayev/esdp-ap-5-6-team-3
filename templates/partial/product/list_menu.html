@@ -1,0 +1,38 @@
+{% load static %}
+{% block content %}
+    <div class="mainclass" style="display: flex; flex-wrap: wrap; width: 1250px">
+
+       <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Название</th>
+          <th scope="col">Цена</th>
+          <th scope="col">Статус</th>
+          <th scope="col">Детальная информация</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            {% for product in products %}
+          <th scope="row">{{ product.id }}</th>
+          <td>{{ product.title }}</td>
+          <td>{{ product.price }}</td>
+          <td>{{ product.status }}</td>
+          <td><a href="{% url 'detail_product' product.pk %}" class="card-link" >see more >>> </a></td>
+
+        </tr>
+                   {% empty %}
+      <h2>проукты не найдены</h2>
+
+  {% endfor %}
+      </tbody>
+
+    </table>
+
+
+
+    </div>
+
+{% endblock %}
+
