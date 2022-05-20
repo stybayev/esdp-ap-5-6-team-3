@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Пользователь{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row g-0">
+            <div class="col-md-4">
+                {% if user_obj.profile.avatar %}
+                    <img class="avatar" src="{{ user_obj.profile.avatar.url }}" width="250" height="250"
+                         alt="user picture" style="border-radius: 100%">
+                {% else %}
+                    <img src="{% static 'images_common/empty.png' %}" alt="">
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+
+                    <h5>
+                        <div class="row py-3">
+                            <div class="col col-3">
+                                {{ user_obj.username }}
+                            </div>
+                            <div class="col col-5">
+                                {% if request.user.id == user_obj.id %}
+                                    <a href="{% url 'update_profile' %}" class="btn btn-outline-dark">Редактировать
+                                        профиль</a>
+                                    <a href="{% url 'logout' %}"><img src="{% static 'images_common/327.png' %}" alt=""></a>
+
+                                {% endif %}
+                            </div>
+                        </div>
+                    </h5>
+
+                    <p class="card-text">Имя: {{ user_obj.first_name }}</p>
+                    <p class="card-text">Емейл: {{ user_obj.email }}</p>
+                    {% if user_obj.profile.about_profile %}
+                        <p class="card-text"> О себе: {{ user_obj.profile.about_profile|default:'' }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'partial/review/review_list.html' %}
+
+{% endblock %}
