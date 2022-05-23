@@ -1,0 +1,8 @@
+{% extends 'base.html' %} {% block content %}
+
+<h4>Редактирование категорий</h4>
+<form action="{% url 'update_category' category.pk %}" method="POST" >
+  {% include 'partial/category/category_form.html' with button_text='Изменить' type=True%}
+</form>
+
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Добавление категорий</h2>
+        <form action="{% url 'create_category' %}" method="POST">
+            {% include 'partial/category/category_form.html' with button_text='Добавить' expiration=True %}
+        </form>
+{% endblock %}

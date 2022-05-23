@@ -1,37 +1,28 @@
 {% load static %}
 {% block content %}
-    <div class="mainclass" style="display: flex; flex-wrap: wrap; width: 1250px">
+    <div style="margin-top: 2%">
+        {% for product in products %}
+            <div class="card mb-2" >
+                <div class="row g-0">
+                    <div class="col-md-3" >
+                        <a href="{% url 'detail_product' product.pk %}" class="card-link" ><img src="{{ product.photo.url }}"style="max-height: 100px; max-width: 120px" class="img-fluid rounded-start" alt="..."></a>
 
-       <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Название</th>
-          <th scope="col">Цена</th>
-          <th scope="col">Статус</th>
-          <th scope="col">Детальная информация</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-            {% for product in products %}
-          <th scope="row">{{ product.id }}</th>
-          <td>{{ product.title }}</td>
-          <td>{{ product.price }}</td>
-          <td>{{ product.status }}</td>
-          <td><a href="{% url 'detail_product' product.pk %}" class="card-link" >see more >>> </a></td>
+                    </div>
+                    <div class="col-md">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="{% url 'detail_product' product.pk %}" class="card-link" >{{ product.product_name }}</a></h5>
+                            <p class="card-text">Цена: <b>{{ product.price }}</b> тенге, Наличие: <b>{{ product.available }}</b> Категория: <b>{{ product.category }}</b> <a style="margin-left: 10%" href="{% url 'detail_product' product.pk %}" class="card-link" >Детальный просмотр >>> </a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
-        </tr>
-                   {% empty %}
-      <h2>проукты не найдены</h2>
-
-  {% endfor %}
-      </tbody>
-
-    </table>
-
-
-
+    <div class="d-flex justify-content-center">
+        {% if is_paginated %}
+            <div>{% include 'common/pagination.html' %}</div>
+        {% endif %}
     </div>
 
 {% endblock %}
