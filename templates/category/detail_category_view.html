@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <div style="text-align: center; margin-top: 3%">
+        <h1>Удаление</h1>
+        <h3 style="color: red">
+            Вы действиткльно хотите удалить категорию <b>№{{ category.id }} {{ category.category_name }}</b>?
+        </h3>
+        <div style="margin-top: 5%;">
+            <form action="{% url 'delete_category' category.pk %}" method="POST">
+                {% csrf_token %}
+                <a href="{% url 'list_category' %}" style="width: 83px;" class="btn btn-primary">Нет</a>
+                <input type="submit" class="btn btn-danger" data-bs-dismiss="modal" value="Удалить">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+
+
+

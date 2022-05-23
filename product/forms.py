@@ -1,13 +1,20 @@
 from django import forms
 
-from product.models import Product, Review
+from product.models import Product, Review, Category
 
 
 class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ('title', 'category', 'photo', 'text', 'status', 'price')
+        fields = ('product_name', 'category', 'photo', 'description', 'available', 'price')
+
+
+class CategoryForm(forms.ModelForm):
+
+    class Meta:
+        model = Category
+        fields = ('category_name', )
 
 
 class SearchForm(forms.Form):
@@ -17,5 +24,5 @@ class SearchForm(forms.Form):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ['text', 'evaluation']
+        fields = ['review', 'order_id']
 
