@@ -35,7 +35,6 @@ def checking_for_an_empty_field():
 @bot.message_handler(commands=["start"])
 def start(m):
     # print(m.from_user.id)
-    # print(telegram_user_id().user_id)
 
     # if str(m.from_user.id) not in telegram_user_id().user_id:
     print((checking_for_an_empty_field()))
