@@ -4,14 +4,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render, get_object_or_404
-from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
+from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
 from product.helpers import SearchView
 from product.forms import ProductForm, SearchForm
 from django.urls import reverse, reverse_lazy
 
 from django.views.generic import RedirectView
 
-from product.models import Product, Review
+from product.models import Product, Review, Category
 from accounts.models import Profile
 from django.db.models import Avg
 from django.db.models import Sum
@@ -48,7 +48,20 @@ class ProductDeleteView(DeleteView):
     success_url = reverse_lazy('list_product')
 
 
-class ProductListView(SearchView):
+class MenuProductCategoryListView(SearchView):
+    template_name = 'product/list_client_category_view.html'
+    model = Category
+    ordering = ("id",)
+    context_object_name = 'categories'
+    paginate_by = 5
+    paginate_orphans = 1
+    search_form = SearchForm
+    search_fields = {
+        'category_name': 'icontains',
+    }
+
+
+class ProductCategoryListView(SearchView):
     template_name = 'product/list_product_view.html'
     model = Product
     ordering = ("created_at",)
@@ -62,6 +75,19 @@ class ProductListView(SearchView):
         'category__category_name': 'icontains',
         'price': 'icontains',
     }
+
+    def get_queryset(self):
+        return self.model.objects.filter(category__category_name__iexact=self.kwargs.get('category'))
+
+    def get(self, request, *args, **kwargs):
+        if request.GET.get('search') is None:
+            return super().get(request, *args, **kwargs)
+        search_param = request.GET.get('search')
+        result = self.model.objects.filter(
+            Q(product_name__icontains=search_param) | Q(description__icontains=search_param) |
+            Q(category__category_name__icontains=search_param) | Q(price__icontains=search_param),
+        )
+        return render(request, self.template_name, {self.context_object_name: result})
 
 
 class ProductCreateView(CreateView):

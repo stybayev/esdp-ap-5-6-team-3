@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'product',
     'accounts',
+    # 'merchant_bot',
     # 'phonenumber_field',
 ]
 

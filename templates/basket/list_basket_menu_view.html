@@ -28,7 +28,7 @@
                             {% csrf_token %}
                             <input class="btn btn-success" value="+" type="submit">
                         </form>
-                        {% for basket in baskets %}
+                        {% for basket in total_baskets %}
                             {% if product.pk == basket.product.pk %}
                                 <input readonly style="width: 22px; border: none; text-align: center;" type="text" value="{{ basket.amount|default:0 }}">
                             {% else %}

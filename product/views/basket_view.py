@@ -24,7 +24,7 @@ class BasketProductListView(SearchView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
-        context['baskets'] = Basket.objects.all()
+        context['total_baskets'] = Basket.objects.all()
         return context
 
 
@@ -42,6 +42,11 @@ class BasketListView(SearchView):
         'product_total_price': 'icontains',
         'status': 'icontains',
     }
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context['total_baskets'] = Basket.objects.all()
+        return context
 
 
 class AddBasketView(CreateView):

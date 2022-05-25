@@ -3,8 +3,10 @@ from django.urls import path
 from product.views.basket_view import BasketProductListView, AddBasketView, SubtractBasketView, BasketListView
 from product.views.review_view import ProductReviewCreateView, ProductReviewUpdateView, ProductReviewDeleteView
 
-from product.views.product_view import (ProductCreateView, ProductDetailView, ProductListView, ProductDeleteView,
-                                        evaluate, ProductUpdateView)
+from product.views.product_view import (ProductCreateView, ProductDetailView, ProductDeleteView,
+                                        evaluate, ProductUpdateView, ProductCategoryListView,
+                                        MenuProductCategoryListView
+                                        )
 from product.views.category_view import (CategoryCreateView, CategoryListView, CategoryUpdateView,
                                          CategoryDeleteView, CategoryDetailView)
 
@@ -13,10 +15,11 @@ urlpatterns = []
 product_urls = [
     path('product/add', ProductCreateView.as_view(), name='create_product'),
     path('product/<int:pk>', ProductDetailView.as_view(), name='detail_product'),
-    path('', ProductListView.as_view(), name='list_product'),
+    path('', MenuProductCategoryListView.as_view(), name='list_product'),
     path('product/<int:pk>/delete', ProductDeleteView.as_view(), name='delete_product'),
     path('evaluate/<int:pk>', evaluate, name='evaluate'),
     path('product/<int:pk>/update', ProductUpdateView.as_view(), name='update_product'),
+    path('product/<str:category>/', ProductCategoryListView.as_view(), name='list_category_product'),
 ]
 
 review_urls = [
