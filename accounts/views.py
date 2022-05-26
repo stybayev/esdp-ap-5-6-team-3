@@ -77,8 +77,10 @@ class UserProfileView(DetailView):
     context_object_name = 'user_obj'
 
     def get_context_data(self, **kwargs):
-        reviews = self.object.reviews.order_by('-created_at')
-        kwargs['reviews'] = reviews
+
+        # reviews = self.object.reviews.order_by('-created_at')
+        # kwargs['reviews'] = reviews
+
         return super().get_context_data(**kwargs)
 
 
