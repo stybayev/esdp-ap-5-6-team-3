@@ -37,6 +37,12 @@ class Category(models.Model):
     def __str__(self):
         return self.category_name
 
+    def get_products(self):
+        return Product.objects.filter(category=self).values_list('category', flat=True)
+
+    def products_count(self):
+        return self.get_products().count()
+
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
@@ -202,3 +208,11 @@ class Review(models.Model):
 #
 #     def __str__(self):
 #         return self.text[:20]
+
+class TelegramUser(models.Model):
+    user_id = models.PositiveSmallIntegerField(unique=True, verbose_name="Telegram Id пользователя")
+    first_name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Имя")
+    last_name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Фамилия")
+    phone_number = models.PositiveSmallIntegerField(verbose_name="Телефон")
+    vcard = models.CharField(max_length=300, null=True, blank=True, verbose_name="Электронная карта")
+

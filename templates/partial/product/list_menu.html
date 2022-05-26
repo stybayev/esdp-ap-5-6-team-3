@@ -1,17 +1,21 @@
 {% load static %}
 {% block content %}
+    <div style="margin-top: 3%">
+        <a class="btn btn-secondary btn-lg" style="margin-right: 5%" href="{% url 'list_product' %}"> << Назад </a>
+        <a class="btn btn-success btn-lg"  href="{% url 'create_product' %}">Добавить блюдо</a>
+    </div>
     <div style="margin-top: 2%">
         {% for product in products %}
             <div class="card mb-2" >
                 <div class="row g-0">
-                    <div class="col-md-3" >
-                        <a href="{% url 'detail_product' product.pk %}" class="card-link" ><img src="{{ product.photo.url }}"style="max-height: 100px; max-width: 120px" class="img-fluid rounded-start" alt="..."></a>
 
-                    </div>
                     <div class="col-md">
                         <div class="card-body">
-                            <h5 class="card-title"><a href="{% url 'detail_product' product.pk %}" class="card-link" >{{ product.product_name }}</a></h5>
-                            <p class="card-text">Цена: <b>{{ product.price }}</b> тенге, Наличие: <b>{{ product.available }}</b> Категория: <b>{{ product.category }}</b> <a style="margin-left: 10%" href="{% url 'detail_product' product.pk %}" class="card-link" >Детальный просмотр >>> </a></p>
+{#                            <h5 class="card-title"><a href="{% url 'detail_product' product.pk %}" class="card-link" >{{ product.product_name }}</a></h5>#}
+                            <p class="card-text">
+                                <a href="{% url 'detail_product' product.pk %}" class="card-link" >{{ product.product_name }}</a>,
+                                Цена: <b>{{ product.price }}</b> тенге, Наличие: <b>{{ product.available }}</b>
+                                 <a style="margin-left: 10%" href="{% url 'detail_product' product.pk %}" class="card-link" >Детальный просмотр >>> </a></p>
                         </div>
                     </div>
                 </div>

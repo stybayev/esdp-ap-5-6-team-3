@@ -17,7 +17,7 @@
             <tbody>
             <tr>
                 {% for category in categories %}
-                    <th scope="row">№{{ category.id }} - {{ category.category_name }}</th>
+                    <th scope="row">№{{ category.id }} - <a href="{% url 'list_category_product' category %}">{{ category.category_name }}</a></th>
                     <td>
                         <a href="{% url 'update_category' category.pk %}" class="btn btn-outline-primary">Изменить</a>
                         <a href="{% url 'detail_category' category.pk %}" class="btn btn-outline-danger">Удалить</a>
