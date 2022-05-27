@@ -47,10 +47,10 @@ class CategoryCreateView(CreateView):
             category = form.save(commit=False)
             if self.cyrillic_check(category.category_name) == True:
                 category.translit_category_name = translit(category.category_name, language_code='ru', reversed=True)
-                category.category_name_translation = translator.translate(category.category_name.lower(), src='ru', dest='en').text
+                category.category_name_translation = translator.translate(category.category_name, src='ru', dest='en').text
             else:
                 category.translit_category_name = translit(category.category_name, 'ru')
-                category.category_name_translation = translator.translate(category.category_name.lower(), src='en', dest='ru').text
+                category.category_name_translation = translator.translate(category.category_name, src='en', dest='ru').text
             category.save()
             return redirect(self.redirect_url)
         return render(request, self.template_name,
