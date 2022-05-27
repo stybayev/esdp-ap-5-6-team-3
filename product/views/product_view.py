@@ -8,13 +8,15 @@ from django.views.generic import CreateView, UpdateView, DetailView, DeleteView,
 from product.helpers import SearchView
 from product.forms import ProductForm, SearchForm
 from django.urls import reverse, reverse_lazy
-
-from django.views.generic import RedirectView
-
 from product.models import Product, Review, Category
 from accounts.models import Profile
 from django.db.models import Avg
 from django.db.models import Sum
+from googletrans import Translator
+from transliterate import translit, get_translit_function
+
+
+translator = Translator()
 
 
 def evaluate(request, pk):
@@ -58,6 +60,8 @@ class MenuProductCategoryListView(SearchView):
     search_form = SearchForm
     search_fields = {
         'category_name': 'icontains',
+        'translit_category_name': 'icontains',
+        'category_name_translation': 'icontains'
     }
 
 
@@ -85,7 +89,12 @@ class ProductCategoryListView(SearchView):
         search_param = request.GET.get('search')
         result = self.model.objects.filter(
             Q(product_name__icontains=search_param) | Q(description__icontains=search_param) |
-            Q(category__category_name__icontains=search_param) | Q(price__icontains=search_param),
+            Q(category__category_name__icontains=search_param) | Q(price__icontains=search_param) |
+            Q(translit_product_name__icontains=search_param) | Q(translit_description__icontains=search_param) |
+            Q(product_name__icontains=translator.translate(search_param, src='ru', dest='en').text) |
+            Q(product_name__icontains=translator.translate(search_param, src='en', dest='ru').text) |
+            Q(description__icontains=translator.translate(search_param, src='ru', dest='en').text) |
+            Q(description__icontains=translator.translate(search_param, src='en', dest='ru').text),
         )
         return render(request, self.template_name, {self.context_object_name: result})
 
@@ -95,10 +104,27 @@ class ProductCreateView(CreateView):
     form_class = ProductForm
     redirect_url = 'list_product'
 
+    def cyrillic_check(self, text):
+        lower = set('абвгдеёжзийклмнопрстуфхцчшщъыьэюя')
+        return lower.intersection(text.lower()) != set()
+
     def post(self, request, *args, **kwargs):
+        translit_ru = get_translit_function('ru')
         form = self.form_class(data=request.POST, files=self.request.FILES)
         if form.is_valid():
             product = form.save(commit=False)
+            if self.cyrillic_check(product.product_name) == True:
+                product.translit_product_name = translit_ru(product.product_name, reversed=True)
+                # product.translit_product_name = translit(product.product_name, language_code='ru', reversed=True)
+            elif self.cyrillic_check(product.product_name) == False:
+                product.translit_product_name = translit_ru(product.product_name)
+                # product.translit_product_name = translit(product.product_name, 'ru')
+            if self.cyrillic_check(product.description) == True:
+                product.translit_description = translit_ru(product.description, reversed=True)
+                # product.translit_description = translit(product.description, language_code='ru', reversed=True)
+            elif self.cyrillic_check(product.description) == False:
+                product.translit_description = translit_ru(product.description)
+                # product.translit_description = translit(product.description, 'ru')
             # product.author = request.user
             product.save()
             return redirect(self.redirect_url)

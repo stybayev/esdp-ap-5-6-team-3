@@ -16,7 +16,7 @@ print(time.ctime())
 time.sleep(3)
 
 
-# user_id = [965045581, 717825368]
+user_id = [965045581, 717825368]
 # user_phone = []
 
 
@@ -35,19 +35,14 @@ def checking_for_an_empty_field():
 @bot.message_handler(commands=["start"])
 def start(m):
     # print(m.from_user.id)
-
-    # if str(m.from_user.id) not in telegram_user_id().user_id:
-    print((checking_for_an_empty_field()))
-    if str(m.from_user.id) not in checking_for_an_empty_field():
-
+    print(type(m.from_user.id))
+    print(type(checking_for_an_empty_field()))
+    if str(m.from_user.id) not in str(checking_for_an_empty_field()):
+        # print(m.from_user)
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        msg = bot.send_message(m.chat.id, f'Приветствую Вас {m.from_user.first_name}!', reply_markup=keyboard)
-
         keyboard.add(types.KeyboardButton(text='Поделиться номером', request_contact=True))
         bot.send_message(m.chat.id, 'Выберите в меню операции!', reply_markup=keyboard)
-        # print(m.contact)
-        # print(user_id)
-        # bot.register_next_step_handler(msg, bot_message)
+
     else:
         # print(m.from_user.first_name, m.from_user.last_name)
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -60,31 +55,64 @@ def start(m):
             *[types.KeyboardButton(bot_message) for bot_message in ['Выполненные заказы', 'Перейти в админ-панель']])
         bot.send_message(m.chat.id, 'Выберите в меню операции!', reply_markup=keyboard)
         bot.register_next_step_handler(msg, bot_message)
-    # else:
-    #     user_info = TelegramUser.objects.filter(user_id=m.from_user.id)
-    #     for user in user_info:
-    #         print(user.phone_number)
-    #
-    #         # print(m)
-    #         # print(m.from_user.first_name, m.from_user.last_name)
-    #         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    #         # user = TelegramUser.objects.filter(user_id=m.from_user.id).values_list('phone_number')
-    #         # print(user)
-    #         # print(TelegramUser.objects.filter(user_id=m.from_user.id))
-    #         msg = bot.send_message(m.chat.id, f'Приветствую Вас {m.from_user.first_name} \n'
-    #                                           f'Проверьте правильность номера {user.phone_number}! \n'
-    #                                           f'Если не правильно нажмите на кнопку Исправить данные',
-    #                                reply_markup=keyboard)
-    #
-    #         # keyboard.add(types.KeyboardButton(text='Поделиться номером', request_contact=True))
-    #
-    #         keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in ['Новые заказы', 'Заказы в процессе']])
-    #         keyboard.add(
-    #             *[types.KeyboardButton(bot_message) for bot_message in
-    #               ['Выполненные заказы', 'Перейти в админ-панель']])
-    #         keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in ['Исправить данные', ]])
-    #         bot.send_message(m.chat.id, 'Выберите в меню операции!', reply_markup=keyboard)
-    #         bot.register_next_step_handler(msg, bot_message)
+
+# @bot.message_handler(commands=["start"])
+# def start(m):
+#     # print(m.from_user.id)
+#
+#     # if str(m.from_user.id) not in telegram_user_id().user_id:
+#     print((checking_for_an_empty_field()))
+#     if str(m.from_user.id) not in checking_for_an_empty_field():
+#
+#         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+#         msg = bot.send_message(m.chat.id, f'Приветствую Вас {m.from_user.first_name}!', reply_markup=keyboard)
+#
+#         keyboard.add(types.KeyboardButton(text='Поделиться номером', request_contact=True))
+#         bot.send_message(m.chat.id, 'Выберите в меню операции!', reply_markup=keyboard)
+#         # print(m.contact)
+#         # print(user_id)
+#         # bot.register_next_step_handler(msg, bot_message)
+#     else:
+#         # print(m.from_user.first_name, m.from_user.last_name)
+#         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+#         msg = bot.send_message(m.chat.id, f'Приветствую Вас {m.from_user.first_name}!', reply_markup=keyboard)
+#
+#         # keyboard.add(types.KeyboardButton(text='Поделиться номером', request_contact=True))
+#
+#         keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in ['Новые заказы', 'Заказы в процессе']])
+#         keyboard.add(
+#             *[types.KeyboardButton(bot_message) for bot_message in ['Выполненные заказы', 'Перейти в админ-панель']])
+#         # bot.send_message(m.chat.id, 'Выберите в меню операции!', reply_markup=keyboard)
+#         bot.register_next_step_handler(msg, bot_message)
+# @bot.message_handler(commands=["start"])
+# def start(m):
+#     print(m.from_user.id)
+#
+#     if m.from_user.id not in user_id:
+#         print(m.from_user.first_name, m.from_user.last_name)
+#         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+#         msg = bot.send_message(m.chat.id, f'Приветствую Вас {m.from_user.first_name}!', reply_markup=keyboard)
+#
+#         keyboard.add(types.KeyboardButton(text='Поделиться номером', request_contact=True))
+#
+#         # keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in ['Новые заказы', 'Заказы в процессе']])
+#         # keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in ['Выполненные заказы', 'Перейти в админ-панель']])
+#         bot.send_message(m.chat.id, 'Выберите в меню операции!', reply_markup=keyboard)
+#         # print(m.contact)
+#         # print(user_id)
+#         # bot.register_next_step_handler(msg, bot_message)
+#     else:
+#         print(m.from_user.first_name, m.from_user.last_name)
+#         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+#         msg = bot.send_message(m.chat.id, f'Приветствую Вас {m.from_user.first_name}!', reply_markup=keyboard)
+#
+#         # keyboard.add(types.KeyboardButton(text='Поделиться номером', request_contact=True))
+#
+#         keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in ['Новые заказы', 'Заказы в процессе']])
+#         keyboard.add(
+#             *[types.KeyboardButton(bot_message) for bot_message in ['Выполненные заказы', 'Перейти в админ-панель']])
+#         bot.send_message(m.chat.id, 'Выберите в меню операции!', reply_markup=keyboard)
+#         bot.register_next_step_handler(msg, bot_message)
 
 
 # @bot.message_handler(commands=["nummer"])
@@ -117,41 +145,6 @@ def bot_message(m):
         bot.send_message(m.chat.id, f'Позже уберем {m.contact}')
         start(m)
 
-    # if m.contact is not None:
-    #     print(m.contact)
-    #     TelegramUser.objects.update(user_id=m.contact.user_id, first_name=m.contact.first_name,
-    #                                 last_name=m.contact.last_name, phone_number=m.contact.phone_number,
-    #                                 vcard=m.contact.vcard)
-    #     # print(m)
-    #     # user_id.append(m.contact.user_id)
-    #     # user_phone.append(m.contact.phone_number)
-    #     # print(user_id)
-    #     bot.send_message(m.chat.id, f'Позже уберем {m.contact}')
-    #     start(m)
-    #     if m.contact is not None:
-    #         print(m.contact)
-    #         TelegramUser.objects.update(user_id=m.contact.user_id, first_name=m.contact.first_name,
-    #                                     last_name=m.contact.last_name, phone_number=m.contact.phone_number,
-    #                                     vcard=m.contact.vcard)
-    #         # print(m)
-    #         # user_id.append(m.contact.user_id)
-    #         # user_phone.append(m.contact.phone_number)
-    #         # print(user_id)
-    #         bot.send_message(m.chat.id, f'Позже уберем {m.contact}')
-    #         start(m)
-    #     elif m.contact:
-    #         telegram_user_id().first_name = m.contact.first_name
-    #         telegram_user_id().last_name = m.contact.last_name
-    #         telegram_user_id().phone_number = m.contact.phone_number
-    #         telegram_user_id().vcard = m.contact.vcard
-
-    # elif m.text == 'Исправить данные':
-    #     # TelegramUser.objects.update_or_create(user_id=m.contact.user_id, first_name=m.contact.first_name,
-    #     #                                       last_name=m.contact.last_name, phone_number=m.contact.phone_number,
-    #     #                                       vcard=m.contact.vcard)
-    #     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    #     keyboard.add(types.KeyboardButton(text='Поделиться номером', request_contact=True))
-    #     bot.send_message(m.chat.id, 'Поделиться номером!', reply_markup=keyboard)
 
     elif m.text == 'Новые заказы':
         # TelegramUser.objects.update_or_create(user_id=m.contact.user_id, first_name=m.contact.first_name,
