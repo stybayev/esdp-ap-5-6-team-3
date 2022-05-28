@@ -130,7 +130,40 @@ class Basket(models.Model):
         return f"{self.product}. {self.telegram_user_id}. {self.amount}. {self.product_total_price}"
 
 
-class OrderStatus(models.Model):
+# class OrderStatus(models.Model):
+#     NEW = 'Новый'
+#     IN_PROGRESS = 'В процессе'
+#     DONE = 'Выполнено'
+#
+#     STATUS = (
+#         (NEW, NEW), (IN_PROGRESS, IN_PROGRESS), (DONE, DONE)
+#     )
+#
+#     status = models.CharField(
+#         max_length=20, choices=STATUS, null=False, blank=False, default=NEW, verbose_name="Статус"
+#     )
+#
+#     def __str__(self):
+#         return f"{self.status}"
+
+
+# class PaymentWay(models.Model):
+#     CASH = 'Наличные'
+#     CARD = 'Карта'
+#
+#     PAYMENT_WAY = (
+#         (CASH, CASH), (CARD, CARD)
+#     )
+#
+#     payment_way = models.CharField(
+#         max_length=20, choices=PAYMENT_WAY, null=False, blank=False, default=CASH, verbose_name="Способ оплаты"
+#     )
+#
+#     def __str__(self):
+#         return f"{self.payment_way}"
+
+
+class Order(models.Model):
     NEW = 'Новый'
     IN_PROGRESS = 'В процессе'
     DONE = 'Выполнено'
@@ -139,15 +172,6 @@ class OrderStatus(models.Model):
         (NEW, NEW), (IN_PROGRESS, IN_PROGRESS), (DONE, DONE)
     )
 
-    status = models.CharField(
-        max_length=20, choices=STATUS, null=False, blank=False, default=NEW, verbose_name="Статус"
-    )
-
-    def __str__(self):
-        return f"{self.status}"
-
-
-class PaymentWay(models.Model):
     CASH = 'Наличные'
     CARD = 'Карта'
 
@@ -155,28 +179,31 @@ class PaymentWay(models.Model):
         (CASH, CASH), (CARD, CARD)
     )
 
-    payment_way = models.CharField(
-        max_length=20, choices=PAYMENT_WAY, null=False, blank=False, default=CASH, verbose_name="Способ оплаты"
-    )
-
-    def __str__(self):
-        return f"{self.payment_way}"
-
-
-class Order(models.Model):
     phone_number = models.PositiveSmallIntegerField(blank=False, null=False, verbose_name="Номер телефона")
     comment = models.TextField(max_length=3000, null=True, blank=True, verbose_name="Комментарий")
     telegram_user_id = models.PositiveSmallIntegerField(
         null=False, blank=False, verbose_name="Telegram Id пользователя"
     )
-    status = models.ForeignKey(
-        'product.OrderStatus', on_delete=models.PROTECT, null=False, blank=False,
-        related_name='orders', verbose_name="Статус"
+    status = models.CharField(
+        max_length=20, choices=STATUS, null=False, blank=False, default=NEW, verbose_name="Статус"
     )
-    payment_way = models.ForeignKey(
-        'product.PaymentWay', on_delete=models.PROTECT, null=False, blank=False,
-        related_name='orders', verbose_name="Способ оплаты"
+    payment_way = models.CharField(
+        max_length=20, choices=PAYMENT_WAY, null=False, blank=False, default=CASH, verbose_name="Способ оплаты"
     )
+    basket_id = models.ForeignKey(
+        'product.Basket', on_delete=models.PROTECT, null=True, blank=True,
+        related_name='orders', verbose_name='Id корзины'
+    )
+
+    # status = models.ForeignKey(
+    #     'product.OrderStatus', on_delete=models.PROTECT, null=False, blank=False,
+    #     related_name='orders', verbose_name="Статус"
+    # )
+
+    # payment_way = models.ForeignKey(
+    #     'product.PaymentWay', on_delete=models.PROTECT, null=False, blank=False,
+    #     related_name='orders', verbose_name="Способ оплаты"
+    # )
 
     def __str__(self):
         return f"{self.phone_number}. {self.comment}. {self.telegram_user_id}. {self.status}. {self.payment_way}"
@@ -220,3 +247,20 @@ class TelegramUser(models.Model):
     phone_number = models.PositiveSmallIntegerField(verbose_name="Телефон")
     vcard = models.CharField(max_length=300, null=True, blank=True, verbose_name="Электронная карта")
 
+
+class TableReservation(models.Model):
+    telegram_user_id = models.PositiveSmallIntegerField(
+        null=False, blank=False, verbose_name="Telegram Id пользователя"
+    )
+    date_n_time = models.DateTimeField(
+        null=False, blank=False, verbose_name="Дата и время бронирования"
+    )
+    persons_number = models.PositiveSmallIntegerField(
+        null=False, blank=False, verbose_name="Количество человек"
+    )
+    table_number = models.PositiveSmallIntegerField(
+        null=True, blank=True, verbose_name="Номер столика"
+    )
+
+    def __str__(self):
+        return f"{self.telegram_user_id} - {self.table_number}"
