@@ -33,6 +33,8 @@ class Entity(models.Model):
 
 class Category(models.Model):
     category_name = models.CharField(max_length=200, null=False, blank=False, verbose_name="Категория")
+    translit_category_name = models.CharField(max_length=200, null=True, blank=True, verbose_name="Транслит Категория")
+    category_name_translation = models.CharField(max_length=200, null=True, blank=True, verbose_name="Перевод Категория")
 
     def __str__(self):
         return self.category_name
@@ -69,6 +71,8 @@ class Product(Entity):
     price = models.PositiveIntegerField(null=False, blank=False, default=0, verbose_name="Цена")
     available = models.CharField(null=False, blank=False, choices=STATUS, verbose_name='наличие', default="есть",
                                  max_length=20)
+    translit_product_name = models.CharField(max_length=200, null=True, blank=True, verbose_name="Транслитератор Название блюда")
+    translit_description = models.TextField(max_length=3000, null=True, blank=True, verbose_name="Транслитератор Описание блюда")
 
     def __str__(self):
         return f"{self.pk}. {self.product_name}. {self.category}. {self.price}"
