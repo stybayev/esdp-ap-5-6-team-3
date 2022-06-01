@@ -9,6 +9,7 @@ from googletrans import Translator
 
 
 translator = Translator()
+# print(translator.translate('Яблочный сок', src='ru', dest='en').text)
 
 
 class CategoryListView(SearchView):
