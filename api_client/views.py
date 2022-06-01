@@ -5,13 +5,23 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api_client.serializers import ProductSerializer, BasketSerializer
-from product.models import Product, Basket
+from api_client.serializers import ProductSerializer, BasketSerializer, CategorySerializer
+from product.models import Product, Basket, Category
 
 
 class ProductAPIView(APIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    # permission_classes = [IsAuthenticated, ]
+
+    def get(self, request, *args, **kwargs):
+        serializer = self.serializer_class(self.queryset.all(), many=True)
+        return Response(data=serializer.data)
+
+
+class CategoryAPIView(APIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
     # permission_classes = [IsAuthenticated, ]
 
     def get(self, request, *args, **kwargs):

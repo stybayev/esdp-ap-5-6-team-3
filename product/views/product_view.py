@@ -91,10 +91,7 @@ class ProductCategoryListView(SearchView):
             Q(product_name__icontains=search_param) | Q(description__icontains=search_param) |
             Q(category__category_name__icontains=search_param) | Q(price__icontains=search_param) |
             Q(translit_product_name__icontains=search_param) | Q(translit_description__icontains=search_param) |
-            Q(product_name__icontains=translator.translate(search_param, src='ru', dest='en').text) |
-            Q(product_name__icontains=translator.translate(search_param, src='en', dest='ru').text) |
-            Q(description__icontains=translator.translate(search_param, src='ru', dest='en').text) |
-            Q(description__icontains=translator.translate(search_param, src='en', dest='ru').text),
+            Q(product_name_translation__icontains=search_param) | Q(description_translation__icontains=search_param),
         )
         return render(request, self.template_name, {self.context_object_name: result})
 
@@ -115,16 +112,16 @@ class ProductCreateView(CreateView):
             product = form.save(commit=False)
             if self.cyrillic_check(product.product_name) == True:
                 product.translit_product_name = translit_ru(product.product_name, reversed=True)
-                # product.translit_product_name = translit(product.product_name, language_code='ru', reversed=True)
+                product.product_name_translation = translator.translate(product.product_name, src='ru', dest='en').text
             elif self.cyrillic_check(product.product_name) == False:
                 product.translit_product_name = translit_ru(product.product_name)
-                # product.translit_product_name = translit(product.product_name, 'ru')
+                product.product_name_translation = translator.translate(product.product_name, src='en', dest='ru').text
             if self.cyrillic_check(product.description) == True:
                 product.translit_description = translit_ru(product.description, reversed=True)
-                # product.translit_description = translit(product.description, language_code='ru', reversed=True)
+                product.description_translation = translator.translate(product.description, src='ru', dest='en').text
             elif self.cyrillic_check(product.description) == False:
                 product.translit_description = translit_ru(product.description)
-                # product.translit_description = translit(product.description, 'ru')
+                product.description_translation = translator.translate(product.description, src='en', dest='ru').text
             # product.author = request.user
             product.save()
             return redirect(self.redirect_url)
