@@ -1,5 +1,6 @@
 from django.urls import path
 
+from product.views.aboutus_view import AboutusCreateView, AboutusView, AboutusUpdateView, AboutusDetailView
 from product.views.basket_view import BasketProductListView, AddBasketView, SubtractBasketView, BasketListView
 from product.views.review_view import ProductReviewCreateView, ProductReviewUpdateView, ProductReviewDeleteView
 
@@ -43,7 +44,16 @@ basket_urls = [
     path('basket', BasketListView.as_view(), name='basket_all'),
 ]
 
+aboutus_urls = [
+    path('aboutus/add', AboutusCreateView.as_view(), name='create_aboutus'),
+    path('aboutus/', AboutusView.as_view(), name='aboutus_view'),
+    path('product/<int:pk>/delete', ProductDeleteView.as_view(), name='delete_product'),
+    path('aboutus/<int:pk>/detail', AboutusDetailView.as_view(), name='detail_aboutus'),
+    path('aboutus/<int:pk>/update', AboutusUpdateView.as_view(), name='update_aboutus')
+]
+
 urlpatterns += product_urls
 urlpatterns += review_urls
 urlpatterns += category_urls
 urlpatterns += basket_urls
+urlpatterns += aboutus_urls

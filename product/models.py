@@ -30,6 +30,13 @@ class Entity(models.Model):
     class Meta:
         abstract = True
 
+class Aboutus(models.Model):
+    description = models.CharField(max_length=500, verbose_name="О Нас")
+    telephone_number = models.PositiveIntegerField(verbose_name="Телефон компании")
+
+    def __str__(self):
+        return f"{self.description}"
+
 
 class Category(models.Model):
     category_name = models.CharField(max_length=200, null=False, blank=False, verbose_name="Категория")
