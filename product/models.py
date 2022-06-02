@@ -258,6 +258,26 @@ class TelegramUser(models.Model):
 
 
 class TableReservation(models.Model):
+    NEW = 'Новый'
+    DONE = 'Завершен'
+
+    CONDITION = (
+        (NEW, NEW), (DONE, DONE)
+    )
+
+    CONFIRMED = 'Подтвержден'
+    NOT_CONFIRMED = 'Не подтвержден'
+
+    STATUS = (
+        (CONFIRMED, CONFIRMED), (NOT_CONFIRMED, NOT_CONFIRMED)
+    )
+
+    condition = models.CharField(
+        max_length=20, choices=STATUS, null=False, blank=False, default=NEW, verbose_name="Состояние"
+    )
+    status = models.CharField(
+        max_length=20, choices=STATUS, null=False, blank=False, default=NOT_CONFIRMED, verbose_name="Статус"
+    )
     telegram_user_id = models.PositiveSmallIntegerField(
         null=False, blank=False, verbose_name="Telegram Id пользователя"
     )
@@ -272,4 +292,4 @@ class TableReservation(models.Model):
     )
 
     def __str__(self):
-        return f"{self.telegram_user_id} - {self.table_number}"
+        return f"{self.telegram_user_id} - {self.table_number}. {self.condition}. {self.status}"
