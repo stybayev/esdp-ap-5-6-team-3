@@ -9,7 +9,7 @@ from telebot import types
 from requests import get
 import time
 from product.models import TelegramUser, Product, Basket, Aboutus, Category
-import urllib.request
+
 
 bot = telebot.TeleBot('5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U')
 print(time.ctime())
@@ -20,35 +20,6 @@ url_category = 'http://localhost:8000/api/v1/category/'
 
 response_menu = get(url_menu).json()
 response_categories = get(url_category).json()
-
-
-# def categories():
-#     for category in Category.objects.all():
-#         return category
-
-
-# def response_menus():
-#     for response in response_menu:
-#         return response
-
-
-# def telegram_user_id():
-#     user = []
-#     for user_id in TelegramUser.objects.all():
-#         user.append(user_id)
-#     return user
-
-
-# def checking_for_an_empty_field():
-#     if telegram_user_id() is None:
-#         return 'xxxx'
-#     else:
-#         return telegram_user_id()
-
-
-# def product():
-#     for product in Product.objects.all():
-#         return product
 
 
 def text_basket(basket):
@@ -91,14 +62,14 @@ def button_basket(keyboard, basket):
     keyboard.add(add_menu, subtract_menu)
 
 
-# def sdf():
-#     add_menu = types.InlineKeyboardButton(
-#         text=f"\U00002795\U0001F371Добавить в корзину-{basket.product.id}",
-#         callback_data=f"add_basket_{basket.product.id}")
-#     subtract_menu = types.InlineKeyboardButton(
-#         text=f"\U00002796\U0001F371 удалить с корзины-{basket.product.id}",
-#         callback_data=f"subtract_basket_{basket.product.id}")
-#     keyboard.add(add_menu, subtract_menu)
+def button_menu(keyboard, basket):
+    add_menu = types.InlineKeyboardButton(
+        text=f"\U00002795\U0001F371Добавить в корзину-{basket.product.id}",
+        callback_data=f"add_menu_{basket.product.id}")
+    subtract_menu = types.InlineKeyboardButton(
+        text=f"\U00002796\U0001F371 удалить с корзины-{basket.product.id}",
+        callback_data=f"subtract_menu_{basket.product.id}")
+    keyboard.add(add_menu, subtract_menu)
 
 
 @bot.message_handler(commands=["start"])
@@ -215,13 +186,8 @@ def callback_inline(call):
                         elif Basket.objects.filter(product_id=menu['id'], telegram_user_id=call.from_user.id):
                             basket = get_object_or_404(Basket, product_id=menu['id'],
                                                        telegram_user_id=call.from_user.id)
-                            add_menu = types.InlineKeyboardButton(
-                                text=f"\U00002795\U0001F371Добавить в корзину-{menu['id']}",
-                                callback_data=f"add_menu_{menu['id']}")
-                            subtract_menu = types.InlineKeyboardButton(
-                                text=f"\U00002796\U0001F371 удалить с корзины-{menu['id']}",
-                                callback_data=f"subtract_menu_{menu['id']}")
-                            keyboard.add(add_menu, subtract_menu)
+
+                            button_menu(keyboard, basket)
 
                             bot.send_photo(call.message.chat.id, photo, caption=text_basket(basket), reply_markup=keyboard,
                                            parse_mode="Markdown")
@@ -235,13 +201,8 @@ def callback_inline(call):
                         telegram_user_id=call.from_user.id,
                         product_total_price=menu['price'],
                     )
-                    add_menu = types.InlineKeyboardButton(
-                        text=f"\U00002795\U0001F371Добавить в корзину-{basket.product.id}",
-                        callback_data=f"add_menu_{basket.product.id}")
-                    subtract_menu = types.InlineKeyboardButton(
-                        text=f"\U00002796\U0001F371 удалить с корзины-{basket.product.id}",
-                        callback_data=f"subtract_menu_{basket.product.id}")
-                    keyboard.add(add_menu, subtract_menu)
+
+                    button_menu(keyboard, basket)
 
                     bot.edit_message_caption(caption=text_basket(basket), chat_id=call.message.chat.id,
                                              message_id=call.message.message_id,
@@ -256,13 +217,7 @@ def callback_inline(call):
                     basket = get_object_or_404(Basket, product_id=menu['id'], telegram_user_id=call.from_user.id)
                     add_meals(basket, menu)
 
-                    add_menu = types.InlineKeyboardButton(
-                        text=f"\U00002795\U0001F371Добавить в корзину-{basket.product.id}",
-                        callback_data=f"add_menu_{basket.product.id}")
-                    subtract_menu = types.InlineKeyboardButton(
-                        text=f"\U00002796\U0001F371 удалить с корзины-{basket.product.id}",
-                        callback_data=f"subtract_menu_{basket.product.id}")
-                    keyboard.add(add_menu, subtract_menu)
+                    button_menu(keyboard, basket)
 
                     bot.edit_message_caption(caption=text_basket(basket), chat_id=call.message.chat.id,
                                              message_id=call.message.message_id,
@@ -278,13 +233,7 @@ def callback_inline(call):
 
                     subtract_meals(basket, menu)
 
-                    add_menu = types.InlineKeyboardButton(
-                        text=f"\U00002795\U0001F371Добавить в корзину-{basket.product.id}",
-                        callback_data=f"add_menu_{basket.product.id}")
-                    subtract_menu = types.InlineKeyboardButton(
-                        text=f"\U00002796\U0001F371 удалить с корзины-{basket.product.id}",
-                        callback_data=f"subtract_menu_{basket.product.id}")
-                    keyboard.add(add_menu, subtract_menu)
+                    button_menu(keyboard, basket)
 
                     bot.edit_message_caption(caption=text_basket(basket), chat_id=call.message.chat.id,
                                              message_id=call.message.message_id,
@@ -369,8 +318,6 @@ def callback_inline(call):
             keyboard.add(category)
         bot.send_message(call.message.chat.id, 'Категории\U0001F4C4\U0001F355\U0001F354\U0001F379\U0001F382',
                          reply_markup=keyboard, parse_mode="Markdown")
-
-
 
 
 bot.polling(none_stop=True, interval=0)
