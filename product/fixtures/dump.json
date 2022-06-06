@@ -1,756 +1,274 @@
 [
 {
-  "model": "admin.logentry",
+  "model": "product.aboutus",
   "pk": 1,
   "fields": {
-    "action_time": "2022-03-19T09:27:09.129Z",
-    "user": 1,
-    "content_type": 4,
-    "object_id": "1",
-    "object_repr": "admin",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\"]}}, {\"added\": {\"name\": \"profile\", \"object\": \"Admin Admin's Profile\"}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 2,
-  "fields": {
-    "action_time": "2022-03-19T09:39:41.669Z",
-    "user": 1,
-    "content_type": 3,
-    "object_id": "1",
-    "object_repr": "Модераторы",
-    "action_flag": 1,
-    "change_message": "[{\"added\": {}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 3,
-  "fields": {
-    "action_time": "2022-03-19T09:39:58.878Z",
-    "user": 1,
-    "content_type": 4,
-    "object_id": "3",
-    "object_repr": "moderator1",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Groups\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 4,
-  "fields": {
-    "action_time": "2022-03-19T09:50:00.626Z",
-    "user": 1,
-    "content_type": 3,
-    "object_id": "1",
-    "object_repr": "Модераторы",
-    "action_flag": 2,
-    "change_message": "[]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 5,
-  "fields": {
-    "action_time": "2022-03-19T09:56:41.751Z",
-    "user": 1,
-    "content_type": 4,
-    "object_id": "1",
-    "object_repr": "admin",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Groups\"]}}]"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 1,
-  "fields": {
-    "name": "Can add log entry",
-    "content_type": 1,
-    "codename": "add_logentry"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 2,
-  "fields": {
-    "name": "Can change log entry",
-    "content_type": 1,
-    "codename": "change_logentry"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 3,
-  "fields": {
-    "name": "Can delete log entry",
-    "content_type": 1,
-    "codename": "delete_logentry"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 4,
-  "fields": {
-    "name": "Can view log entry",
-    "content_type": 1,
-    "codename": "view_logentry"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 5,
-  "fields": {
-    "name": "Can add permission",
-    "content_type": 2,
-    "codename": "add_permission"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 6,
-  "fields": {
-    "name": "Can change permission",
-    "content_type": 2,
-    "codename": "change_permission"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 7,
-  "fields": {
-    "name": "Can delete permission",
-    "content_type": 2,
-    "codename": "delete_permission"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 8,
-  "fields": {
-    "name": "Can view permission",
-    "content_type": 2,
-    "codename": "view_permission"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 9,
-  "fields": {
-    "name": "Can add group",
-    "content_type": 3,
-    "codename": "add_group"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 10,
-  "fields": {
-    "name": "Can change group",
-    "content_type": 3,
-    "codename": "change_group"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 11,
-  "fields": {
-    "name": "Can delete group",
-    "content_type": 3,
-    "codename": "delete_group"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 12,
-  "fields": {
-    "name": "Can view group",
-    "content_type": 3,
-    "codename": "view_group"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 13,
-  "fields": {
-    "name": "Can add user",
-    "content_type": 4,
-    "codename": "add_user"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 14,
-  "fields": {
-    "name": "Can change user",
-    "content_type": 4,
-    "codename": "change_user"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 15,
-  "fields": {
-    "name": "Can delete user",
-    "content_type": 4,
-    "codename": "delete_user"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 16,
-  "fields": {
-    "name": "Can view user",
-    "content_type": 4,
-    "codename": "view_user"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 17,
-  "fields": {
-    "name": "Can add content type",
-    "content_type": 5,
-    "codename": "add_contenttype"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 18,
-  "fields": {
-    "name": "Can change content type",
-    "content_type": 5,
-    "codename": "change_contenttype"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 19,
-  "fields": {
-    "name": "Can delete content type",
-    "content_type": 5,
-    "codename": "delete_contenttype"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 20,
-  "fields": {
-    "name": "Can view content type",
-    "content_type": 5,
-    "codename": "view_contenttype"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 21,
-  "fields": {
-    "name": "Can add session",
-    "content_type": 6,
-    "codename": "add_session"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 22,
-  "fields": {
-    "name": "Can change session",
-    "content_type": 6,
-    "codename": "change_session"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 23,
-  "fields": {
-    "name": "Can delete session",
-    "content_type": 6,
-    "codename": "delete_session"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 24,
-  "fields": {
-    "name": "Can view session",
-    "content_type": 6,
-    "codename": "view_session"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 25,
-  "fields": {
-    "name": "Can add category",
-    "content_type": 7,
-    "codename": "add_category"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 26,
-  "fields": {
-    "name": "Can change category",
-    "content_type": 7,
-    "codename": "change_category"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 27,
-  "fields": {
-    "name": "Can delete category",
-    "content_type": 7,
-    "codename": "delete_category"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 28,
-  "fields": {
-    "name": "Can view category",
-    "content_type": 7,
-    "codename": "view_category"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 29,
-  "fields": {
-    "name": "Can add Продукт",
-    "content_type": 8,
-    "codename": "add_product"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 30,
-  "fields": {
-    "name": "Can change Продукт",
-    "content_type": 8,
-    "codename": "change_product"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 31,
-  "fields": {
-    "name": "Can delete Продукт",
-    "content_type": 8,
-    "codename": "delete_product"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 32,
-  "fields": {
-    "name": "Can view Продукт",
-    "content_type": 8,
-    "codename": "view_product"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 33,
-  "fields": {
-    "name": "Можно использовать это",
-    "content_type": 8,
-    "codename": "can_use_it"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 34,
-  "fields": {
-    "name": "Can add review",
-    "content_type": 9,
-    "codename": "add_review"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 35,
-  "fields": {
-    "name": "Can change review",
-    "content_type": 9,
-    "codename": "change_review"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 36,
-  "fields": {
-    "name": "Can delete review",
-    "content_type": 9,
-    "codename": "delete_review"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 37,
-  "fields": {
-    "name": "Can view review",
-    "content_type": 9,
-    "codename": "view_review"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 38,
-  "fields": {
-    "name": "Can add profile",
-    "content_type": 10,
-    "codename": "add_profile"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 39,
-  "fields": {
-    "name": "Can change profile",
-    "content_type": 10,
-    "codename": "change_profile"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 40,
-  "fields": {
-    "name": "Can delete profile",
-    "content_type": 10,
-    "codename": "delete_profile"
-  }
-},
-{
-  "model": "auth.permission",
-  "pk": 41,
-  "fields": {
-    "name": "Can view profile",
-    "content_type": 10,
-    "codename": "view_profile"
-  }
-},
-{
-  "model": "auth.group",
-  "pk": 1,
-  "fields": {
-    "name": "Модераторы",
-    "permissions": [
-      29,
-      30,
-      31,
-      32,
-      35,
-      36,
-      37
-    ]
-  }
-},
-{
-  "model": "auth.user",
-  "pk": 1,
-  "fields": {
-    "password": "pbkdf2_sha256$320000$8Y9NgrVh5QOuPNlSHxwv5P$M1zOjYU5Xn04Q8K6MtxggzrhERV00Kkys6p0kTuYDKk=",
-    "last_login": "2022-03-19T09:56:17Z",
-    "is_superuser": true,
-    "username": "admin",
-    "first_name": "Admin",
-    "last_name": "Admin",
-    "email": "admin@gmail.com",
-    "is_staff": true,
-    "is_active": true,
-    "date_joined": "2022-03-19T09:21:22Z",
-    "groups": [
-      1
-    ],
-    "user_permissions": []
-  }
-},
-{
-  "model": "auth.user",
-  "pk": 2,
-  "fields": {
-    "password": "pbkdf2_sha256$320000$m48KSFEp29xBD74Deb9uqa$AOklFRX4FIy4xXPVB4ucKlGhi52B+JotI98nJIozI/4=",
-    "last_login": "2022-03-19T10:16:18.397Z",
-    "is_superuser": false,
-    "username": "lead",
-    "first_name": "Lead",
-    "last_name": "",
-    "email": "lead@gmail.com",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2022-03-19T09:30:52.241Z",
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "auth.user",
-  "pk": 3,
-  "fields": {
-    "password": "pbkdf2_sha256$320000$KdYna8qYGYOUVDvusdR3sA$JpEyf4a41NNFY3hnm36PJbxPL3djTVsF+SMzd4ay/ls=",
-    "last_login": "2022-03-19T10:02:14.247Z",
-    "is_superuser": false,
-    "username": "moderator1",
-    "first_name": "Moderator1",
-    "last_name": "",
-    "email": "moderator1@gmail.com",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2022-03-19T09:37:52Z",
-    "groups": [
-      1
-    ],
-    "user_permissions": []
-  }
-},
-{
-  "model": "auth.user",
-  "pk": 4,
-  "fields": {
-    "password": "pbkdf2_sha256$320000$1gp0tHXfg8DQ9VhemL9O2B$0Ryc5kDaaJXI9ROrJ2+tP2H9cr/xMj+5dQ5msJwhl9Q=",
-    "last_login": "2022-03-19T09:59:49.534Z",
-    "is_superuser": false,
-    "username": "dev",
-    "first_name": "Иван",
-    "last_name": "",
-    "email": "dev@gmail.com",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2022-03-19T09:59:49.379Z",
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 1,
-  "fields": {
-    "app_label": "admin",
-    "model": "logentry"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 2,
-  "fields": {
-    "app_label": "auth",
-    "model": "permission"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 3,
-  "fields": {
-    "app_label": "auth",
-    "model": "group"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 4,
-  "fields": {
-    "app_label": "auth",
-    "model": "user"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 5,
-  "fields": {
-    "app_label": "contenttypes",
-    "model": "contenttype"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 6,
-  "fields": {
-    "app_label": "sessions",
-    "model": "session"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 7,
-  "fields": {
-    "app_label": "product",
-    "model": "category"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 8,
-  "fields": {
-    "app_label": "product",
-    "model": "product"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 9,
-  "fields": {
-    "app_label": "product",
-    "model": "review"
-  }
-},
-{
-  "model": "contenttypes.contenttype",
-  "pk": 10,
-  "fields": {
-    "app_label": "accounts",
-    "model": "profile"
-  }
-},
-{
-  "model": "sessions.session",
-  "pk": "lq24f9kz7brsqskx8vlp5wm2tdw3k6tk",
-  "fields": {
-    "session_data": ".eJxVi0EKwjAQRe8yaylp6nSMS8GlZwiTyYQUtULTLES8u1Fc6O6__3gP8FzX7GvRxU8R9mBh8_sFlrPOb8EitzqvpTvdP747Xnm6HL7-L8pccitIFd2Aveyc1UCiTBaDSchtCcVt6IPgqMQjuwYJjSYjhtQO0TiB5wsmDzRA:1nVW8A:IAfz0kLzwZS8NhvqIHtYlWn4LIcS7lhMG2HkiYlR1WU",
-    "expire_date": "2022-04-02T10:16:18.409Z"
+    "description": "Главная / О ресторане О ресторане Ресторан «Астана Нуры» уютно расположился у реки в самом центре столицы, а самый красивый вид на набережную, пожалуй, открывается с летней веранды нашего ресторана!  Кухня кавказская и европейская, в меню более 150 наименований блюд, где царствует ШАШЛЫК – венец кавказской кухни, их у нас более 45 видов! Мясо на шашлыки мы не маринуем, оно всегда свежее, потому шашлыки у нас – лучшие в городе!",
+    "telephone_number": 87272584040
   }
 },
 {
   "model": "product.category",
   "pk": 1,
   "fields": {
-    "title": "Техника для дома"
+    "category_name": "Напитки",
+    "translit_category_name": "Napitki",
+    "category_name_translation": "Beverages"
   }
 },
 {
   "model": "product.category",
   "pk": 2,
   "fields": {
-    "title": "Техника для кухни"
+    "category_name": "Шашлыки",
+    "translit_category_name": "Shashlyki",
+    "category_name_translation": "Barbecue"
   }
 },
 {
   "model": "product.category",
   "pk": 3,
   "fields": {
-    "title": "Аудио техника"
+    "category_name": "Салаты",
+    "translit_category_name": "Salaty",
+    "category_name_translation": "Salads"
   }
 },
 {
   "model": "product.product",
   "pk": 1,
   "fields": {
-    "created_at": "2022-03-19T09:29:00.360Z",
+    "created_at": "2022-06-02T08:54:55.113Z",
     "is_deleted": false,
-    "title": "Холодильник",
-    "category": 2,
-    "photo": "products/photos/woody-kelly-OiEuLlfBSRg-unsplash_EyyjBqz.jpg",
-    "text": "для хранения продуктов",
-    "author": 1
-  }
-},
-{
-  "model": "product.product",
-  "pk": 2,
-  "fields": {
-    "created_at": "2022-03-19T09:34:07.848Z",
-    "is_deleted": false,
-    "title": "Кофеварка",
-    "category": 2,
-    "photo": "",
-    "text": "для варки кофе.",
-    "author": 2
-  }
-},
-{
-  "model": "product.product",
-  "pk": 3,
-  "fields": {
-    "created_at": "2022-03-19T10:01:23.038Z",
-    "is_deleted": false,
-    "title": "Пылесос",
+    "product_name": "Горячий чай",
     "category": 1,
-    "photo": "products/photos/nikolay-petrov-OdrY_bbrW4g-unsplash_1q6OALu.jpg",
-    "text": "для уборки дома",
-    "author": 4
+    "photo": "menu_photo/1.jpg",
+    "description": "Горячий чай Горячий чай",
+    "price": 500,
+    "available": "Нет",
+    "translit_product_name": "Gorjachij chaj",
+    "translit_description": "Gorjachij chaj Gorjachij chaj",
+    "product_name_translation": "Hot tea",
+    "description_translation": "Hot tea hot tea"
   }
 },
 {
-  "model": "product.review",
-  "pk": 1,
-  "fields": {
-    "created_at": "2022-03-19T09:33:45.873Z",
-    "is_deleted": false,
-    "product": 1,
-    "text": "хороший холодильник",
-    "author": 2,
-    "evaluation": 4
-  }
-},
-{
-  "model": "product.review",
-  "pk": 3,
-  "fields": {
-    "created_at": "2022-03-19T10:00:41.677Z",
-    "is_deleted": false,
-    "product": 2,
-    "text": "неплохая кофеварка",
-    "author": 4,
-    "evaluation": 3
-  }
-},
-{
-  "model": "product.review",
-  "pk": 4,
-  "fields": {
-    "created_at": "2022-03-19T10:16:51.404Z",
-    "is_deleted": false,
-    "product": 2,
-    "text": "плохая кофеварка",
-    "author": 2,
-    "evaluation": 1
-  }
-},
-{
-  "model": "accounts.profile",
-  "pk": 1,
-  "fields": {
-    "user": 1,
-    "avatar": "user_pics/admin_GQQU1hJ.jpg",
-    "about_profile": "I am admin and i am superuser",
-    "phone": "+77123456799",
-    "gender": "they"
-  }
-},
-{
-  "model": "accounts.profile",
+  "model": "product.product",
   "pk": 2,
   "fields": {
-    "user": 2,
-    "avatar": "user_pics/aedrian-sQG4zeX2UpM-unsplash_zEG1PL1.jpg",
-    "about_profile": "i am a lead",
-    "phone": "+77123456781",
-    "gender": "man"
+    "created_at": "2022-06-02T08:55:20.064Z",
+    "is_deleted": false,
+    "product_name": "Coca Cola",
+    "category": 1,
+    "photo": "menu_photo/2.jpg",
+    "description": "Coca Cola Coca Cola",
+    "price": 300,
+    "available": "Есть",
+    "translit_product_name": "Цоца Цола",
+    "translit_description": "Цоца Цола Цоца Цола",
+    "product_name_translation": "Кока-Кола",
+    "description_translation": "Coca Cola Coca Cola"
   }
 },
 {
-  "model": "accounts.profile",
+  "model": "product.product",
   "pk": 3,
   "fields": {
-    "user": 3,
-    "avatar": "user_pics/Anonymous_emblem.svg_e84Zso5_i6VeYuc.png",
-    "about_profile": "I am a moderator1",
-    "phone": "+77123459999",
-    "gender": "they"
+    "created_at": "2022-06-02T08:56:13.358Z",
+    "is_deleted": false,
+    "product_name": "Молоко",
+    "category": 1,
+    "photo": "menu_photo/3.jpg",
+    "description": "Молоко Молоко",
+    "price": 400,
+    "available": "Есть",
+    "translit_product_name": "Moloko",
+    "translit_description": "Moloko Moloko",
+    "product_name_translation": "Milk",
+    "description_translation": "Milk milk"
   }
 },
 {
-  "model": "accounts.profile",
+  "model": "product.product",
   "pk": 4,
   "fields": {
-    "user": 4,
-    "avatar": "user_pics/gloria-cretu-G4mQRCg_Wds-unsplash_Cw6X9to.jpg",
-    "about_profile": "я разработчик",
-    "phone": "+77123456785",
-    "gender": "man"
+    "created_at": "2022-06-02T08:56:39.396Z",
+    "is_deleted": false,
+    "product_name": "Люля кебаб",
+    "category": 2,
+    "photo": "menu_photo/4.jpg",
+    "description": "Люля кебаб",
+    "price": 800,
+    "available": "Есть",
+    "translit_product_name": "Ljulja kebab",
+    "translit_description": "Ljulja kebab",
+    "product_name_translation": "Lula Kebab",
+    "description_translation": "Lula Kebab"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 5,
+  "fields": {
+    "created_at": "2022-06-02T08:56:59.568Z",
+    "is_deleted": false,
+    "product_name": "Баранина",
+    "category": 2,
+    "photo": "menu_photo/5.jpg",
+    "description": "Баранина Баранина",
+    "price": 900,
+    "available": "Есть",
+    "translit_product_name": "Baranina",
+    "translit_description": "Baranina Baranina",
+    "product_name_translation": "Mutton",
+    "description_translation": "Baranina Baranin"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 6,
+  "fields": {
+    "created_at": "2022-06-02T08:57:28.838Z",
+    "is_deleted": false,
+    "product_name": "Цезарь",
+    "category": 3,
+    "photo": "menu_photo/6.jpg",
+    "description": "Цезарь Цезарь",
+    "price": 500,
+    "available": "Есть",
+    "translit_product_name": "Tsezar'",
+    "translit_description": "Tsezar' Tsezar'",
+    "product_name_translation": "Caesar",
+    "description_translation": "Caesar Caesar"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 7,
+  "fields": {
+    "created_at": "2022-06-02T08:58:25.896Z",
+    "is_deleted": false,
+    "product_name": "Свежий салат",
+    "category": 3,
+    "photo": "menu_photo/7.jpg",
+    "description": "Свежий салат Свежий салат",
+    "price": 600,
+    "available": "Есть",
+    "translit_product_name": "Svezhij salat",
+    "translit_description": "Svezhij salat Svezhij salat",
+    "product_name_translation": "Fresh salad",
+    "description_translation": "Fresh salad fresh salad"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 9,
+  "fields": {
+    "created_at": "2022-06-06T13:27:15.878Z",
+    "is_deleted": false,
+    "product_name": "Сок",
+    "category": 1,
+    "photo": "menu_photo/11_PwCZTf7.jpg",
+    "description": "",
+    "price": 100,
+    "available": "Есть",
+    "translit_product_name": "Sok",
+    "translit_description": "",
+    "product_name_translation": "Juice",
+    "description_translation": null
+  }
+},
+{
+  "model": "product.basket",
+  "pk": 244,
+  "fields": {
+    "product": 5,
+    "telegram_user_id": 717825368,
+    "amount": 1,
+    "product_total_price": 900,
+    "status": "Не оплачено"
+  }
+},
+{
+  "model": "product.basket",
+  "pk": 245,
+  "fields": {
+    "product": 7,
+    "telegram_user_id": 717825368,
+    "amount": 2,
+    "product_total_price": 1200,
+    "status": "Не оплачено"
+  }
+},
+{
+  "model": "product.basket",
+  "pk": 256,
+  "fields": {
+    "product": 3,
+    "telegram_user_id": 1198799862,
+    "amount": 2,
+    "product_total_price": 800,
+    "status": "Не оплачено"
+  }
+},
+{
+  "model": "product.telegramuser",
+  "pk": 431132059,
+  "fields": {
+    "first_name": "Just",
+    "last_name": "R",
+    "phone_number": 77770918657,
+    "vcard": null
+  }
+},
+{
+  "model": "product.telegramuser",
+  "pk": 717825368,
+  "fields": {
+    "first_name": "Diana",
+    "last_name": "Shilina",
+    "phone_number": 77761181819,
+    "vcard": null
+  }
+},
+{
+  "model": "product.telegramuser",
+  "pk": 884281623,
+  "fields": {
+    "first_name": "Gleb",
+    "last_name": "Glebov",
+    "phone_number": 77772362683,
+    "vcard": null
+  }
+},
+{
+  "model": "product.telegramuser",
+  "pk": 965045582,
+  "fields": {
+    "first_name": "Мейржан",
+    "last_name": "Конаев",
+    "phone_number": 77774440432,
+    "vcard": null
+  }
+},
+{
+  "model": "product.telegramuser",
+  "pk": 1198799862,
+  "fields": {
+    "first_name": "Tolkyn",
+    "last_name": null,
+    "phone_number": 77761885243,
+    "vcard": null
+  }
+},
+{
+  "model": "product.telegramuser",
+  "pk": 1810248042,
+  "fields": {
+    "first_name": "Бакытбек",
+    "last_name": "Сатаев",
+    "phone_number": 77773999819,
+    "vcard": null
   }
 }
 ]
