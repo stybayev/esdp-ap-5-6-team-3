@@ -2,6 +2,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+    <div style="margin-top: 3%">
+        <a class="btn btn-success btn-lg"  href="{% url 'create_aboutus' %}">Добавить О НАС</a>
+    </div>
 
     <div class="card mb-3" style="margin-top: 3%; width: 500px">
     {% for about in aboutus %}
