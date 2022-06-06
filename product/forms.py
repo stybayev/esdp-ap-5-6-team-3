@@ -26,7 +26,10 @@ class ReviewForm(forms.ModelForm):
         model = Review
         fields = ['review', 'order_id']
 
+
 class AboutusForm(forms.ModelForm):
+    description = forms.CharField(widget=forms.Textarea)
+
     class Meta:
         model = Aboutus
         fields = ('description', 'telephone_number')

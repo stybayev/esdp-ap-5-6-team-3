@@ -33,7 +33,7 @@ class DeleteView(RedirectView):
         product.delete()
         return redirect(self.get_redirect_url())
 
-class AboutusCreateView(LoginRequiredMixin, CreateView):
+class AboutusCreateView(CreateView):
     template_name = 'aboutus/create_aboutus_view.html'
     form_class = AboutusForm
     redirect_url = ''
