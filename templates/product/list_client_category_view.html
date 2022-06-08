@@ -2,37 +2,36 @@
 
 {% load static %}
 {% block content %}
-
-    <div style="margin-top: 3%">
-        <a class="btn btn-secondary btn-lg" style="margin-right: 5%" href="{% url 'list_product' %}"> << Назад </a>
-        <a class="btn btn-success btn-lg"  href="{% url 'create_category' %}">Добавить категорию</a>
+    <div class="button_my">
+        <a class="btn" href="{% url 'list_product' %}"><img style="width: 45px; height: 34px" src="{% static 'images_common/backward.png' %}" alt=""></a>
+        <a class="create btn btn-success btn-sm" style="border-radius: 10px; padding: 10px" href="{% url 'create_category' %}">Добавить категорию</a>
     </div>
 
 
-    <div class="table-responsive-md" >
+    <div class="table-responsive" >
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">Категория</th>
-                <th scope="col">Действия</th>
+                <th >Категория</th>
+                <th >Действия</th>
             </tr>
             </thead>
             <tbody>
             <tr>
                 {% for category in categories %}
-                    <th scope="row">
+                    <td scope="row">
                         <a style="text-decoration: none; color: black" href="{% url 'list_category_product' category %}">
                             №{{ category.id }} - {{ category.category_name }},
                             {{ category.products_count }} - блюд
                         </a>
 
-                    </th>
-                    <th scope="row">
+                    </td>
+                    <td scope="row">
                         <a href="{% url 'list_category_product' category %}">
-                            <button class="btn btn-warning" style="color: white">Список блюд - <b>{{ category.products_count }}</b></button>
+                            <button class="btn btn-warning btn-sm" style="color: white">Список блюд - <b>{{ category.products_count }}</b></button>
                         </a>
 
-                    </th>
+                    </td>
                     </tr>
                 {% empty %}
                     <h2>категорий не найдены</h2>
