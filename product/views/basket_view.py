@@ -43,6 +43,10 @@ class BasketListView(SearchView):
         'status': 'icontains',
     }
 
+    def telegram_user(self):
+        for user in TelegramUser.objects.all():
+            return user
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
         context['total_baskets'] = Basket.objects.all()
@@ -58,17 +62,17 @@ class AddBasketView(CreateView):
 
     def post(self, request, *args, **kwargs):
         product_pk = kwargs.get('pk')
-        product = get_object_or_404(Product, pk=product_pk, telegram_user_id=self.telegram_user().user_id)
+        product = get_object_or_404(Product, pk=product_pk)
         print(product, product_pk)
-        if not self.model.objects.filter(product_id=product_pk, telegram_user_id=self.telegram_user().user_id):
+        if not self.model.objects.filter(product_id=product_pk, telegram_user_id_id=self.telegram_user().user_id):
             self.model.objects.create(
                 amount=1,
                 product_id=product_pk,
-                telegram_user_id=1,
+                telegram_user_id_id=self.telegram_user().user_id,
                 product_total_price=product.price,
             )
-        elif self.model.objects.filter(product_id=product_pk, telegram_user_id=self.telegram_user().user_id):
-            basket = get_object_or_404(self.model, product_id=product_pk, telegram_user_id=self.telegram_user().user_id)
+        elif self.model.objects.filter(product_id=product_pk, telegram_user_id_id=self.telegram_user().user_id):
+            basket = get_object_or_404(self.model, product_id=product_pk, telegram_user_id_id=self.telegram_user().user_id)
             basket.amount += 1
             basket.product_total_price += product.price
             basket.save()
@@ -78,11 +82,15 @@ class AddBasketView(CreateView):
 class SubtractBasketView(CreateView):
     model = Basket
 
+    def telegram_user(self):
+        for user in TelegramUser.objects.all():
+            return user
+
     def post(self, request, *args, **kwargs):
         product_pk = kwargs.get('pk')
         product = get_object_or_404(Product, pk=product_pk)
         if self.model.objects.filter(amount__gt=1, product_id=product_pk):
-            basket = get_object_or_404(self.model, product_id=product_pk)
+            basket = get_object_or_404(self.model, product_id=product_pk, telegram_user_id_id=self.telegram_user().user_id)
             basket.amount -= 1
             basket.product_total_price -= product.price
             basket.save()
