@@ -1,10 +1,10 @@
 {% csrf_token %}
 
 <div class="form-group" style="display: flex; flex-direction: column;">
-    <label style="font-size: 20px; margin-bottom: 10px; font-weight: bolder;">Описание:</label>
-    <textarea  style="box-shadow: 3px 4px 5px 6px #d7d7d7;" required cols="40" rows="10" class="form-control" id="description" name="description">{{ form.description.value|default:'' }}</textarea>
-    <label style="font-size: 20px; margin-top: 15px; margin-bottom: 10px; font-weight: bolder;">{{form.telephone_number.label}} :</label>
-    <p style="margin-bottom: 20px;">{{ form.telephone_number }}</p>
+    <label style="font-size: 20px; margin-bottom: 10px; font-weight: bolder; color: #82d475;">Описание:</label>
+    <textarea  style="box-shadow: 3px 4px 5px 6px #d7d7d7;" required cols="40" rows="10" class="form-control" id="description" name="description" placeholder="Добавьте описание">{{ form.description.value|default:'' }}</textarea>
+    <label style="font-size: 20px; margin-top: 15px; margin-bottom: 10px; font-weight: bolder; color: #82d475;">{{form.telephone_number.label}} :</label>
+    <p style="margin-bottom: 20px;" >{{ form.telephone_number }}</p>
 </div>
 <button class="btn btn-outline-primary" type="submit">{{ button_text }}</button>
 

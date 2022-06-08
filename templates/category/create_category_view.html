@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Добавление категорий</h2>
+    <h2 style="color: #82d475; margin-top: 20px;">Добавление категорий</h2>
         <form action="{% url 'create_category' %}" method="POST">
             {% include 'partial/category/category_form.html' with button_text='Добавить' expiration=True %}
         </form>
