@@ -122,54 +122,81 @@ class Basket(models.Model):
         'product.Product', on_delete=models.CASCADE, null=False, blank=False,
         related_name='baskets', verbose_name="Блюдо"
     )
-    telegram_user_id = models.PositiveSmallIntegerField(
-        null=False, blank=False, verbose_name="Telegram Id пользователя"
+    telegram_user_id = models.ForeignKey(
+        'product.TelegramUser', on_delete=models.CASCADE, related_name='baskets_user', verbose_name="Телеграмм клиент"
     )
     amount = models.PositiveSmallIntegerField(null=False, blank=False, verbose_name="Количество")
     product_total_price = models.PositiveIntegerField(null=True, blank=True, verbose_name="Цена блюда * на количество")
     status = models.CharField(
         max_length=20, choices=STATUS, null=False, blank=False, default=NOTPAID, verbose_name="Статус"
     )
-    # status = models.ForeignKey(
-    #     'product.BasketStatus', on_delete=models.PROTECT, null=False, blank=False,
-    #     related_name='baskets', verbose_name="Статус"
-    # )
 
     def __str__(self):
         return f"{self.product}. {self.telegram_user_id}. {self.amount}. {self.product_total_price}"
 
 
-# class OrderStatus(models.Model):
-#     NEW = 'Новый'
-#     IN_PROGRESS = 'В процессе'
-#     DONE = 'Выполнено'
-#
-#     STATUS = (
-#         (NEW, NEW), (IN_PROGRESS, IN_PROGRESS), (DONE, DONE)
-#     )
-#
-#     status = models.CharField(
-#         max_length=20, choices=STATUS, null=False, blank=False, default=NEW, verbose_name="Статус"
-#     )
-#
-#     def __str__(self):
-#         return f"{self.status}"
+class BasketToOrder(models.Model):
+    PAID = 'Оплачено'
+    NOTPAID = 'Не оплачено'
+
+    STATUS = (
+        (PAID, PAID), (NOTPAID, NOTPAID)
+    )
+
+    product = models.ForeignKey(
+        'product.Product', on_delete=models.CASCADE, null=False, blank=False,
+        related_name='products', verbose_name="Блюдо"
+    )
+    telegram_user_id = models.ForeignKey(
+        'product.TelegramUser', on_delete=models.CASCADE, related_name='baskets_users', verbose_name="Телеграмм клиент"
+    )
+    amount = models.PositiveSmallIntegerField(null=False, blank=False, verbose_name="Количество")
+    product_total_price = models.PositiveIntegerField(null=True, blank=True, verbose_name="Цена блюда * на количество")
+    status = models.CharField(
+        max_length=20, choices=STATUS, null=False, blank=False, default=NOTPAID, verbose_name="Статус"
+    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Время создания", blank=True)
+
+    def __str__(self):
+        return f"{self.product}. {self.telegram_user_id}. {self.amount}. {self.product_total_price}"
 
 
-# class PaymentWay(models.Model):
-#     CASH = 'Наличные'
-#     CARD = 'Карта'
-#
-#     PAYMENT_WAY = (
-#         (CASH, CASH), (CARD, CARD)
-#     )
-#
-#     payment_way = models.CharField(
-#         max_length=20, choices=PAYMENT_WAY, null=False, blank=False, default=CASH, verbose_name="Способ оплаты"
-#     )
-#
-#     def __str__(self):
-#         return f"{self.payment_way}"
+class ShoppingCartOrder(models.Model):
+    NEW = 'Новый'
+    IN_PROGRESS = 'В процессе'
+    DONE = 'Выполнено'
+
+    STATUS = (
+        (NEW, NEW), (IN_PROGRESS, IN_PROGRESS), (DONE, DONE)
+    )
+
+    telegram_user_id = models.ForeignKey(
+        'product.TelegramUser', on_delete=models.CASCADE, related_name='telegram_users',
+        verbose_name="Telegram Id пользователя"
+    )
+
+    status = models.CharField(
+        max_length=20, choices=STATUS, null=False, blank=False, default=NEW, verbose_name="Статус")
+
+    # basket_id = models.ForeignKey(
+    #     'product.BasketToOrder', on_delete=models.PROTECT, related_name='basket_to_orders', verbose_name='Id корзины'
+    # )
+
+    # basket_id = models.ManyToManyField('product.BasketToOrder', related_name='basket_to_orders',
+    #                                    blank=True, verbose_name='Id корзины')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Время изменения", blank=True)
+
+    def __str__(self):
+        return f"{self.telegram_user_id}. {self.status}"
+
+
+class ShoppingCartOrderBasketToOrder(models.Model):
+    shopping_cart_order = models.ForeignKey(
+        'product.ShoppingCartOrder', on_delete=models.PROTECT, related_name='shopping_cart_orders', verbose_name='Id заказа'
+    )
+    baske_to_order = models.ForeignKey(
+        'product.BasketToOrder', on_delete=models.PROTECT, related_name='basket_to_orders', verbose_name='Id корзины'
+    )
 
 
 class Order(models.Model):

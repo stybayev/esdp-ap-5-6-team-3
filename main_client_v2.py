@@ -124,7 +124,7 @@ def bot_message(m):
 
     elif m.text == '\U0001F371Корзина':
         for basket in Basket.objects.all():
-            if m.from_user.id == basket.telegram_user_id:
+            if m.from_user.id == basket.telegram_user_id_id:
                 keyboard = types.InlineKeyboardMarkup(row_width=2)
                 print(f"uploads/{basket.product.photo}")
                 photo = open(f"uploads/{basket.product.photo}", 'rb')
@@ -132,7 +132,7 @@ def bot_message(m):
                 bot.send_photo(m.chat.id, photo, caption=text_basket(basket), reply_markup=keyboard,
                                parse_mode="Markdown")
 
-        if not Basket.objects.filter(telegram_user_id=m.from_user.id):
+        if not Basket.objects.filter(telegram_user_id_id=m.from_user.id):
             keyboard = types.InlineKeyboardMarkup(row_width=1)
             keyboard.add(types.InlineKeyboardButton(text='\U0001F4D6\U0001F372\U0001F354Меню',
                                                     callback_data='\U0001F4D6\U0001F372\U0001F354Меню'))
@@ -167,7 +167,7 @@ def callback_inline(call):
                 print(menu['photo'][1:])
 
                 photo = open(menu['photo'][1:], 'rb')
-                if not Basket.objects.filter(product_id=menu['id'], telegram_user_id=call.from_user.id):
+                if not Basket.objects.filter(product_id=menu['id'], telegram_user_id_id=call.from_user.id):
                     add_menu = types.InlineKeyboardButton(
                         text=f"\U00002795\U0001F371Добавить в корзину",
                         callback_data=f"add_menu_{menu['id']}")
@@ -179,9 +179,9 @@ def callback_inline(call):
 
                     bot.send_photo(call.message.chat.id, photo, caption=text_menu(menu), reply_markup=keyboard,
                                    parse_mode="Markdown")
-                elif Basket.objects.filter(product_id=menu['id'], telegram_user_id=call.from_user.id):
+                elif Basket.objects.filter(product_id=menu['id'], telegram_user_id_id=call.from_user.id):
                     basket = get_object_or_404(Basket, product_id=menu['id'],
-                                               telegram_user_id=call.from_user.id)
+                                               telegram_user_id_id=call.from_user.id)
 
                     button_menu(keyboard, basket)
 
@@ -191,12 +191,12 @@ def callback_inline(call):
 
 
             elif call.data == f"add_menu_{menu['id']}":
-                if not Basket.objects.filter(product_id=menu['id'], telegram_user_id=call.from_user.id):
+                if not Basket.objects.filter(product_id=menu['id'], telegram_user_id_id=call.from_user.id):
                     keyboard = types.InlineKeyboardMarkup(row_width=2)
                     basket = Basket.objects.create(
                         amount=1,
                         product_id=menu['id'],
-                        telegram_user_id=call.from_user.id,
+                        telegram_user_id_id=call.from_user.id,
                         product_total_price=menu['price'],
                     )
 
@@ -209,10 +209,10 @@ def callback_inline(call):
                     bot.answer_callback_query(callback_query_id=call.id, show_alert=False,
                                               text=f'"{basket.product.product_name}" добавлено в корзину \n Общая количество 1')
 
-                elif Basket.objects.filter(product_id=menu['id'], telegram_user_id=call.from_user.id):
+                elif Basket.objects.filter(product_id=menu['id'], telegram_user_id_id=call.from_user.id):
                     keyboard = types.InlineKeyboardMarkup(row_width=2)
 
-                    basket = get_object_or_404(Basket, product_id=menu['id'], telegram_user_id=call.from_user.id)
+                    basket = get_object_or_404(Basket, product_id=menu['id'], telegram_user_id_id=call.from_user.id)
                     add_meals(basket, menu)
 
                     button_menu(keyboard, basket)
@@ -224,10 +224,10 @@ def callback_inline(call):
                                               text=f'"{basket.product.product_name}" добавлено в корзину \n Общая количество {basket.amount}')
 
             elif call.data == f"subtract_menu_{menu['id']}":
-                if Basket.objects.filter(amount__gt=1, product_id=menu['id'], telegram_user_id=call.from_user.id):
+                if Basket.objects.filter(amount__gt=1, product_id=menu['id'], telegram_user_id_id=call.from_user.id):
                     keyboard = types.InlineKeyboardMarkup(row_width=2)
 
-                    basket = get_object_or_404(Basket, product_id=menu['id'], telegram_user_id=call.from_user.id)
+                    basket = get_object_or_404(Basket, product_id=menu['id'], telegram_user_id_id=call.from_user.id)
 
                     subtract_meals(basket, menu)
 
@@ -238,9 +238,9 @@ def callback_inline(call):
                                              message_id=call.message.message_id,
                                              reply_markup=keyboard, parse_mode="Markdown")
 
-                elif Basket.objects.filter(amount=1, product_id=menu['id'], telegram_user_id=call.from_user.id):
-                    basket = Basket.objects.filter(amount=1, product_id=menu['id'], telegram_user_id=call.from_user.id)
-                    product = get_object_or_404(Basket, product_id=menu['id'], telegram_user_id=call.from_user.id)
+                elif Basket.objects.filter(amount=1, product_id=menu['id'], telegram_user_id_id=call.from_user.id):
+                    basket = Basket.objects.filter(amount=1, product_id=menu['id'], telegram_user_id_id=call.from_user.id)
+                    product = get_object_or_404(Basket, product_id=menu['id'], telegram_user_id_id=call.from_user.id)
                     basket.delete()
 
                     keyboard = types.InlineKeyboardMarkup(row_width=2)
@@ -259,12 +259,12 @@ def callback_inline(call):
                                              reply_markup=keyboard, parse_mode="Markdown")
 
             elif call.data == f"add_basket_{menu['id']}":
-                if not Basket.objects.filter(product_id=menu['id'], telegram_user_id=call.from_user.id):
+                if not Basket.objects.filter(product_id=menu['id'], telegram_user_id_id=call.from_user.id):
                     keyboard = types.InlineKeyboardMarkup(row_width=2)
                     basket = Basket.objects.create(
                         amount=1,
                         product_id=menu['id'],
-                        telegram_user_id=call.from_user.id,
+                        telegram_user_id_id=call.from_user.id,
                         product_total_price=menu['price'],
                     )
                     button_basket(keyboard, basket)
@@ -276,10 +276,10 @@ def callback_inline(call):
                     bot.answer_callback_query(callback_query_id=call.id, show_alert=False,
                                               text=f'"{basket.product.product_name}" добавлено в корзину \n Общая количество 1')
 
-                elif Basket.objects.filter(product_id=menu['id'], telegram_user_id=call.from_user.id):
+                elif Basket.objects.filter(product_id=menu['id'], telegram_user_id_id=call.from_user.id):
                     keyboard = types.InlineKeyboardMarkup(row_width=2)
 
-                    basket = get_object_or_404(Basket, product_id=menu['id'], telegram_user_id=call.from_user.id)
+                    basket = get_object_or_404(Basket, product_id=menu['id'], telegram_user_id_id=call.from_user.id)
                     add_meals(basket, menu)
 
                     button_basket(keyboard, basket)
@@ -291,9 +291,9 @@ def callback_inline(call):
                                               text=f'"{basket.product.product_name}" добавлено в корзину \n Общая количество {basket.amount}')
 
             elif call.data == f"subtract_basket_{menu['id']}":
-                if Basket.objects.filter(amount__gt=1, product_id=menu['id'], telegram_user_id=call.from_user.id):
+                if Basket.objects.filter(amount__gt=1, product_id=menu['id'], telegram_user_id_id=call.from_user.id):
                     keyboard = types.InlineKeyboardMarkup(row_width=2)
-                    basket = get_object_or_404(Basket, product_id=menu['id'], telegram_user_id=call.from_user.id)
+                    basket = get_object_or_404(Basket, product_id=menu['id'], telegram_user_id_id=call.from_user.id)
                     subtract_meals(basket, menu)
 
                     button_basket(keyboard, basket)
@@ -304,14 +304,14 @@ def callback_inline(call):
                     bot.answer_callback_query(callback_query_id=call.id, show_alert=False,
                                               text=f'"{basket.product.product_name}" удалено с корзины \n Общая количество {basket.amount}')
 
-                elif Basket.objects.filter(amount=1, product_id=menu['id'], telegram_user_id=call.from_user.id):
-                    basket = Basket.objects.filter(amount=1, product_id=menu['id'], telegram_user_id=call.from_user.id)
-                    product = get_object_or_404(Basket, product_id=menu['id'], telegram_user_id=call.from_user.id)
+                elif Basket.objects.filter(amount=1, product_id=menu['id'], telegram_user_id_id=call.from_user.id):
+                    basket = Basket.objects.filter(amount=1, product_id=menu['id'], telegram_user_id_id=call.from_user.id)
+                    product = get_object_or_404(Basket, product_id=menu['id'], telegram_user_id_id=call.from_user.id)
                     basket.delete()
                     bot.answer_callback_query(callback_query_id=call.id, show_alert=False,
                                               text=f'"{product.product.product_name}" удалено с корзины')
                     bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id, timeout=1)
-                    if not Basket.objects.filter(telegram_user_id=call.from_user.id):
+                    if not Basket.objects.filter(telegram_user_id_id=call.from_user.id):
                         keyboard = types.InlineKeyboardMarkup(row_width=1)
                         keyboard.add(types.InlineKeyboardButton(text='\U0001F4D6\U0001F372\U0001F354Меню',
                                                                 callback_data='\U0001F4D6\U0001F372\U0001F354Меню'))

@@ -20,10 +20,11 @@
             <tbody>
             <tr>
                 {% for basket in baskets %}
+
                     <th scope="row">{{ basket.id }}</th>
                     <td><img style="max-width: 100px" src="{{ basket.product.photo.url }}" alt=""></td>
                     <td>{{ basket.product.product_name }}</td>
-                    <td>{{ basket.telegram_user_id }}</td>
+                    <td>{{ basket.telegram_user_id.user_id }} {{ basket.telegram_user_id.first_name }}</td>
                     <td>{{ basket.amount }}</td>
                     <td>{{ basket.product_total_price }}</td>
                     <td>{{ basket.status }}</td>
@@ -35,8 +36,10 @@
                         {% for total in total_baskets %}
 
                             {% if basket.product.pk == total.product.pk %}
-                                <input readonly style="width: 22px; border: none; text-align: center;" type="text" value="{{ total.amount|default:0 }}">
-                            {% else %}
+                                {% if basket.amount == total.amount %}
+                                    <input readonly style="width: 22px; border: none; text-align: center;" type="text" value="{{ total.amount|default:0 }}">
+
+                                {% endif %}
                             {% endif %}
                         {% endfor %}
                         <form style="margin-left: 6%" action="{% url 'subtract_basket' basket.product.pk %}" method="post">
