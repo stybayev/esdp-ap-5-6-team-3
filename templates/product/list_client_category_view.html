@@ -8,7 +8,7 @@
     </div>
 
 
-    <div class="table-responsive" >
+    <div class="table-responsive-2" >
         <table class="table">
             <thead>
             <tr>
@@ -20,11 +20,7 @@
             <tr>
                 {% for category in categories %}
                     <td scope="row">
-                        <a style="text-decoration: none; color: black" href="{% url 'list_category_product' category %}">
-                            №{{ category.id }} - {{ category.category_name }},
-                            {{ category.products_count }} - блюд
-                        </a>
-
+                        <a style="text-decoration: none; color: black" href="{% url 'list_category_product' category %}">{{ category.category_name }}</a>
                     </td>
                     <td scope="row">
                         <a href="{% url 'list_category_product' category %}">
