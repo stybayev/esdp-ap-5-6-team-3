@@ -1,0 +1,214 @@
+[
+{
+  "model": "product.aboutus",
+  "pk": 1,
+  "fields": {
+    "description": "Главная / О ресторане О ресторане Ресторан «Астана Нуры» уютно расположился у реки в самом центре столицы, а самый красивый вид на набережную, пожалуй, открывается с летней веранды нашего ресторана!  Кухня кавказская и европейская, в меню более 150 наименований блюд, где царствует ШАШЛЫК – венец кавказской кухни, их у нас более 45 видов! Мясо на шашлыки мы не маринуем, оно всегда свежее, потому шашлыки у нас – лучшие в городе!",
+    "telephone_number": 87272584040
+  }
+},
+{
+  "model": "product.category",
+  "pk": 1,
+  "fields": {
+    "category_name": "Напитки",
+    "translit_category_name": "Napitki",
+    "category_name_translation": "Beverages"
+  }
+},
+{
+  "model": "product.category",
+  "pk": 2,
+  "fields": {
+    "category_name": "Шашлыки",
+    "translit_category_name": "Shashlyki",
+    "category_name_translation": "Barbecue"
+  }
+},
+{
+  "model": "product.category",
+  "pk": 3,
+  "fields": {
+    "category_name": "Салаты",
+    "translit_category_name": "Salaty",
+    "category_name_translation": "Salads"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 1,
+  "fields": {
+    "created_at": "2022-06-02T08:54:55.113Z",
+    "is_deleted": false,
+    "product_name": "Горячий чай",
+    "category": 1,
+    "photo": "menu_photo/1.jpg",
+    "description": "Горячий чай Горячий чай",
+    "price": 500,
+    "available": "Нет",
+    "translit_product_name": "Gorjachij chaj",
+    "translit_description": "Gorjachij chaj Gorjachij chaj",
+    "product_name_translation": "Hot tea",
+    "description_translation": "Hot tea hot tea"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 2,
+  "fields": {
+    "created_at": "2022-06-02T08:55:20.064Z",
+    "is_deleted": false,
+    "product_name": "Coca Cola",
+    "category": 1,
+    "photo": "menu_photo/2.jpg",
+    "description": "Coca Cola Coca Cola",
+    "price": 300,
+    "available": "Есть",
+    "translit_product_name": "Цоца Цола",
+    "translit_description": "Цоца Цола Цоца Цола",
+    "product_name_translation": "Кока-Кола",
+    "description_translation": "Coca Cola Coca Cola"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 3,
+  "fields": {
+    "created_at": "2022-06-02T08:56:13.358Z",
+    "is_deleted": false,
+    "product_name": "Молоко",
+    "category": 1,
+    "photo": "menu_photo/3.jpg",
+    "description": "Молоко Молоко",
+    "price": 400,
+    "available": "Есть",
+    "translit_product_name": "Moloko",
+    "translit_description": "Moloko Moloko",
+    "product_name_translation": "Milk",
+    "description_translation": "Milk milk"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 4,
+  "fields": {
+    "created_at": "2022-06-02T08:56:39.396Z",
+    "is_deleted": false,
+    "product_name": "Люля кебаб",
+    "category": 2,
+    "photo": "menu_photo/4.jpg",
+    "description": "Люля кебаб",
+    "price": 800,
+    "available": "Есть",
+    "translit_product_name": "Ljulja kebab",
+    "translit_description": "Ljulja kebab",
+    "product_name_translation": "Lula Kebab",
+    "description_translation": "Lula Kebab"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 5,
+  "fields": {
+    "created_at": "2022-06-02T08:56:59.568Z",
+    "is_deleted": false,
+    "product_name": "Баранина",
+    "category": 2,
+    "photo": "menu_photo/5.jpg",
+    "description": "Баранина Баранина",
+    "price": 900,
+    "available": "Есть",
+    "translit_product_name": "Baranina",
+    "translit_description": "Baranina Baranina",
+    "product_name_translation": "Mutton",
+    "description_translation": "Baranina Baranin"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 6,
+  "fields": {
+    "created_at": "2022-06-02T08:57:28.838Z",
+    "is_deleted": false,
+    "product_name": "Цезарь",
+    "category": 3,
+    "photo": "menu_photo/6.jpg",
+    "description": "Цезарь Цезарь",
+    "price": 500,
+    "available": "Есть",
+    "translit_product_name": "Tsezar'",
+    "translit_description": "Tsezar' Tsezar'",
+    "product_name_translation": "Caesar",
+    "description_translation": "Caesar Caesar"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 7,
+  "fields": {
+    "created_at": "2022-06-02T08:58:25.896Z",
+    "is_deleted": false,
+    "product_name": "Свежий салат",
+    "category": 3,
+    "photo": "menu_photo/7.jpg",
+    "description": "Свежий салат Свежий салат",
+    "price": 600,
+    "available": "Есть",
+    "translit_product_name": "Svezhij salat",
+    "translit_description": "Svezhij salat Svezhij salat",
+    "product_name_translation": "Fresh salad",
+    "description_translation": "Fresh salad fresh salad"
+  }
+},
+{
+  "model": "product.product",
+  "pk": 9,
+  "fields": {
+    "created_at": "2022-06-06T13:27:15.878Z",
+    "is_deleted": false,
+    "product_name": "Сок",
+    "category": 1,
+    "photo": "menu_photo/11_PwCZTf7.jpg",
+    "description": "",
+    "price": 100,
+    "available": "Есть",
+    "translit_product_name": "Sok",
+    "translit_description": "",
+    "product_name_translation": "Juice",
+    "description_translation": null
+  }
+},
+{
+  "model": "product.basket",
+  "pk": 244,
+  "fields": {
+    "product": 5,
+    "telegram_user_id": 717825368,
+    "amount": 1,
+    "product_total_price": 900,
+    "status": "Не оплачено"
+  }
+},
+{
+  "model": "product.basket",
+  "pk": 245,
+  "fields": {
+    "product": 7,
+    "telegram_user_id": 717825368,
+    "amount": 2,
+    "product_total_price": 1200,
+    "status": "Не оплачено"
+  }
+},
+{
+  "model": "product.basket",
+  "pk": 256,
+  "fields": {
+    "product": 3,
+    "telegram_user_id": 1198799862,
+    "amount": 2,
+    "product_total_price": 800,
+    "status": "Не оплачено"
+  }
+}
+]
