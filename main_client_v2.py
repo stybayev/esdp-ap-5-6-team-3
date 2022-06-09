@@ -1,8 +1,8 @@
 import django
 import os
 from django.shortcuts import get_object_or_404
-
 from telegram import InputFile
+
 os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings'
 django.setup()
 import telebot
@@ -10,7 +10,6 @@ from telebot import types
 from requests import get
 import time
 from product.models import TelegramUser, Product, Basket, Aboutus, Category
-
 
 bot = telebot.TeleBot('5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U')
 print(time.ctime())
@@ -28,6 +27,7 @@ def text_basket(basket):
                    f"_Цена_: *{basket.product.price}* тенге \n"
                    f"_Категория_: *{basket.product.category}* \n"
                    f"_Описание_: *{basket.product.description}* \n\n"
+                   f"*В корзине* \n"
                    f"_Количество_: *{basket.amount}* \n"
                    f"_Сумма_: {basket.product.price}x{basket.amount}= *{basket.product_total_price}* тенге \n")
     return basket_text
@@ -70,7 +70,10 @@ def button_menu(keyboard, basket):
     subtract_menu = types.InlineKeyboardButton(
         text=f"\U00002796\U0001F371 удалить с корзины",
         callback_data=f"subtract_menu_{basket.product.id}")
-    keyboard.add(add_menu, subtract_menu)
+    category = types.InlineKeyboardButton(
+        text=f"Назад в категории {basket.product.category}",
+        callback_data=f"{basket.product.category}")
+    keyboard.add(add_menu, subtract_menu, category)
 
 
 @bot.message_handler(commands=["start"])
@@ -120,23 +123,14 @@ def bot_message(m):
                              parse_mode="Markdown")
 
     elif m.text == '\U0001F371Корзина':
-        # bot.delete_message(chat_id=m.chat.id, message_id=m.message_id, timeout=1)
-        # bot.delete_state(m.chat.id)
-        # # # bot.delete_message(m.chat.id, m.message_id)
-        # bot.delete_webhook()
         for basket in Basket.objects.all():
             if m.from_user.id == basket.telegram_user_id:
                 keyboard = types.InlineKeyboardMarkup(row_width=2)
-
                 print(f"uploads/{basket.product.photo}")
-
                 photo = open(f"uploads/{basket.product.photo}", 'rb')
-
                 button_basket(keyboard, basket)
-                bot.send_photo(m.chat.id, photo, caption=text_basket(basket), reply_markup=keyboard, parse_mode="Markdown")
-                # bot.export_chat_invite_link(m.chat.id)
-                # print(bot.export_chat_invite_link(m.chat.id))
-                # bot.forward_message(chat_id=m.chat.id, from_chat_id=m.chat.id, message_id=m.message_id)
+                bot.send_photo(m.chat.id, photo, caption=text_basket(basket), reply_markup=keyboard,
+                               parse_mode="Markdown")
 
         if not Basket.objects.filter(telegram_user_id=m.from_user.id):
             keyboard = types.InlineKeyboardMarkup(row_width=1)
@@ -146,22 +140,6 @@ def bot_message(m):
                              '<i>Корзина пуста, перейдите в</i> <ins><b>Меню</b></ins> <i>для заказа блюд</i>',
                              reply_markup=keyboard, parse_mode="HTML")
 
-    elif m.text == 'Перейти в админ-панель':
-        bot.send_message(m.chat.id, '[Перейти в админ-панель](http://www.google.com/)', parse_mode='Markdown')
-        # keyboard = types.InlineKeyboardMarkup(row_width=1)
-        # keyboard.add(types.InlineKeyboardButton(text='Перейти в админ-панель',url='https://www.google.kz/'))
-        # bot.send_photo(m.chat.id, 'Перейти в админ-панель', reply_markup=keyboard)
-
-    elif m.text == 'В начало':
-        print(m.from_user.first_name, m.from_user.last_name)
-        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        msg = bot.send_message(m.chat.id, 'В начало', reply_markup=keyboard)
-        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in ['Новые заказы', 'Заказы в процессе']])
-        keyboard.add(
-            *[types.KeyboardButton(bot_message) for bot_message in ['Выполненные заказы', 'Перейти в админ-панель']])
-        bot.send_message(m.chat.id, 'В начало, Выберите в меню операции!', reply_markup=keyboard)
-        bot.register_next_step_handler(msg, bot_message)
-
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
@@ -169,32 +147,48 @@ def callback_inline(call):
         for menu in response_menu:
 
             if call.data == menu['category']:
-                for response_category in response_categories:
-                    if menu['category'] == response_category['category_name']:
-                        keyboard = types.InlineKeyboardMarkup(row_width=2)
+                keyboard = types.InlineKeyboardMarkup(row_width=2)
 
-                        print(menu['photo'][1:])
+                if Category.objects.filter(category_name=menu['category']):
 
-                        photo = open(menu['photo'][1:], 'rb')
+                    add_menu = types.InlineKeyboardButton(
+                        text=f"Детальный просмотр-{menu['product_name']}",
+                        callback_data=f"detailed_{menu['id']}")
+                    keyboard.add(add_menu)
 
-                        if not Basket.objects.filter(product_id=menu['id'], telegram_user_id=call.from_user.id):
-                            add_menu = types.InlineKeyboardButton(
-                                text=f"\U00002795\U0001F371Добавить в корзину",
-                                callback_data=f"add_menu_{menu['id']}")
+                bot.send_message(call.message.chat.id, f"*{menu['category']}, {menu['product_name']} "
+                                                       f"Цена: {menu['price']} тенге*",
+                                 reply_markup=keyboard, parse_mode="Markdown")
 
-                            keyboard.add(add_menu)
+            elif call.data == f"detailed_{menu['id']}":
+                # bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id, timeout=1)
+                keyboard = types.InlineKeyboardMarkup(row_width=2)
 
-                            bot.send_photo(call.message.chat.id, photo, caption=text_menu(menu), reply_markup=keyboard,
-                                           parse_mode="Markdown")
+                print(menu['photo'][1:])
 
-                        elif Basket.objects.filter(product_id=menu['id'], telegram_user_id=call.from_user.id):
-                            basket = get_object_or_404(Basket, product_id=menu['id'],
-                                                       telegram_user_id=call.from_user.id)
+                photo = open(menu['photo'][1:], 'rb')
+                if not Basket.objects.filter(product_id=menu['id'], telegram_user_id=call.from_user.id):
+                    add_menu = types.InlineKeyboardButton(
+                        text=f"\U00002795\U0001F371Добавить в корзину",
+                        callback_data=f"add_menu_{menu['id']}")
+                    category = types.InlineKeyboardButton(
+                        text=f"Назад в категории {menu['category']}",
+                        callback_data=f"{menu['category']}")
 
-                            button_menu(keyboard, basket)
+                    keyboard.add(add_menu, category)
 
-                            bot.send_photo(call.message.chat.id, photo, caption=text_basket(basket), reply_markup=keyboard,
-                                           parse_mode="Markdown")
+                    bot.send_photo(call.message.chat.id, photo, caption=text_menu(menu), reply_markup=keyboard,
+                                   parse_mode="Markdown")
+                elif Basket.objects.filter(product_id=menu['id'], telegram_user_id=call.from_user.id):
+                    basket = get_object_or_404(Basket, product_id=menu['id'],
+                                               telegram_user_id=call.from_user.id)
+
+                    button_menu(keyboard, basket)
+
+                    bot.send_photo(call.message.chat.id, photo, caption=text_basket(basket),
+                                   reply_markup=keyboard,
+                                   parse_mode="Markdown")
+
 
             elif call.data == f"add_menu_{menu['id']}":
                 if not Basket.objects.filter(product_id=menu['id'], telegram_user_id=call.from_user.id):
@@ -253,7 +247,11 @@ def callback_inline(call):
                     add_menu = types.InlineKeyboardButton(
                         text=f"\U00002795\U0001F371Добавить в корзину",
                         callback_data=f"add_menu_{menu['id']}")
-                    keyboard.add(add_menu)
+                    category = types.InlineKeyboardButton(
+                        text=f"Назад в категории {menu['category']}",
+                        callback_data=f"{menu['category']}")
+
+                    keyboard.add(add_menu, category)
                     bot.answer_callback_query(callback_query_id=call.id, show_alert=False,
                                               text=f'"{product.product.product_name}" удалено с корзины')
                     bot.edit_message_caption(caption=text_menu(menu), chat_id=call.message.chat.id,

@@ -250,7 +250,7 @@ class Review(models.Model):
 #         return self.text[:20]
 
 class TelegramUser(models.Model):
-    user_id = models.PositiveSmallIntegerField(unique=True, verbose_name="Telegram Id пользователя")
+    user_id = models.PositiveSmallIntegerField(primary_key=True, unique=True, verbose_name="Telegram Id пользователя")
     first_name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Имя")
     last_name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Фамилия")
     phone_number = models.PositiveSmallIntegerField(verbose_name="Телефон")

@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import CreateView
 
-from product.models import Product, Basket, BasketStatus
+from product.models import Product, Basket, BasketStatus, TelegramUser
 from product.forms import SearchForm
 from product.helpers import SearchView
 
@@ -52,19 +52,23 @@ class BasketListView(SearchView):
 class AddBasketView(CreateView):
     model = Basket
 
+    def telegram_user(self):
+        for user in TelegramUser.objects.all():
+            return user
+
     def post(self, request, *args, **kwargs):
         product_pk = kwargs.get('pk')
-        product = get_object_or_404(Product, pk=product_pk)
+        product = get_object_or_404(Product, pk=product_pk, telegram_user_id=self.telegram_user().user_id)
         print(product, product_pk)
-        if not self.model.objects.filter(product_id=product_pk):
+        if not self.model.objects.filter(product_id=product_pk, telegram_user_id=self.telegram_user().user_id):
             self.model.objects.create(
                 amount=1,
                 product_id=product_pk,
                 telegram_user_id=1,
                 product_total_price=product.price,
             )
-        elif self.model.objects.filter(product_id=product_pk):
-            basket = get_object_or_404(self.model, product_id=product_pk)
+        elif self.model.objects.filter(product_id=product_pk, telegram_user_id=self.telegram_user().user_id):
+            basket = get_object_or_404(self.model, product_id=product_pk, telegram_user_id=self.telegram_user().user_id)
             basket.amount += 1
             basket.product_total_price += product.price
             basket.save()

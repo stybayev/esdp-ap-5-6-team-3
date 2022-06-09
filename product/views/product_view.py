@@ -121,8 +121,8 @@ class ProductCreateView(CreateView):
                 product.description_translation = translator.translate(product.description, src='ru', dest='en').text
             elif self.cyrillic_check(product.description) == False:
                 product.translit_description = translit_ru(product.description)
-                product.description_translation = translator.translate(product.description, src='en', dest='ru').text
-            # product.author = request.user
+                if product.description:
+                    product.description_translation = translator.translate(product.description, src='en', dest='ru').text
             product.save()
             return redirect(self.redirect_url)
         return render(request, self.template_name,
