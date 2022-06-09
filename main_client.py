@@ -149,27 +149,35 @@ def bot_message(m):
                              reply_markup=keyboard, parse_mode="HTML")
 
     elif m.text == '\U0001F45DОфрмить заказ':
-        keyboard = types.InlineKeyboardMarkup(row_width=2)
+        if not Basket.objects.filter(telegram_user_id_id=m.from_user.id):
+            keyboard = types.InlineKeyboardMarkup(row_width=1)
+            keyboard.add(types.InlineKeyboardButton(text='\U0001F4D6\U0001F372\U0001F354Меню',
+                                                    callback_data='\U0001F4D6\U0001F372\U0001F354Меню'))
+            bot.send_message(m.chat.id, f"_Заказ не можем создать, для начала выберите блюд из_ *Меню*  \n",
+                             reply_markup=keyboard, parse_mode='Markdown')
+        else:
 
-        order_processing = types.InlineKeyboardButton(
-            text=f"\U0001F45D Оформить заказ",
-            callback_data=f"order_processing")
-        change_basket = types.InlineKeyboardButton(
-            text=f"\U0001F371 Изменить заказ - Корзина",
-            callback_data="edit_basket")
-        keyboard.add(order_processing, change_basket)
+            keyboard = types.InlineKeyboardMarkup(row_width=2)
 
-        total_sum = 0
-        for basket in Basket.objects.all():
-            if basket.telegram_user_id_id == m.from_user.id:
-                total_sum += basket.product_total_price
-                bot.send_message(m.chat.id, f"*{basket.product.product_name}:* *{basket.amount}*шт. *x* "
-                                            f"*{basket.product.price}*тг. = *{basket.product_total_price}* тенге",
-                                 parse_mode='Markdown')
-        bot.send_message(m.chat.id, f"_Итого общая сумма продукта:_ *{total_sum}* \n"
-                                    f"_10% за обслуживание:_ *{(total_sum * 10) / 100}* \n\n"
-                                    f"Итого общая сумма: *{((total_sum * 10) / 100) + total_sum}*",
-                         reply_markup=keyboard, parse_mode='Markdown')
+            order_processing = types.InlineKeyboardButton(
+                text=f"\U0001F45D Оформить заказ",
+                callback_data=f"order_processing")
+            change_basket = types.InlineKeyboardButton(
+                text=f"\U0001F371 Изменить заказ - Корзина",
+                callback_data="edit_basket")
+            keyboard.add(order_processing, change_basket)
+
+            total_sum = 0
+            for basket in Basket.objects.all():
+                if basket.telegram_user_id_id == m.from_user.id:
+                    total_sum += basket.product_total_price
+                    bot.send_message(m.chat.id, f"*{basket.product.product_name}:* *{basket.amount}*шт. *x* "
+                                                f"*{basket.product.price}*тг. = *{basket.product_total_price}* тенге",
+                                     parse_mode='Markdown')
+            bot.send_message(m.chat.id, f"_Итого общая сумма продукта:_ *{total_sum}* \n"
+                                        f"_10% за обслуживание:_ *{(total_sum * 10) / 100}* \n\n"
+                                        f"Итого общая сумма: *{((total_sum * 10) / 100) + total_sum}*",
+                             reply_markup=keyboard, parse_mode='Markdown')
 
     elif m.text == 'Перейти в админ-панель':
         bot.send_message(m.chat.id, '[Перейти в админ-панель](http://www.google.com/)', parse_mode='Markdown')
@@ -191,6 +199,35 @@ def bot_message(m):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
     print(call.data)
+    if call.data == 'order_processing':
+        shopping_cart_orders = ShoppingCartOrder.objects.create(
+            telegram_user_id_id=call.from_user.id,
+        )
+        total_sum = 0
+        for menu in response_menu:
+
+            for basket in Basket.objects.filter(telegram_user_id_id=call.from_user.id):
+                if Basket.objects.filter(product_id=menu['id'], telegram_user_id_id=call.from_user.id):
+                    basket_to_orders = BasketToOrder.objects.create(
+                        product=basket.product,
+                        telegram_user_id=basket.telegram_user_id,
+                        amount=basket.amount,
+                        product_total_price=basket.product_total_price,
+                        status=basket.status
+                    )
+                    basket.delete()
+                    total_sum += basket.product_total_price
+
+                    ShoppingCartOrderBasketToOrder.objects.create(shopping_cart_order_id=shopping_cart_orders.pk,
+                                                                  baske_to_order_id=basket_to_orders.pk)
+
+        bot.send_message(call.message.chat.id, f"*Заказ в обработке* \n"
+                                               f"_Итого общая сумма продукта:_ *{total_sum}* \n"
+                                               f"_10% за обслуживание:_ *{(total_sum * 10) / 100}* \n\n"
+                                               f"Итого общая сумма: *{((total_sum * 10) / 100) + total_sum}*",
+                         parse_mode='Markdown')
+        print(shopping_cart_orders)
+
     if call.data != '\U0001F4D6\U0001F372\U0001F354Меню':
         for menu in response_menu:
 
@@ -380,46 +417,43 @@ def callback_inline(call):
                                      '<i>Корзина пуста, перейдите в</i> <ins><b>Меню</b></ins> <i>для заказа блюд</i>',
                                      reply_markup=keyboard, parse_mode="HTML")
 
-            elif call.data == 'order_processing':
-                shopping_cart_orders = ShoppingCartOrder.objects.create(
-                    telegram_user_id_id=call.from_user.id,
-                )
+            # elif call.data == 'order_processing':
+            #     shopping_cart_orders = ShoppingCartOrder.objects.create(
+            #         telegram_user_id_id=call.from_user.id,
+            #     )
+            #
+            #     # if Basket.objects.filter(product_id=menu['id'], telegram_user_id_id=call.from_user.id):
+            #     # for basket in Basket.objects.filter(product_id=menu['id'], telegram_user_id_id=call.from_user.id):
+            #     for basket in Basket.objects.filter(telegram_user_id_id=call.from_user.id):
+            #         if Basket.objects.filter(product_id=menu['id'], telegram_user_id_id=call.from_user.id):
+            #         # if basket.product_id == menu['id'] and basket.telegram_user_id_id == call.from_user.id:
+            #
+            #         # basket = get_object_or_404(Basket, product_id=menu['id'], telegram_user_id_id=call.from_user.id)
+            #
+            #             basket_to_orders = BasketToOrder.objects.create(
+            #                 product=basket.product,
+            #                 telegram_user_id=basket.telegram_user_id,
+            #                 amount=basket.amount,
+            #                 product_total_price=basket.product_total_price,
+            #                 status=basket.status
+            #             )
+            #             basket.delete()
+            #
+            #             ShoppingCartOrderBasketToOrder.objects.create(shopping_cart_order_id=shopping_cart_orders.pk,
+            #                                                           baske_to_order_id=basket_to_orders.pk)
+            #             print(shopping_cart_orders)
 
-                # if Basket.objects.filter(product_id=menu['id'], telegram_user_id_id=call.from_user.id):
-                # for basket in Basket.objects.filter(product_id=menu['id'], telegram_user_id_id=call.from_user.id):
-                for basket in Basket.objects.filter(telegram_user_id_id=call.from_user.id):
-                    if Basket.objects.filter(product_id=menu['id'], telegram_user_id_id=call.from_user.id):
-                    # if basket.product_id == menu['id'] and basket.telegram_user_id_id == call.from_user.id:
+            # shop.shopping_cart_order.set(shopping_cart_orders.pk)
+            # shop.baske_to_order.set(basket_to_order.pk)
+            # shop.save()
 
-                    # basket = get_object_or_404(Basket, product_id=menu['id'], telegram_user_id_id=call.from_user.id)
-
-                        basket_to_orders = BasketToOrder.objects.create(
-                            product=basket.product,
-                            telegram_user_id=basket.telegram_user_id,
-                            amount=basket.amount,
-                            product_total_price=basket.product_total_price,
-                            status=basket.status
-                        )
-                        basket.delete()
-
-                        ShoppingCartOrderBasketToOrder.objects.create(shopping_cart_order_id=shopping_cart_orders.pk,
-                                                                      baske_to_order_id=basket_to_orders.pk)
-                        print(shopping_cart_orders)
-
-
-
-
-                # shop.shopping_cart_order.set(shopping_cart_orders.pk)
-                # shop.baske_to_order.set(basket_to_order.pk)
-                # shop.save()
-
-                # print(basket_to_order.pk)
-                #
-                # # shopping_cart_order.basket_id.add(basket_to_order)
-                # shopping_cart_order.basket_id.set(basket_to_order.pk)
-                # # shopping_cart_order.basket_id = basket_to_order.pk
-                # # shopping_cart_order.save()
-                # print(shopping_cart_order)
+            # print(basket_to_order.pk)
+            #
+            # # shopping_cart_order.basket_id.add(basket_to_order)
+            # shopping_cart_order.basket_id.set(basket_to_order.pk)
+            # # shopping_cart_order.basket_id = basket_to_order.pk
+            # # shopping_cart_order.save()
+            # print(shopping_cart_order)
 
 
     elif call.data == '\U0001F4D6\U0001F372\U0001F354Меню':

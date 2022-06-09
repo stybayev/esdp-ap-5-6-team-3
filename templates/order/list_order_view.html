@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+    <div class="table-responsive-md" >
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for order in orders %}
+                <tr>
+                    <th scope="row"> № заказа {{ order.shopping_cart_order.id }} - {{ order.shopping_cart_order.telegram_user_id.first_name }}</th>
+                    <td>
+                        <b>{{order.baske_to_order.product.product_name }}</b> Цена: <b>{{order.baske_to_order.product.price }}</b>
+                        количество: <b>{{order.baske_to_order.amount }}</b> Сумма <b>{{order.baske_to_order.product_total_price }}</b>
+                    </td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <div class="d-flex justify-content-center">
+        {% if is_paginated %}
+            <div>{% include 'common/pagination.html' %}</div>
+        {% endif %}
+    </div>
+
+
+{% endblock %}
+
