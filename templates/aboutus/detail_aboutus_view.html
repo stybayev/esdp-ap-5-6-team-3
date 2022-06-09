@@ -3,36 +3,23 @@
 {% load static %}
 {% block content %}
 
-    <div class="card mb-3" style="margin-top: 3%; width: 500px">
-        <div class="row g-0">
+<div class="card card_aboutus_detail">
+    <div class="card-body" style="color: #5C9900; margin-left: 5%">
+        <h5 class="card-title" style="margin: 5px auto;">О НАС</h5>
+        <p class="card-subtitle mb-2 text-muted" style="margin: 15px auto;">{{ aboutus.description }}</p>
+        <p class="card-subtitle mb-2 text-muted" style="margin: 5px auto;"> <b>Телефон: {{ aboutus.telephone_number }}</b></p>
+        <div class="detail_us_btn">
+            <a class="btn btn-outline-primary" href="{% url 'update_aboutus' aboutus.pk %}">Изменить</a>
+            <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-outline-danger">Удалить</button>
+        </div>
+    </div>
+</div>
 
-
-
-                <div class="card-body" style="color: #5C9900; margin-left: 5%">
-
-                    <h5 class="card-title">О НАС</h5>
-
-                    <p class="card-subtitle mb-2 text-muted"> <b>{{ aboutus.description }}</b></p>
-                    <p class="card-subtitle mb-2 text-muted"> <b>Телефон: {{ aboutus.telephone_number }}</b></p>
-
-
-                    <div style="display: flex; justify-content: space-between; margin-top: 5%">
-                        {#                    {% if request.user == product.author or request.user.groups.all.0.name == 'Модераторы'%}#}
-                        <a class="btn btn-outline-primary" style="margin-left: 2%" href="{% url 'update_aboutus' aboutus.pk %}">Изменить</a>
-                        {#                    {% endif %}#}
-                        {#                    {% if request.user == product.author or request.user.groups.all.0.name == 'Модераторы'%}#}
-{#                        <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-outline-danger" style="margin-right: 30%">Удалить</button>#}
-                        {#                    {% endif %}#}
-                    </div>
-
-                </div>
 
 
 
 {#            {% include 'common/delete_modal.html' with deleted_object=product%}#}
 
-        </div>
-    </div>
 
 {% endblock %}
 

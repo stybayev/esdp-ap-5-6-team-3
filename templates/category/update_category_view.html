@@ -1,6 +1,7 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% block content %}
 
-<h4>Редактирование категорий</h4>
+<h2 style="color: #82d475; margin-top: 20px;">Редактирование категорий</h2>
 <form action="{% url 'update_category' category.pk %}" method="POST" >
   {% include 'partial/category/category_form.html' with button_text='Изменить' type=True%}
 </form>

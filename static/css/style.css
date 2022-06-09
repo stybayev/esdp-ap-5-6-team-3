@@ -39,3 +39,155 @@
   text-align: center;
   border: solid 1px gray;
 }
+
+.all {
+  background-color: #BBC4D4 !important;
+}
+.button_my {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+.table{
+	width: 100%;
+	border-collapse: collapse;
+}
+.table th{
+    background-color: #E6E6FA;
+    color: black;
+}
+.table th:nth-child(odd) {
+    background: #F0FFF0;
+}
+.table-responsive{
+	overflow-x: auto;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  margin-top: 30px;
+}
+.table-responsive-2 {
+	overflow-x: auto;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  margin-top: 30px;
+}
+.table th, .table td{
+    text-align: center;
+    padding: 10px;
+}
+.table tr:nth-child(even) {
+    background: #DCDCDC;
+}
+.table tr{
+	transition: all .3s;
+}
+.table tr:hover{
+	background-color: #ccc;
+}
+.table td:not(:last-child){
+    border-right: 1px solid #ccc;
+}
+.create {
+    border-radius: 10px;
+    padding: 10px;
+}
+@media (max-width: 800px) {
+    .table-responsive table thead {
+        display: none;
+    }
+    .table-responsive table tr {
+        display: block;
+    }
+    .table-responsive table td {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+    }
+    .table-responsive table td::before {
+        content: attr(data-label);
+    }
+}
+.btn_back, .btn_add {
+  width: 200px;
+  border-radius: 15px;
+  font-size: 20px;
+}
+
+.flex_aboutus {
+  margin-top: 3%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.card_aboutus {
+  width: 500px;
+  margin-bottom: 15px;
+}
+
+.card_aboutus_detail {
+    margin-top: 3%;
+}
+
+.detail_us_btn {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 1200px) {
+    .card_aboutus {
+        width: 450px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .card_aboutus {
+        width: 700px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .btn_back, .btn_add {
+        border-radius: 10px;
+        font-size: 15px;
+        width: 170px;
+    }
+    .card_aboutus {
+        width: 600px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .btn_back, .btn_add {
+        margin: 10px auto;
+        border-radius: 10px;
+        font-size: 15px;
+        width: 170px;
+    }
+
+    .card_aboutus {
+        width: 450px;
+        font-size: 15px;
+    }
+}
+
+
+@media screen and (max-width: 320px) {
+    .btn_back, .btn_add {
+        margin: 10px auto;
+        border-radius: 10px;
+        font-size: 15px;
+        width: 170px;
+    }
+
+    .card_aboutus {
+        width: 450px;
+        font-size: 12px;
+    }
+
+    .card_aboutus_detail {
+        font-size: 15px;
+    }
+}
+
