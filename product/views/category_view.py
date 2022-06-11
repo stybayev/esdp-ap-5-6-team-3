@@ -1,15 +1,14 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
 from product.helpers import SearchView
-from product.models import Category
+from product.models import Category, Product
 from product.forms import CategoryForm, SearchForm
 from transliterate import translit
 from googletrans import Translator
 
 
 translator = Translator()
-# print(translator.translate('Яблочный сок', src='ru', dest='en').text)
 
 
 class CategoryListView(SearchView):
@@ -17,20 +16,12 @@ class CategoryListView(SearchView):
     model = Category
     ordering = ("id",)
     context_object_name = 'categories'
-    paginate_by = 10
-    paginate_orphans = 1
     search_form = SearchForm
     search_fields = {
         'category_name': 'icontains',
         'translit_category_name': 'icontains',
         'category_name_translation': 'icontains'
     }
-
-
-class CategoryDetailView(DetailView):
-    context_object_name = 'category'
-    template_name = 'category/detail_category_view.html'
-    model = Category
 
 
 class CategoryCreateView(CreateView):
@@ -64,10 +55,9 @@ class CategoryUpdateView(UpdateView):
     template_name = 'category/update_category_view.html'
     form_class = CategoryForm
     model = Category
-    success_url = 'list_category'
 
     def get_success_url(self):
-        return reverse('list_category')
+        return reverse('list_category_product', kwargs={'category': self.get_object().category_name})
 
 
 class CategoryDeleteView(DeleteView):
