@@ -36,7 +36,7 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request, *args, **kwargs):
         logout(request)
-        return redirect('list_product')
+        return redirect('list_category')
 
 
 class RegisterView(View):
@@ -70,13 +70,6 @@ class UserProfileView(DetailView):
     model = get_user_model()
     template_name = 'profile/profile.html'
     context_object_name = 'user_obj'
-
-    def get_context_data(self, **kwargs):
-
-        # reviews = self.object.reviews.order_by('-created_at')
-        # kwargs['reviews'] = reviews
-
-        return super().get_context_data(**kwargs)
 
 
 class UserProfileUpdateView(UpdateView):
