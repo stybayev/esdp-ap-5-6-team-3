@@ -1,7 +1,7 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg all">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'list_product' %}" ><img src="{% static 'images_common/food-stall.png' %}" style="width: 80px; height: 60px"></a>
+        <a class="navbar-brand" href="{% url 'list_category' %}" ><img src="{% static 'images_common/food-stall.png' %}" style="width: 80px; height: 60px"></a>
         <button class="navbar-toggler" type="button" style="border-color: gray" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"><img src="{% static 'images_common/menu.png' %}" style="width: 30px"></span>
         </button>
@@ -11,18 +11,18 @@
                     <a class="nav-link active" aria-current="page" href="#"></a>
                 </li>
                 <li class="nav-item" >
-                    <a class="nav-link active" aria-current="page" style="color: black; font-weight: bold" href="{% url 'list_product' %} ">Меню</a>
+                    <a class="nav-link active menu" aria-current="page" href="{% url 'list_category' %} ">Меню</a>
                 </li>
 
                 <li class="nav-item" >
-                    <a class="nav-link active" aria-current="page" style="color: black; font-weight: bold" href="{% url 'basket_all' %} ">Заказы</a>
+                    <a class="nav-link active menu" aria-current="page"  href="{% url 'basket_all' %} ">Заказы</a>
                 </li>
 
                 <li class="nav-item" >
-                    <a class="nav-link active" aria-current="page" style="color: black; font-weight: bold" href="{% url 'list_product' %} ">Столики</a>
+                    <a class="nav-link active menu" aria-current="page"  href="#">Столики</a>
                 </li>
                 <li class="nav-item" >
-                    <a class="nav-link active" aria-current="page" style="color: black; font-weight: bold" href="{% url 'aboutus_view' %} ">О нас</a>
+                    <a class="nav-link active menu" aria-current="page"  href="{% url 'aboutus_view' %} ">О нас</a>
                 </li>
             </ul>
             <span class="navbar-text">
@@ -31,9 +31,6 @@
                     <input style="border-radius: 20px" class="form-control me-2" value="{{ form.search.value|default:""}}" name="search" type="search" placeholder="Поиск" aria-label="Search">
                     <button style="border-radius: 17px" class="btn btn-outline-success" type="submit">Поиск</button>
                 </form>
-
-
-{#              {% endif %}#}
                     {% if not request.user.is_authenticated %}
                         <li class="nav-item">
                   <a class="nav-link"

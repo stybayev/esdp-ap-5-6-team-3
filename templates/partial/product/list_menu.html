@@ -1,7 +1,7 @@
 {% load static %}
 {% block content %}
     <div class="button_my">
-        <a class="btn" style="margin-right: 5%" href="{% url 'list_product' %}"><img style="width: 45px; height: 34px" src="{% static 'images_common/backward.png' %}" alt=""></a>
+        <a class="btn" style="margin-right: 5%" href="#"><img style="width: 45px; height: 34px" src="{% static 'images_common/backward.png' %}" alt=""></a>
         <a class="create btn btn-success btn-sm"  href="{% url 'create_product' %}">Добавить блюдо</a>
     </div>
     <div class="table-responsive">
@@ -35,9 +35,10 @@
             </tbody>
         </table>
     </div>
+
     <div class="d-flex justify-content-center">
         {% if is_paginated %}
-            <div>{% include 'common/pagination.html' %}</div>
+            {% include 'common/pagination.html' %}
         {% endif %}
     </div>
 

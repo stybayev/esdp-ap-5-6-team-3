@@ -43,6 +43,10 @@
 .all {
   background-color: #BBC4D4 !important;
 }
+.menu {
+    color: black;
+    font-weight: bold;
+}
 .button_my {
   display: flex;
   justify-content: space-between;
