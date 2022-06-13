@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render, get_object_or_404
-from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
+from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView, FormView
 from product.helpers import SearchView
 from product.forms import ProductForm, SearchForm
 from django.urls import reverse, reverse_lazy
@@ -131,10 +131,52 @@ class ProductCreateView(CreateView):
                       })
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(FormView):
     template_name = 'product/update_product_view.html'
     form_class = ProductForm
     model = Product
+
+    def cyrillic_check(self, text):
+        lower = set('абвгдеёжзийклмнопрстуфхцчшщъыьэюя')
+        return lower.intersection(text.lower()) != set()
+
+    def dispatch(self, request, *args, **kwargs):
+        self.product = self.get_object()
+        return super(ProductUpdateView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        kwargs['product'] = self.product
+        return super(ProductUpdateView, self).get_context_data(**kwargs)
+
+    def get_object(self):
+        return get_object_or_404(self.model, pk=self.kwargs.get('pk'))
+
+    def get_initial(self):
+        initial = {}
+        for key in 'product_name', 'category', 'photo', 'description', 'available', 'price':
+            initial[key] = getattr(self.product, key)
+        return initial
+
+    def form_valid(self, form):
+        translit_ru = get_translit_function('ru')
+        for key, value in form.cleaned_data.items():
+            if value is not None:
+                setattr(self.product, key, value)
+        if self.cyrillic_check(self.product.product_name) == True:
+            self.product.translit_product_name = translit_ru(self.product.product_name, reversed=True)
+            self.product.product_name_translation = translator.translate(self.product.product_name, src='ru', dest='en').text
+        elif self.cyrillic_check(self.product.product_name) == False:
+            self.product.translit_product_name = translit_ru(self.product.product_name)
+            self.product.product_name_translation = translator.translate(self.product.product_name, src='en', dest='ru').text
+        if self.cyrillic_check(self.product.description) == True:
+            self.product.translit_description = translit_ru(self.product.description, reversed=True)
+            self.product.description_translation = translator.translate(self.product.description, src='ru', dest='en').text
+        elif self.cyrillic_check(self.product.description) == False:
+            self.product.translit_description = translit_ru(self.product.description)
+            if self.product.description:
+                self.product.description_translation = translator.translate(self.product.description, src='en', dest='ru').text
+        self.product.save()
+        return super(ProductUpdateView, self).form_valid(form)
 
     def get_success_url(self):
         return reverse('detail_product', kwargs={'pk': self.get_object().pk})
