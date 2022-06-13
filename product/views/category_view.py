@@ -1,6 +1,6 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, FormView
 from product.helpers import SearchView
 from product.models import Category
 from product.forms import CategoryForm, SearchForm
@@ -60,11 +60,46 @@ class CategoryCreateView(CreateView):
                       })
 
 
-class CategoryUpdateView(UpdateView):
+class CategoryUpdateView(FormView):
     template_name = 'category/update_category_view.html'
     form_class = CategoryForm
     model = Category
     success_url = 'list_category'
+
+    def cyrillic_check(self, text):
+        lower = set('абвгдеёжзийклмнопрстуфхцчшщъыьэюя')
+        return lower.intersection(text.lower()) != set()
+
+    def dispatch(self, request, *args, **kwargs):
+        self.category = self.get_object()
+        print(super(CategoryUpdateView, self).dispatch(request, *args, **kwargs))
+        return super(CategoryUpdateView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        kwargs['category'] = self.category
+        return super(CategoryUpdateView, self).get_context_data(**kwargs)
+
+    def get_object(self):
+        return get_object_or_404(self.model, pk=self.kwargs.get('pk'))
+
+    def get_initial(self):
+        initial = {}
+        for key in 'category_name', :
+            initial[key] = getattr(self.category, key)
+        return initial
+
+    def form_valid(self, form):
+        for key, value in form.cleaned_data.items():
+            if value is not None:
+                setattr(self.category, key, value)
+        if self.cyrillic_check(self.category.category_name) == True:
+            self.category.translit_category_name = translit(self.category.category_name, language_code='ru', reversed=True)
+            self.category.category_name_translation = translator.translate(self.category.category_name, src='ru', dest='en').text
+        else:
+            self.category.translit_category_name = translit(self.category.category_name, 'ru')
+            self.category.category_name_translation = translator.translate(self.category.category_name, src='en', dest='ru').text
+        self.category.save()
+        return super(CategoryUpdateView, self).form_valid(form)
 
     def get_success_url(self):
         return reverse('list_category')
