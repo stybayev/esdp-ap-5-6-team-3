@@ -284,6 +284,14 @@ class TelegramUser(models.Model):
     vcard = models.CharField(max_length=300, null=True, blank=True, verbose_name="Электронная карта")
 
 
+class MerchantTelegramUser(models.Model):
+    user_id = models.PositiveSmallIntegerField(primary_key=True, unique=True, verbose_name="Telegram Id пользователя")
+    first_name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Имя")
+    last_name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Фамилия")
+    phone_number = models.PositiveSmallIntegerField(verbose_name="Телефон")
+    vcard = models.CharField(max_length=300, null=True, blank=True, verbose_name="Электронная карта")
+
+
 class TableReservation(models.Model):
     NEW = 'Новый'
     DONE = 'Завершен'
