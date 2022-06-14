@@ -24,15 +24,17 @@ print(time.ctime())
 time.sleep(3)
 
 # Для виртуального окружения
-# url_menu = 'http://localhost:8000/api/v1/menu/'
-# url_category = 'http://localhost:8000/api/v1/category/'
+url_menu = 'http://localhost:8000/api/v1/menu/'
+url_category = 'http://localhost:8000/api/v1/category/'
 
 # Для docker-compose
-url_menu = 'http://localhost:8080/api/v1/menu/'
-url_category = 'http://localhost:8080/api/v1/category/'
+# url_menu = 'http://localhost:8080/api/v1/menu/'
+# url_category = 'http://localhost:8080/api/v1/category/'
+
 
 response_menu = get(url_menu).json()
 response_categories = get(url_category).json()
+
 
 
 def text_basket(basket):
@@ -238,7 +240,7 @@ def callback_inline(call):
                     # ShoppingCartOrderBasketToOrder.objects.create(shopping_cart_order_id=shopping_cart_orders.pk,
                     #                                               baske_to_order_id=basket_to_orders.pk)
 
-        bot.send_message(call.message.chat.id, f"*Заказ в обработке* \n"
+        bot.send_message(call.message.chat.id, f"*Заказ №{shopping_cart_orders.id} в обработке* \n"
                                                f"_Итого общая сумма продукта:_ *{total_sum}* \n"
                                                f"_10% за обслуживание:_ *{(total_sum * 10) / 100}* \n\n"
                                                f"Итого общая сумма: *{((total_sum * 10) / 100) + total_sum}*",
@@ -247,13 +249,11 @@ def callback_inline(call):
 
             keyboard = types.InlineKeyboardMarkup()
             keyboard.add(types.InlineKeyboardButton(text=f"Перейти к заказу №{shopping_cart_orders.id}",
-                                                    url="http://127.0.0.1:8000/orders/"))
+                                                    url=f"http://127.0.0.1:8000/order/{shopping_cart_orders.id}"))
 
             merchant_bot.send_message(users.user_id, f'поступил заказ с номером *№{shopping_cart_orders.id}* \n'
                                                      f'сумма заказа *{((total_sum * 10) / 100) + total_sum}* тенге',
                                       reply_markup=keyboard, parse_mode='Markdown')
-            # # bot.send_message(users.user_id, f'поступил заказа с номером *{shopping_cart_orders.id}*', parse_mode='Markdown')
-        print(shopping_cart_orders)
 
     if call.data != '\U0001F4D6\U0001F372\U0001F354Меню':
         for menu in response_menu:

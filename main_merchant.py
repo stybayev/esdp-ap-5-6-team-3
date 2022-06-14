@@ -9,7 +9,8 @@ import telebot
 from telebot import types
 from requests import get
 import time
-from product.models import TelegramUser, MerchantTelegramUser, ShoppingCartOrderBasketToOrder, ShoppingCartOrder
+from product.models import TelegramUser, MerchantTelegramUser, ShoppingCartOrderBasketToOrder, ShoppingCartOrder, \
+    BasketToOrder
 
 merchant_key = '5474930369:AAFYwY-sfz8B8-mqT9b_oxhofE46UvBgpcA'
 client_key = '5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U'
@@ -87,29 +88,39 @@ def bot_message(m):
         # bot.send_message(m.chat.id, "Список новых заказов", reply_markup=keyboardmain)
     #
     elif m.text == 'Список Новых заказов':
-        for orders in ShoppingCartOrderBasketToOrder.objects.all():
+        for shop_cart in ShoppingCartOrder.objects.filter(status=1):
+            # for order in BasketToOrder.objects.all():
             keyboard = types.InlineKeyboardMarkup(row_width=1)
-            # new_order_1 = types.InlineKeyboardButton(text='Заказ №1', callback_data='new_order_1')
-            # new_order_2 = types.InlineKeyboardButton(text="Заказ №2", callback_data="new_order_2")
-            # new_order_3 = types.InlineKeyboardButton(text="Заказ №3", callback_data="new_order_3")
-            # new_order_4 = types.InlineKeyboardButton(text="Заказ №4", callback_data="new_order_4")
-            # new_order_5 = types.InlineKeyboardButton(text="Заказ №5", callback_data="new_order_5")
-            # new_order_6 = types.InlineKeyboardButton(text="Заказ №6", callback_data="new_order_6")
-            # new_order_7 = types.InlineKeyboardButton(text="Заказ №7", callback_data="new_order_7")
-            # new_order_8 = types.InlineKeyboardButton(text="Заказ №8", callback_data="new_order_8")
-            # keyboard.add(new_order_1, new_order_2, new_order_3, new_order_4, new_order_5, new_order_6, new_order_7,
-            #              new_order_8)
-            # merchant_bot.send_message(m.chat.id, "Список новых заказов", reply_markup=keyboard)
-            merchant_bot.send_message(m.chat.id, f"*Список новых заказов* \n"
-                                                 f"Заказ № {orders.shopping_cart_order_id} \n",
+            new_order = types.InlineKeyboardButton(text=f'Заказ №{shop_cart.id}', url=f"http://127.0.0.1:8000/order/{shop_cart.id}")
+                # new_order_2 = types.InlineKeyboardButton(text="Заказ №2", callback_data="new_order_2")
+                # new_order_3 = types.InlineKeyboardButton(text="Заказ №3", callback_data="new_order_3")
+                # new_order_4 = types.InlineKeyboardButton(text="Заказ №4", callback_data="new_order_4")
+                # new_order_5 = types.InlineKeyboardButton(text="Заказ №5", callback_data="new_order_5")
+                # new_order_6 = types.InlineKeyboardButton(text="Заказ №6", callback_data="new_order_6")
+                # new_order_7 = types.InlineKeyboardButton(text="Заказ №7", callback_data="new_order_7")
+                # new_order_8 = types.InlineKeyboardButton(text="Заказ №8", callback_data="new_order_8")
+                # keyboard.add(new_order_1, new_order_2, new_order_3, new_order_4, new_order_5, new_order_6, new_order_7,
+                #              new_order_8)
+                # merchant_bot.send_message(m.chat.id, "Список новых заказов", reply_markup=keyboard)
+                # merchant_bot.send_message(m.chat.id, f"*Список новых заказов* \n"
+                #                                      f"Заказ № {order.order.id} \n",
+                #                           reply_markup=keyboard, parse_mode="Markdown")
+                # shop_cart = ShoppingCartOrder.objects.filter(id=order.order.id, status_id=1)
+                # if ShoppingCartOrder.objects.filter(id=order.order.id, status_id=1):
+                # if shop_cart.id == order.order_id:
+            keyboard.add(new_order)
+            merchant_bot.send_message(m.chat.id, f"Заказ *№{shop_cart.id}* "
+                                                 f"*{shop_cart.telegram_user_id.first_name}* "
+                                                 f"*{shop_cart.sum_product_total_price()}*+"
+                                                 f"*{shop_cart.service_price()}%* = "
+                                                 f"итого *{shop_cart.total_sum()}* тенге"
+                                                 # f"{order.product.product_name} \n"
+                                                 # f"Цена: {order.product.price} *х* "
+                                                 # f"Кол-во: {order.amount} = "
+                                                 # f"сумма {order.product_total_price} тенге \n"
+                                                 # f"{order.telegram_user_id.first_name}"
+                                                 ,
                                       reply_markup=keyboard, parse_mode="Markdown")
-            if ShoppingCartOrder.objects.filter(id=orders.shopping_cart_order_id):
-                merchant_bot.send_message(m.chat.id, f"{orders.baske_to_order.product.product_name} \n"
-                                                     f"{orders.baske_to_order.product.price} \n"
-                                                     f"{orders.baske_to_order.amount} \n"
-                                                     f"{orders.baske_to_order.product_total_price}"
-                                                     f"{orders.baske_to_order.telegram_user_id.first_name}",
-                                          reply_markup=keyboard, parse_mode="Markdown")
 
     #
     # elif m.text == 'Заказы в процессе':
