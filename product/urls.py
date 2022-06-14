@@ -2,7 +2,7 @@ from django.urls import path
 
 from product.views.aboutus_view import AboutusCreateView, AboutusView, AboutusUpdateView, AboutusDetailView
 from product.views.basket_view import BasketProductListView, AddBasketView, SubtractBasketView, BasketListView
-from product.views.order_view import OrderListView
+from product.views.order_view import OrderListView, OrderDetailView, OrderChangeStatusView
 from product.views.review_view import ProductReviewCreateView, ProductReviewUpdateView, ProductReviewDeleteView
 
 from product.views.product_view import (ProductCreateView, ProductDetailView, ProductDeleteView,
@@ -56,6 +56,8 @@ aboutus_urls = [
 
 orders_urls = [
     path('orders/', OrderListView.as_view(), name='orders_view'),
+    path('order/<int:pk>', OrderDetailView.as_view(), name='detail_order'),
+    path('order/<int:pk>/update', OrderChangeStatusView.as_view(), name='update_status_order')
 ]
 
 urlpatterns += product_urls

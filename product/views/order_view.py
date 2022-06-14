@@ -1,12 +1,14 @@
-from product.forms import SearchForm
+from product.forms import SearchForm, ChangeOrderStatusForm
 from product.helpers import SearchView
-from product.models import ShoppingCartOrderBasketToOrder
+from product.models import ShoppingCartOrder, ShoppingCartOrderBasketToOrder, BasketToOrder
+from django.views.generic import UpdateView, DetailView
+from django.urls import reverse_lazy
 
 
 class OrderListView(SearchView):
     template_name = 'order/list_order_view.html'
-    model = ShoppingCartOrderBasketToOrder
-    ordering = ("id",)
+    model = ShoppingCartOrder
+    ordering = ("updated_at",)
     context_object_name = 'orders'
     paginate_by = 10
     paginate_orphans = 1
@@ -16,3 +18,18 @@ class OrderListView(SearchView):
         'translit_category_name': 'icontains',
         'category_name_translation': 'icontains'
     }
+
+
+class OrderDetailView(DetailView):
+    template_name = 'order/detail_order_view.html'
+    model = ShoppingCartOrder
+    context_object_name = 'order'
+
+
+class OrderChangeStatusView(UpdateView):
+    template_name = 'order/update_order_status_view.html'
+    form_class = ChangeOrderStatusForm
+    model = ShoppingCartOrder
+    context_object_name = 'order'
+    success_url = reverse_lazy('orders_view')
+

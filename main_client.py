@@ -10,7 +10,7 @@ from telebot import types
 from requests import get
 import time
 from product.models import TelegramUser, Product, Basket, Aboutus, Category, BasketToOrder, ShoppingCartOrder, \
-    ShoppingCartOrderBasketToOrder
+    ShoppingCartOrderBasketToOrder, StatusShoppingCartOrder
 
 merchant_key = '5474930369:AAFYwY-sfz8B8-mqT9b_oxhofE46UvBgpcA'
 client_key = '5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U'
@@ -23,8 +23,13 @@ merchant_bot = telebot.TeleBot(merchant_key)
 print(time.ctime())
 time.sleep(3)
 
-url_menu = 'http://localhost:8000/api/v1/menu/'
-url_category = 'http://localhost:8000/api/v1/category/'
+# Для виртуального окружения
+# url_menu = 'http://localhost:8000/api/v1/menu/'
+# url_category = 'http://localhost:8000/api/v1/category/'
+
+# Для docker-compose
+url_menu = 'http://localhost:8080/api/v1/menu/'
+url_category = 'http://localhost:8080/api/v1/category/'
 
 response_menu = get(url_menu).json()
 response_categories = get(url_category).json()
@@ -207,8 +212,12 @@ def bot_message(m):
 def callback_inline(call):
     print(call.data)
     if call.data == 'order_processing':
+        for status in StatusShoppingCartOrder.objects.all():
+            if status.status == 'Новый':
+                new_status = status
         shopping_cart_orders = ShoppingCartOrder.objects.create(
             telegram_user_id_id=call.from_user.id,
+            status=new_status
         )
         total_sum = 0
         for menu in response_menu:
@@ -220,13 +229,14 @@ def callback_inline(call):
                         telegram_user_id=basket.telegram_user_id,
                         amount=basket.amount,
                         product_total_price=basket.product_total_price,
-                        status=basket.status
+                        status=basket.status,
+                        order=shopping_cart_orders
                     )
                     basket.delete()
                     total_sum += basket.product_total_price
 
-                    ShoppingCartOrderBasketToOrder.objects.create(shopping_cart_order_id=shopping_cart_orders.pk,
-                                                                  baske_to_order_id=basket_to_orders.pk)
+                    # ShoppingCartOrderBasketToOrder.objects.create(shopping_cart_order_id=shopping_cart_orders.pk,
+                    #                                               baske_to_order_id=basket_to_orders.pk)
 
         bot.send_message(call.message.chat.id, f"*Заказ в обработке* \n"
                                                f"_Итого общая сумма продукта:_ *{total_sum}* \n"
