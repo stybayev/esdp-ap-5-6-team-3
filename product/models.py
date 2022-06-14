@@ -155,13 +155,17 @@ class BasketToOrder(models.Model):
     status = models.CharField(
         max_length=20, choices=STATUS, null=False, blank=False, default=NOTPAID, verbose_name="Статус"
     )
+    order = models.ForeignKey(
+        'product.ShoppingCartOrder', on_delete=models.CASCADE, related_name='basket_order', verbose_name='Id заказа',
+        default=1
+    )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Время создания", blank=True)
 
     def __str__(self):
         return f"{self.product}. {self.telegram_user_id}. {self.amount}. {self.product_total_price}"
 
 
-class ShoppingCartOrder(models.Model):
+class StatusShoppingCartOrder(models.Model):
     NEW = 'Новый'
     IN_PROGRESS = 'В процессе'
     DONE = 'Выполнено'
@@ -170,13 +174,25 @@ class ShoppingCartOrder(models.Model):
         (NEW, NEW), (IN_PROGRESS, IN_PROGRESS), (DONE, DONE)
     )
 
+    status = models.CharField(
+        max_length=20, choices=STATUS, null=False, blank=False, default=NEW, verbose_name="Статус")
+
+
+class ShoppingCartOrder(models.Model):
+    # NEW = 'Новый'
+    # IN_PROGRESS = 'В процессе'
+    # DONE = 'Выполнено'
+    #
+    # STATUS = (
+    #     (NEW, NEW), (IN_PROGRESS, IN_PROGRESS), (DONE, DONE)
+    # )
+
     telegram_user_id = models.ForeignKey(
         'product.TelegramUser', on_delete=models.CASCADE, related_name='telegram_users',
         verbose_name="Telegram Id пользователя"
     )
 
-    status = models.CharField(
-        max_length=20, choices=STATUS, null=False, blank=False, default=NEW, verbose_name="Статус")
+    status = models.ForeignKey('product.StatusShoppingCartOrder', on_delete=models.PROTECT, null=False, blank=False)
 
     # basket_id = models.ForeignKey(
     #     'product.BasketToOrder', on_delete=models.PROTECT, related_name='basket_to_orders', verbose_name='Id корзины'
@@ -188,6 +204,15 @@ class ShoppingCartOrder(models.Model):
 
     def __str__(self):
         return f"{self.telegram_user_id}. {self.status}"
+
+    def sum_product_total_price(self):
+        return sum(BasketToOrder.objects.filter(order=self).values_list('product_total_price', flat=True))
+
+    def service_price(self):
+        return (self.sum_product_total_price() * 10) / 100
+
+    def total_sum(self):
+        return self.service_price() + self.sum_product_total_price()
 
 
 class ShoppingCartOrderBasketToOrder(models.Model):
