@@ -1,39 +1,55 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="card"style="margin-top: 20px;">
-    <div class="card-body">
-      <h5 class="card-title">Заказ № {{ order.id }}</h5>
-      <p class="card-text"><b>Клиент:</b> {{ order.telegram_user_id.first_name }} {{ order.shopping_cart_order.telegram_user_id.last_name }}</p>
-      <p class="card-text"><b>Статус:</b> {{ order.status.status }}</p>
-      <p class="card-text"><b>Дата заказа:</b> {{ order.updated_at|date:'d F Y' }}</p>
-      <p class="card-text"><b>Время заказа:</b> {{ order.updated_at|date:'G:i' }}</p>
-      <a href="{% url 'update_status_order' order.id %}" class="btn btn-primary">Поменять статус</a>
-      <a href="{% url 'orders_view' %}" class="btn btn-primary">Назад</a>
+    <div class="card"style="margin-top: 20px;">
+        <div class="card-body">
+            <h5 class="card-title">Заказ № {{ order.id }}</h5>
+            <p class="card-text"><b>Клиент:</b> {{ order.telegram_user_id.first_name }} {{ order.shopping_cart_order.telegram_user_id.last_name }}</p>
+            <p class="card-text"><b>Статус:</b> {{ order.status.status }}</p>
+            <p class="card-text"><b>Дата заказа:</b> {{ order.updated_at|date:'d F Y' }}</p>
+            <p class="card-text"><b>Время заказа:</b> {{ order.updated_at|date:'G:i' }}</p>
+            <a href="{% url 'update_status_order' order.id %}" class="btn btn-primary">Поменять статус</a>
+            <a href="{% url 'orders_view' %}" class="btn btn-primary">Назад</a>
+        </div>
     </div>
-  </div>
-  <h3>Детали заказа</h3>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Блюдо</th>
-        <th scope="col">Количество</th>
-        <th scope="col">Цена</th>
-        <th scope="col">Сумма</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for basket_order in order.basket_order.all %}
+    <h3>Детали заказа</h3>
+    <table class="table">
+        <thead>
         <tr>
-          <td>{{ basket_order.product.product_name }}</td>
-          <td>{{ basket_order.amount }}</td>
-          <td>{{ basket_order.product.price }}</td>
-          <td>{{ basket_order.product_total_price }}</td>
+            <th scope="col">Блюдо</th>
+            <th scope="col">Количество</th>
+            <th scope="col">Цена</th>
+            <th scope="col">Сумма</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <div class="total">
+        </thead>
+        <tbody>
+        {% for basket_order in order.basket_order.all %}
+            <tr>
+                <td>{{ basket_order.product.product_name }}</td>
+                <td>{{ basket_order.amount }}</td>
+                <td>{{ basket_order.product.price }}</td>
+                <td>{{ basket_order.product_total_price }}</td>
+
+                <td style="display: flex">
+                    {% if order.status_id == 1 %}
+                        <form style="margin-right: 6%" action="{% url 'add_basket' basket_order.product.pk %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="order" id="order" value="{{ basket_order.order.id }}">
+                            <input class="btn btn-success" value="+" type="submit">
+                        </form>
+                        <input readonly style="width: 22px; border: none; text-align: center;" type="text" value="{{ basket_order.amount|default:0 }}">
+                        <form style="margin-left: 6%" action="{% url 'subtract_basket' basket_order.product.pk %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="order" id="order" value="{{ basket_order.order.id }}">
+                            <input class="btn btn-success" value="-" type="submit">
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="total">
         <p><b>Итого общая сумма продукта:</b> {{ order.sum_product_total_price }}</p>
         <p><b>10% за обслуживание:</b> {{ order.service_price }}</p>
         <p><b>Итого общая сумма:</b> {{ order.total_sum }}</p>
