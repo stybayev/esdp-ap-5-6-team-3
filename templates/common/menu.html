@@ -29,25 +29,29 @@
                 <ul class="navbar-nav" >
               <form class="d-flex" method="get">
                     <input style="border-radius: 20px" class="form-control me-2" value="{{ form.search.value|default:""}}" name="search" type="search" placeholder="Поиск" aria-label="Search">
-                    <button style="border-radius: 17px" class="btn btn-outline-success" type="submit">Поиск</button>
+                    <button
+                            style="border-radius: 17px; color: white; border-style: solid; border-color: white; border-width: 1px"
+                            class="btn " type="submit">
+                        Поиск
+                    </button>
                 </form>
                     {% if not request.user.is_authenticated %}
                         <li class="nav-item">
                   <a class="nav-link"
-                     aria-current="page" style="color: black; font-weight: bold; margin-top: 7px"
+                     aria-current="page" style="color: white; font-weight: bold; margin-top: 7px"
                      href="{% url 'login' %}"
                   >Войти</a>
                 </li>
                     {% else %}
                         <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}"><img style="width: 35px; height: 35px; padding-top: 7px; margin-left: 4px" src="{% static 'images_common/327.png' %}" alt=""></a>
+                        <a class="nav-link" href="{% url 'logout' %}"><img style="width: 35px; height: 35px; padding-top: 7px; margin-left: 4px" src="{% static 'images_common/logout.png' %}" alt=""></a>
                       </li>
                     {% endif %}
 
                     <li class="nav-item">
                     {% if user.is_authenticated %}
                         <a class="nav-link"
-                           href="{% url 'profile' request.user.pk %}"><img style="width: 35px; height: 35px" src="{% static 'images_common/person.svg' %}" alt=""
+                           href="{% url 'profile' request.user.pk %}"><img style="width: 35px; height: 35px" src="{% static 'images_common/user.png' %}" alt=""
                                                                            class="d-inline-block align-text-top icons"></a>
                     {% endif %}
                 </li>
