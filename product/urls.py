@@ -53,7 +53,7 @@ aboutus_urls = [
 
 
 orders_urls = [
-    path('orders/', OrderListView.as_view(), name='orders_view'),
+    path('', OrderListView.as_view(), name='orders_view'),
     path('order/<int:pk>', OrderDetailView.as_view(), name='detail_order'),
     path('order/<int:pk>/update', OrderChangeStatusView.as_view(), name='update_status_order')
 ]
