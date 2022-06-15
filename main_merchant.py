@@ -46,9 +46,10 @@ def start(m):
 
     if MerchantTelegramUser.objects.filter(user_id=m.from_user.id):
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in ['Новые заказы', 'Заказы в процессе']])
-        keyboard.add(
-            *[types.KeyboardButton(bot_message) for bot_message in ['Выполненные заказы', 'Перейти в админ-панель']])
+        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in ['Новые заказы']])
+        # keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in ['Новые заказы', 'Заказы в процессе']])
+        # keyboard.add(
+        #     *[types.KeyboardButton(bot_message) for bot_message in ['Выполненные заказы', 'Перейти в админ-панель']])
 
         merchant_bot.send_message(m.chat.id, f'Приветствую Вас *{m.from_user.first_name}*!',
                                   reply_markup=keyboard, parse_mode="Markdown")
