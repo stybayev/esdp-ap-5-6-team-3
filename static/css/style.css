@@ -1,3 +1,4 @@
+body {}
 .pagination {
   text-align: center;
 }
@@ -39,46 +40,84 @@
   text-align: center;
   border: solid 1px gray;
 }
-
+.category {
+    margin-top: 30px;
+    display: flex;
+}
+.name {
+    display: flex;
+    color: #6c757d;
+}
+.box {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+.image {
+    width: 50%;
+}
+.body-card {
+    width: 50%;
+}
 .all {
-  background-color: #BBC4D4 !important;
+  background-color: #2ec4b6;
+}
+.my-btn {
+    background-color: #ffbf69;
+    border-style: none;
+}
+.btn-2 {
+    background-color: #ff9f1c;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
 }
 .menu {
-    color: black;
+    color: #ffffff;
     font-weight: bold;
+}
+.menu:hover {
+    color: #ffbf69;
 }
 .button_my {
   display: flex;
   justify-content: space-between;
   margin-top: 30px;
 }
+.title_dish {
+    margin-top: 20px;
+    text-align: center;
+    color: #6c757d;
+}
 .table{
 	width: 100%;
 	border-collapse: collapse;
 }
 .table th{
-    background-color: #E6E6FA;
-    color: black;
+    background-color: #2ec4b6;
+    color: white;
 }
 .table th:nth-child(odd) {
-    background: #F0FFF0;
+
 }
 .table-responsive{
 	overflow-x: auto;
 	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   margin-top: 30px;
+    border-radius: 10px;
 }
 .table-responsive-2 {
 	overflow-x: auto;
 	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   margin-top: 30px;
+    border-radius: 10px;
 }
 .table th, .table td{
     text-align: center;
     padding: 10px;
 }
 .table tr:nth-child(even) {
-    background: #DCDCDC;
+    background: #e9ecef;
 }
 .table tr{
 	transition: all .3s;
@@ -107,6 +146,18 @@
     }
     .table-responsive table td::before {
         content: attr(data-label);
+    }
+    .box {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .image {
+        margin-top: 20px;
+        width: 100%;
+    }
+    .body-card {
+        margin-top: 20px;
+        width: 100%;
     }
 }
 .btn_back, .btn_add {
