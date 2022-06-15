@@ -290,6 +290,136 @@
   }
 },
 {
+  "model": "product.baskettoorder",
+  "pk": 1,
+  "fields": {
+    "product": 1,
+    "telegram_user_id": 431132059,
+    "amount": 3,
+    "product_total_price": 1500,
+    "status": "Не оплачено",
+    "order": 1,
+    "created_at": "2022-06-13T19:26:52.980Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 2,
+  "fields": {
+    "product": 3,
+    "telegram_user_id": 431132059,
+    "amount": 2,
+    "product_total_price": 800,
+    "status": "Не оплачено",
+    "order": 1,
+    "created_at": "2022-06-13T19:26:53.029Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 3,
+  "fields": {
+    "product": 4,
+    "telegram_user_id": 431132059,
+    "amount": 2,
+    "product_total_price": 1600,
+    "status": "Не оплачено",
+    "order": 1,
+    "created_at": "2022-06-13T19:26:53.053Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 4,
+  "fields": {
+    "product": 6,
+    "telegram_user_id": 431132059,
+    "amount": 1,
+    "product_total_price": 500,
+    "status": "Не оплачено",
+    "order": 1,
+    "created_at": "2022-06-13T19:26:53.094Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 5,
+  "fields": {
+    "product": 7,
+    "telegram_user_id": 431132059,
+    "amount": 1,
+    "product_total_price": 600,
+    "status": "Не оплачено",
+    "order": 1,
+    "created_at": "2022-06-13T19:26:53.116Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 6,
+  "fields": {
+    "product": 3,
+    "telegram_user_id": 431132059,
+    "amount": 2,
+    "product_total_price": 800,
+    "status": "Не оплачено",
+    "order": 2,
+    "created_at": "2022-06-13T20:01:29.373Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 7,
+  "fields": {
+    "product": 9,
+    "telegram_user_id": 431132059,
+    "amount": 2,
+    "product_total_price": 200,
+    "status": "Не оплачено",
+    "order": 2,
+    "created_at": "2022-06-13T20:01:29.418Z"
+  }
+},
+{
+  "model": "product.statusshoppingcartorder",
+  "pk": 1,
+  "fields": {
+    "status": "Новый"
+  }
+},
+{
+  "model": "product.statusshoppingcartorder",
+  "pk": 2,
+  "fields": {
+    "status": "В процессе"
+  }
+},
+{
+  "model": "product.statusshoppingcartorder",
+  "pk": 3,
+  "fields": {
+    "status": "Выполнено"
+  }
+},
+{
+  "model": "product.shoppingcartorder",
+  "pk": 1,
+  "fields": {
+    "telegram_user_id": 431132059,
+    "status": 1,
+    "updated_at": "2022-06-14T06:58:03.830Z"
+  }
+},
+{
+  "model": "product.shoppingcartorder",
+  "pk": 2,
+  "fields": {
+    "telegram_user_id": 431132059,
+    "status": 2,
+    "updated_at": "2022-06-14T06:19:43.186Z"
+  }
+},
+{
   "model": "product.telegramuser",
   "pk": 431132059,
   "fields": {

@@ -2,37 +2,75 @@
 
 {% load static %}
 {% block content %}
+    <ul id="tabs" style="margin-top: 20px;">
+        <li><a href="#" name="tab1">Новые заказы</a></li>
+        <li><a href="#" name="tab2">Заказы в процессе</a></li>
+        <li><a href="#" name="tab3">Выполненные заказы</a></li>
+        <li><a href="#" name="tab4">Все</a></li>
+    </ul>
 
-    <div class="table-responsive-md" >
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Название</th>
-                <th scope="col">Действие</th>
-            </tr>
-            </thead>
-            <tbody>
-
+    <div id="content" >
+        <div id="tab1" class="row">
             {% for order in orders %}
-                <tr>
-                    <th scope="row"> № заказа {{ order.shopping_cart_order.id }} - {{ order.shopping_cart_order.telegram_user_id.first_name }}</th>
-                    <td>
-                        <b>{{order.baske_to_order.product.product_name }}</b> Цена: <b>{{order.baske_to_order.product.price }}</b>
-                        количество: <b>{{order.baske_to_order.amount }}</b> Сумма <b>{{order.baske_to_order.product_total_price }}</b>
-                    </td>
-                </tr>
-
+                {% if order.status.status == "Новый" %}
+                    <div class="card" style="width: 18rem; margin: 10px;">
+                      <div class="card-body">
+                        <h5 class="card-title">Заказ № {{ order.id}}</h5>
+                        <p class="card-text"><b>Статус:</b> {{ order.status.status }}</p>
+                        <p class="card-text"><b>Дата заказа:</b> {{ order.updated_at|date:'d F Y' }}</p>
+                        <p class="card-text"><b>Время заказа:</b> {{ order.updated_at|date:'G:i' }}</p>
+                        <a href="{% url 'detail_order' order.id %}" class="btn btn-primary">Подробнее</a>
+                      </div>
+                    </div>
+                {% endif %}
             {% endfor %}
-            </tbody>
-        </table>
-    </div>
+        </div>
 
+        <div id="tab2" class="row">
+            {% for order in orders %}
+                {% if order.status.status == "В процессе" %}
+                    <div class="card" style="width: 18rem; margin: 10px;">
+                      <div class="card-body">
+                        <h5 class="card-title">Заказ № {{ order.id}}</h5>
+                        <p class="card-text"><b>Статус:</b> {{ order.status.status }}</p>
+                        <p class="card-text"><b>Дата заказа:</b> {{ order.updated_at|date:'d F Y' }}</p>
+                        <p class="card-text"><b>Время заказа:</b> {{ order.updated_at|date:'G:i' }}</p>
+                        <a href="{% url 'detail_order' order.id %}" class="btn btn-primary">Подробнее</a>
+                      </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
 
+        <div id="tab3" class="row">
+            {% for order in orders %}
+                {% if order.status.status == "Выполнено" %}
+                    <div class="card" style="width: 18rem; margin: 10px;">
+                      <div class="card-body">
+                        <h5 class="card-title">Заказ № {{ order.id}}</h5>
+                        <p class="card-text"><b>Статус:</b> {{ order.status.status }}</p>
+                        <p class="card-text"><b>Дата заказа:</b> {{ order.updated_at|date:'d F Y' }}</p>
+                        <p class="card-text"><b>Время заказа:</b> {{ order.updated_at|date:'G:i' }}</p>
+                        <a href="{% url 'detail_order' order.id %}" class="btn btn-primary">Подробнее</a>
+                      </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
 
-    <div class="d-flex justify-content-center">
-        {% if is_paginated %}
-            <div>{% include 'common/pagination.html' %}</div>
-        {% endif %}
+        <div id="tab4" class="row">
+            {% for order in orders %}
+                <div class="card" style="width: 18rem; margin: 10px;">
+                  <div class="card-body">
+                    <h5 class="card-title">Заказ № {{ order.id}}</h5>
+                    <p class="card-text"><b>Статус:</b> {{ order.status.status }}</p>
+                    <p class="card-text"><b>Дата заказа:</b> {{ order.updated_at|date:'d F Y' }}</p>
+                    <p class="card-text"><b>Время заказа:</b> {{ order.updated_at|date:'G:i' }}</p>
+                    <a href="{% url 'detail_order' order.id %}" class="btn btn-primary">Подробнее</a>
+                  </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
 
