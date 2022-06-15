@@ -3,8 +3,7 @@
 {% load static %}
 {% block content %}
     <div style="margin-top: 3%">
-        <a class="btn btn-secondary btn-lg btn_back" style="margin-right: 5%;" href="#"><< Назад </a>
-        <a class="btn btn-success btn-lg btn_add" href="{% url 'create_aboutus' %}">Добавить "О нас"</a>
+        <a class="btn btn-2 btn-sm" href="{% url 'create_aboutus' %}">Добавить "О нас"</a>
     </div>
 
     <div class="flex_aboutus">
@@ -14,9 +13,7 @@
                     <h5 class="card-title" style="margin: 5px auto;">О НАС</h5>
                     <p class="card-subtitle mb-2 text-muted" style="margin: 15px auto;">{{ about.description }}</p>
                     <p class="card-subtitle mb-2 text-muted" style="margin: 5px auto;"> <b>Телефон: {{ about.telephone_number }}</b></p>
-
                     <div style="display: flex; justify-content: space-between; margin-top: 5%">
-<!--                                                <a class="btn btn-outline-primary" href="{% url 'update_aboutus' about.pk %}">Редактировать</a>-->
                         <a class="btn btn-outline-primary" href="{% url 'detail_aboutus' about.pk %}">Подробнее...</a>
                     </div>
             </div>
