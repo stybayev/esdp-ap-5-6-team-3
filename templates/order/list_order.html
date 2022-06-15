@@ -1,0 +1,36 @@
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Заказ</th>
+            <th>Статус</th>
+            <th>Дата заказа</th>
+            <th>Время заказа</th>
+            <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            {% if order.status.status == name_status %}
+                <tr>
+                    <td data-label="Заказ №">
+                        {{ order.id }}
+                    </td>
+                    <td data-label="Статус">
+                        {{ order.status.status }}
+                    </td>
+                    <td data-label="Дата заказа">
+                        {{ order.updated_at|date:'d F Y' }}
+                    </td>
+                    <td data-label="Время заказа">
+                        {{ order.updated_at|date:'G:i' }}
+                    </td>
+                    <td data-label="Действие">
+                        <a href="{% url 'detail_order' order.id %}" class="btn btn-2 btn-sm">Подробнее</a>
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
