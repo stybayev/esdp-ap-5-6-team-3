@@ -1,12 +1,26 @@
-
-
-
 {% csrf_token %}
 
+<div class="form-group text-muted" style="display: flex; flex-direction: column; ">
+    <label style="font-size: 20px; margin-bottom: 10px; font-weight: bolder;">{{ form.product_name.label }}:</label>
+    <p style="margin-bottom: 20px;">{{ form.product_name }}</p>
 
-<div class="form-group" style="display: flex; flex-direction: column; ">
-{{ form }}
+    <label style="font-size: 20px; margin-bottom: 10px; font-weight: bolder;">{{ form.category.label }}:</label>
+    <p style="margin-bottom: 20px;">{{ form.category }}</p>
+
+    <label style="font-size: 20px; margin-bottom: 10px; font-weight: bolder;">{{ form.photo.label }}:</label>
+    <input id="id_photo" type="file" name="photo" value="{{form.photo.value}}">
+
+    <label style="font-size: 20px; margin-bottom: 10px; margin-top: 20px; font-weight: bolder;">{{ form.description.label }}:</label>
+    <textarea  style="box-shadow: 3px 4px 5px 6px #d7d7d7;" required cols="40" rows="10" class="form-control" id="description" name="description" placeholder="Добавьте описание">{{ form.description.value|default:'' }}</textarea>
+
+    <label style="font-size: 20px; margin-bottom: 10px; margin-top: 20px; font-weight: bolder;">{{ form.available.label }}:</label>
+    <p style="margin-bottom: 20px;">{{ form.available }}</p>
+
+    <label style="font-size: 20px; margin-bottom: 10px; font-weight: bolder;">{{ form.price.label }}:</label>
+    <input style="margin-bottom: 20px;" id="id_price" type="number" name="price" value="{{form.price.value}}">
 
 </div>
-<button style="margin-top: 2%" class="btn btn-sm btn-primary" type="submit">{{ button_text }}</button>
+<button class="btn btn-outline-primary" type="submit">{{ button_text }}</button>
+
+
 

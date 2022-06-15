@@ -1,43 +1,34 @@
 {% extends 'base.html' %}
-
 {% load static %}
 {% block content %}
-    <div>
-        <a class="btn btn-primary btn-lg" style="margin-top: 3%" href="{% url 'create_category' %}">Добавить категорий</a>
+    <div class="button_my">
+        <a class="create btn btn-2 btn-sm" href="{% url 'create_category' %}">Добавить категорию</a>
     </div>
 
-    <div class="table-responsive-md" >
+    <div class="table-responsive-2" >
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">Название</th>
-                <th scope="col">Действие</th>
+                <th >Категория</th>
+                <th >Действия</th>
             </tr>
             </thead>
             <tbody>
             <tr>
                 {% for category in categories %}
-                    <th scope="row">№{{ category.id }} - <a href="{% url 'list_category_product' category %}">{{ category.category_name }}</a></th>
-                    <td>
-                        <a href="{% url 'update_category' category.pk %}" class="btn btn-outline-primary">Изменить</a>
-                        <a href="{% url 'detail_category' category.pk %}" class="btn btn-outline-danger">Удалить</a>
+                    <td scope="row">
+                        <a style="text-decoration: none; color: #6c757d" href="{% url 'list_category_product' category %}">{{ category.category_name }}</a>
+                    </td>
+                    <td scope="row">
+                        <a href="{% url 'list_category_product' category %}">
+                            <button class="btn btn-sm my-btn" style="color: white">Список блюд - <b>{{ category.products_count }}шт</b></button>
+                        </a>
+
                     </td>
                     </tr>
-                {% empty %}
-                    <h2>категорий не найдены</h2>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 
-
-
-    <div class="d-flex justify-content-center">
-        {% if is_paginated %}
-            <div>{% include 'common/pagination.html' %}</div>
-        {% endif %}
-    </div>
-
-
 {% endblock %}
-

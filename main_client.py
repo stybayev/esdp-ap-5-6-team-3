@@ -1,6 +1,7 @@
 import django
 import os
 from django.shortcuts import get_object_or_404
+
 from telegram import InputFile
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings'

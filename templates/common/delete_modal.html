@@ -1,7 +1,3 @@
-<!-- Button trigger modal -->
-
-
-<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -10,11 +6,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-            Вы действиткльно хотите удалить {{ deleted_object }}?
+            Вы действительно хотите удалить объект?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-        <form action="{% url 'delete_product' deleted_object.pk %}" method="POST">
+        <form action="{% url view deleted_object.pk %}" method="POST">
             {% csrf_token %}
             <input type="submit" class="btn btn-danger" data-bs-dismiss="modal" value="Подтвердить">
         </form>

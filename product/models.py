@@ -30,6 +30,7 @@ class Entity(models.Model):
     class Meta:
         abstract = True
 
+
 class Aboutus(models.Model):
     description = models.CharField(max_length=500, verbose_name="О Нас")
     telephone_number = models.PositiveIntegerField(verbose_name="Телефон компании")
@@ -69,12 +70,6 @@ class Product(Entity):
                               verbose_name='Фото блюда',
                               )
     description = models.TextField(max_length=3000, null=True, blank=True, verbose_name="Описание блюда")
-    # author = models.ForeignKey(get_user_model(),
-    #                            on_delete=models.SET_DEFAULT,
-    #                            default=1,
-    #                            related_name='products',
-    #                            verbose_name='Автор'
-    #                            )
     price = models.PositiveIntegerField(null=False, blank=False, default=0, verbose_name="Цена")
     available = models.CharField(null=False, blank=False, choices=STATUS, verbose_name='наличие', default="есть",
                                  max_length=20)
@@ -194,12 +189,6 @@ class ShoppingCartOrder(models.Model):
 
     status = models.ForeignKey('product.StatusShoppingCartOrder', on_delete=models.PROTECT, null=False, blank=False)
 
-    # basket_id = models.ForeignKey(
-    #     'product.BasketToOrder', on_delete=models.PROTECT, related_name='basket_to_orders', verbose_name='Id корзины'
-    # )
-
-    # basket_id = models.ManyToManyField('product.BasketToOrder', related_name='basket_to_orders',
-    #                                    blank=True, verbose_name='Id корзины')
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Время изменения", blank=True)
 
     def __str__(self):
@@ -256,16 +245,6 @@ class Order(models.Model):
         related_name='orders', verbose_name='Id корзины'
     )
 
-    # status = models.ForeignKey(
-    #     'product.OrderStatus', on_delete=models.PROTECT, null=False, blank=False,
-    #     related_name='orders', verbose_name="Статус"
-    # )
-
-    # payment_way = models.ForeignKey(
-    #     'product.PaymentWay', on_delete=models.PROTECT, null=False, blank=False,
-    #     related_name='orders', verbose_name="Способ оплаты"
-    # )
-
     def __str__(self):
         return f"{self.phone_number}. {self.comment}. {self.telegram_user_id}. {self.status}. {self.payment_way}"
 
@@ -280,26 +259,6 @@ class Review(models.Model):
     def __str__(self):
         return f"{self.review}. {self.order_id}"
 
-
-# class Review(Entity):
-#     product = models.ForeignKey('product.Product',
-#                                 related_name='reviews',
-#                                 on_delete=models.CASCADE,
-#                                 verbose_name='Продукт')
-#     text = models.TextField(max_length=400,
-#                             verbose_name='Отзыв', null=False, blank=False)
-#     author = models.ForeignKey(
-#         get_user_model(),
-#         on_delete=models.SET_DEFAULT,
-#         related_name='reviews',
-#         default=1,
-#         verbose_name='Автор'
-#     )
-#     evaluation = models.PositiveIntegerField(null=False, blank=False,
-#                                              validators=[MinValueValidator(1), MaxValueValidator(5)])
-#
-#     def __str__(self):
-#         return self.text[:20]
 
 class TelegramUser(models.Model):
     user_id = models.PositiveSmallIntegerField(primary_key=True, unique=True, verbose_name="Telegram Id пользователя")

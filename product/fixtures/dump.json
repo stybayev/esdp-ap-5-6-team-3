@@ -68,6 +68,20 @@
     "translit_description": "Цоца Цола Цоца Цола",
     "product_name_translation": "Кока-Кола",
     "description_translation": "Coca Cola Coca Cola"
+  "pk": 6,
+  "fields": {
+    "created_at": "2022-06-02T08:57:28.838Z",
+    "is_deleted": false,
+    "product_name": "Цезарь",
+    "category": 3,
+    "photo": "menu_photo/6.jpg",
+    "description": "Цезарь Цезарь",
+    "price": 500,
+    "available": "Есть",
+    "translit_product_name": "Tsezar'",
+    "translit_description": "Tsezar' Tsezar'",
+    "product_name_translation": "Caesar",
+    "description_translation": "Caesar Caesar"
   }
 },
 {
@@ -86,6 +100,20 @@
     "translit_description": "Moloko Moloko",
     "product_name_translation": "Milk",
     "description_translation": "Milk milk"
+  "pk": 7,
+  "fields": {
+    "created_at": "2022-06-02T08:58:25.896Z",
+    "is_deleted": false,
+    "product_name": "Свежий салат",
+    "category": 3,
+    "photo": "menu_photo/7.jpg",
+    "description": "Свежий салат Свежий салат",
+    "price": 600,
+    "available": "Есть",
+    "translit_product_name": "Svezhij salat",
+    "translit_description": "Svezhij salat Svezhij salat",
+    "product_name_translation": "Fresh salad",
+    "description_translation": "Fresh salad fresh salad"
   }
 },
 {
@@ -162,6 +190,56 @@
 },
 {
   "model": "product.product",
+  "pk": 9,
+  "fields": {
+    "created_at": "2022-06-06T13:27:15.878Z",
+    "is_deleted": false,
+    "product_name": "Сок",
+    "category": 1,
+    "photo": "menu_photo/11_PwCZTf7.jpg",
+    "description": "",
+    "price": 100,
+    "available": "Есть",
+    "translit_product_name": "Sok",
+    "translit_description": "",
+    "product_name_translation": "Juice",
+    "description_translation": null
+  }
+},
+{
+  "model": "product.basket",
+  "pk": 244,
+  "fields": {
+    "product": 5,
+    "telegram_user_id": 717825368,
+    "amount": 1,
+    "product_total_price": 900,
+    "status": "Не оплачено"
+  }
+},
+{
+  "model": "product.basket",
+  "pk": 245,
+  "fields": {
+    "product": 7,
+    "telegram_user_id": 717825368,
+    "amount": 2,
+    "product_total_price": 1200,
+    "status": "Не оплачено"
+  }
+},
+  {
+    "model": "product.basket",
+    "pk": 256,
+    "fields": {
+      "product": 3,
+      "telegram_user_id": 1198799862,
+      "amount": 2,
+      "product_total_price": 800,
+      "status": "Не оплачено"
+    }
+  },
+  {
   "pk": 9,
   "fields": {
     "created_at": "2022-06-06T13:27:15.878Z",

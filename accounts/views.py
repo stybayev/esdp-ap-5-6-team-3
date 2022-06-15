@@ -1,16 +1,11 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, reverse
-
-from django.db.models import Q
 from django.views.generic import DetailView, UpdateView
 from accounts.forms import (UserCreationForm,
                             ProfileCreateForm,
                             UserChangeForm, ProfileChangeForm,
                             PasswordChangeForm, )
-
-# Create your views here.
 from django.views import View
 
 from accounts.models import Profile
@@ -41,7 +36,7 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request, *args, **kwargs):
         logout(request)
-        return redirect('/accounts/login/')
+        return redirect('list_category')
 
 
 class RegisterView(View):
@@ -75,13 +70,6 @@ class UserProfileView(DetailView):
     model = get_user_model()
     template_name = 'profile/profile.html'
     context_object_name = 'user_obj'
-
-    def get_context_data(self, **kwargs):
-
-        # reviews = self.object.reviews.order_by('-created_at')
-        # kwargs['reviews'] = reviews
-
-        return super().get_context_data(**kwargs)
 
 
 class UserProfileUpdateView(UpdateView):

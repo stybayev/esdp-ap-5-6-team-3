@@ -25,8 +25,7 @@
                                 {% if request.user.id == user_obj.id %}
                                     <a href="{% url 'update_profile' %}" class="btn btn-outline-dark">Редактировать
                                         профиль</a>
-                                    <a href="{% url 'logout' %}"><img src="{% static 'images_common/327.png' %}" alt=""></a>
-
+                                    <a href="{% url 'logout' %}"><img src="{% static 'images_common/logout.png' %}" alt=""></a>
                                 {% endif %}
                             </div>
                         </div>

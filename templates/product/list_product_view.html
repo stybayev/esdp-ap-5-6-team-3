@@ -1,5 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {% load static %}
+        <div class="category">
+           <div class="name">
+               <p style="padding-right: 20px; font-size: 25px">Категория:</p>
+               <p style="font-size: 25px; padding-right: 10px">{{ category.category_name }}</p>
+           </div>
+            <div style="margin-top: 5px">
+                <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn" style="padding: 0"><img style="width: 30px; height: 25px" src="{% static 'images_common/delete.png' %}" alt=""></button>
+            <a class="btn" href="{% url 'update_category' category.pk %}" role="button" style="padding: 0"><img style="width: 30px; height: 25px" src="{% static 'images_common/edit.png' %}" alt=""></a>
+            </div>
+        </div>
+    <h2 class="title_dish">Список блюд</h2>
     {% include 'partial/product/list_menu.html' %}
+    {% include 'common/delete_modal.html' with deleted_object=category view="delete_category" %}
 {% endblock %}

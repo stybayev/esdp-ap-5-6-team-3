@@ -1,58 +1,32 @@
-
 {% extends 'base.html' %}
-{% load static %}
 {% block content %}
-
-    <div class="card mb-3" style="margin-top: 3%">
-        <div class="row g-0">
-
-            <div class="col-md-6" >
+    {% load static %}
+    <div style="margin-top: 30px">
+    <a class="btn" style="margin-right: 5%" href="{% url 'list_category_product' product.category %}"><img style="width: 45px; height: 34px" src="{% static 'images_common/backward.png' %}" alt=""></a>
+    </div>
+    <div style="margin-top: 3%">
+        <div class="box">
+            <div class="image">
                 {% if product.photo %}
-                    <img src="{{ product.photo.url|default:'uploads/products/no_image' }}" class="img-fluid rounded-start"  alt="...">
+                    <img src="{{ product.photo.url}}" alt="" width="100%" height="370px">
                 {% else %}
-                    <img src="{% static 'images_common/no_image.jpg' %}" alt="">
+                    <img src="{% static 'images_common/no_image.jpg' %}" alt="" width="100%" height="370px">
                 {% endif %}
             </div>
-
-            <div class="col-md-6">
-                <div class="card-body" style="color: #5C9900; margin-left: 5%">
-                    {#                        <a class="mr-2"#}
-                    {#                 href="{% url 'profile' product.author.pk %}">{{ product.author }}#}
-                    {#              </a>#}
-                    <h5 class="card-title">№{{ product.id }} {{ product.product_name }}</h5>
-                    <p class="card-subtitle mb-2 text-muted">Цена: <span style="font-weight: bold">{{ product.price }}</span> тенге</p>
-                    <p class="card-subtitle mb-2 text-muted">Наличие: <b>{{ product.available }}</b></p>
-                    <p class="card-subtitle mb-2 text-muted">Категория: <b>{{ product.category }}</b></p>
-                    <p class="card-subtitle mb-2 text-muted">Описание: <b>{{ product.description }}</b></p>
-                    <h6 class="card-subtitle mb-2 text-muted" style="margin-top: 10px;">Средняя оценка: {{ product_avg_evaluation.evaluation__avg|default:0 }}</h6>
-                    <div style="display: flex; justify-content: space-between; margin-top: 5%">
-                        {#                    {% if request.user == product.author or request.user.groups.all.0.name == 'Модераторы'%}#}
-                        <a class="btn btn-outline-primary" style="margin-left: 2%" href="{% url 'update_product' product.pk %}">Изменить</a>
-                        {#                    {% endif %}#}
-                        {#                    {% if request.user == product.author or request.user.groups.all.0.name == 'Модераторы'%}#}
-                        <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-outline-danger" style="margin-right: 30%">Удалить</button>
-                        {#                    {% endif %}#}
-                    </div>
-
+            <div class="body-card" style="color: #5C9900; margin-left: 5%">
+                <h5 class="card-title" style="color: #de8113; ">№{{ product.id }} {{ product.product_name }}</h5>
+                <p class="card-subtitle mb-2 text-muted">Цена: <span style="font-weight: bold">{{ product.price }}</span> тенге</p>
+                <p class="card-subtitle mb-2 text-muted">Наличие: <b>{{ product.available }}</b></p>
+                <p class="card-subtitle mb-2 text-muted">Категория: <b>{{ product.category }}</b></p>
+                <p class="card-subtitle mb-2 text-muted">Описание: <b>{{ product.description }}</b></p>
+                <h6 class="card-subtitle mb-2 text-muted" style="margin-top: 10px;">Средняя оценка: {{ product_avg_evaluation.evaluation__avg|default:0 }}</h6>
+                <div style="display: flex; justify-content: space-between; margin-top: 5%">
+                    <a class="btn btn-outline-primary" href="{% url 'update_product' product.pk %}">Изменить</a>
+                    <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-outline-danger" style="margin-right: 30%">Удалить</button>
                 </div>
-
             </div>
-            <div style="width: 50%;">
-                {% if request.user.is_authenticated  %}
-                    <form action="{% url 'create_review' product.pk %}" method="POST">
-                        {% include "partial/review/review_form.html" with button_text='Ок' %}
-                    </form>
-                {% endif %}
-
-                {% if product.reviews %}
-                    {% include "partial/review/review_list.html" with reviews=product.reviews.all%}
-
-                {% endif %}
-            </div>
-
-            {% include 'common/delete_modal.html' with deleted_object=product%}
-
         </div>
+        {% include 'common/delete_modal.html' with deleted_object=product view='delete_product' %}
     </div>
 
 {% endblock %}
