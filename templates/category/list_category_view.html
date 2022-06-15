@@ -2,8 +2,7 @@
 {% load static %}
 {% block content %}
     <div class="button_my">
-        <a class="btn" href="#"><img style="width: 45px; height: 34px" src="{% static 'images_common/backward.png' %}" alt=""></a>
-        <a class="create btn btn-success btn-sm" style="border-radius: 10px; padding: 10px" href="{% url 'create_category' %}">Добавить категорию</a>
+        <a class="create btn btn-2 btn-sm" href="{% url 'create_category' %}">Добавить категорию</a>
     </div>
 
     <div class="table-responsive-2" >
@@ -18,17 +17,15 @@
             <tr>
                 {% for category in categories %}
                     <td scope="row">
-                        <a style="text-decoration: none; color: black" href="{% url 'list_category_product' category %}">{{ category.category_name }}</a>
+                        <a style="text-decoration: none; color: #6c757d" href="{% url 'list_category_product' category %}">{{ category.category_name }}</a>
                     </td>
                     <td scope="row">
                         <a href="{% url 'list_category_product' category %}">
-                            <button class="btn btn-warning btn-sm" style="color: white">Список блюд - <b>{{ category.products_count }}шт</b></button>
+                            <button class="btn btn-sm my-btn" style="color: white">Список блюд - <b>{{ category.products_count }}шт</b></button>
                         </a>
 
                     </td>
                     </tr>
-                {% empty %}
-                    <h2>категорий не найдены</h2>
                 {% endfor %}
             </tbody>
         </table>
