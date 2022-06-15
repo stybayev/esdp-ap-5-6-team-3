@@ -1,8 +1,8 @@
 {% load static %}
 {% block content %}
     <div class="button_my">
-        <a class="btn" style="margin-right: 5%" href="#"><img style="width: 45px; height: 34px" src="{% static 'images_common/backward.png' %}" alt=""></a>
-        <a class="create btn btn-success btn-sm"  href="{% url 'create_product' %}">Добавить блюдо</a>
+        <a class="btn" style="margin-right: 5%" href="{% url 'list_category' %}"><img style="width: 45px; height: 34px" src="{% static 'images_common/backward.png' %}" alt=""></a>
+        <a class="create btn btn-2 btn-sm"  href="{% url 'create_product' %}">Добавить блюдо</a>
     </div>
     <div class="table-responsive">
         <table class="table">
@@ -18,13 +18,13 @@
             {% for product in products %}
                 <tr>
                 <td data-label="Название">
-                    <a style="text-decoration: none; color: black" href="{% url 'detail_product' product.pk %}" class="card-link" >{{ product.product_name }}</a>
+                    <a style="text-decoration: none; color: #6c757d" href="{% url 'detail_product' product.pk %}" class="card-link" >{{ product.product_name }}</a>
                 </td>
                 <td data-label="Цена">
-                    <p>{{ product.price }} KZT</p>
+                    <p style="color: #6c757d">{{ product.price }} KZT</p>
                 </td>
                 <td data-label="Наличие">
-                    {{ product.available }}
+                    <p style="color: #6c757d">{{ product.available }}</p>
                 </td>
                 <td data-label="Действие">
                     <a href="{% url 'detail_product' product.pk %}" class="btn btn-light" ><img style="width: 45px; height: 34px" src="{% static 'images_common/eye.png' %}" alt=""></a>
