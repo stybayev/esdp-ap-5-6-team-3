@@ -10,7 +10,7 @@ from telebot import types
 from requests import get
 import time
 from product.models import TelegramUser, Product, Basket, Aboutus, Category, BasketToOrder, ShoppingCartOrder, \
-    ShoppingCartOrderBasketToOrder, StatusShoppingCartOrder
+    ShoppingCartOrderBasketToOrder, StatusShoppingCartOrder, MerchantTelegramUser
 
 merchant_key = '5474930369:AAFYwY-sfz8B8-mqT9b_oxhofE46UvBgpcA'
 client_key = '5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U'
@@ -245,7 +245,7 @@ def callback_inline(call):
                                                f"_10% за обслуживание:_ *{(total_sum * 10) / 100}* \n\n"
                                                f"Итого общая сумма: *{((total_sum * 10) / 100) + total_sum}*",
                          parse_mode='Markdown')
-        for users in TelegramUser.objects.all():
+        for users in MerchantTelegramUser.objects.all():
 
             keyboard = types.InlineKeyboardMarkup()
             keyboard.add(types.InlineKeyboardButton(text=f"Перейти к заказу №{shopping_cart_orders.id}",
@@ -260,7 +260,8 @@ def callback_inline(call):
 
             if call.data == menu['category']:
                 for response_category in response_categories:
-                    if menu['category'] == response_category['category_name']:
+                    # if Product.objects.filter(available='Есть', category_id=response_category['id']):
+                    if menu['category'] == response_category['category_name'] and menu['available'] == 'Есть':
                         keyboard = types.InlineKeyboardMarkup(row_width=2)
 
                         print(menu['photo'][1:])
