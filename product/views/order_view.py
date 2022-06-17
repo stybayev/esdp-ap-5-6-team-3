@@ -1,8 +1,10 @@
 from product.forms import SearchForm, ChangeOrderStatusForm
 from product.helpers import SearchView
-from product.models import ShoppingCartOrder, ShoppingCartOrderBasketToOrder, BasketToOrder
-from django.views.generic import UpdateView, DetailView
-from django.urls import reverse_lazy
+from product.models import ShoppingCartOrder, ShoppingCartOrderBasketToOrder, BasketToOrder, StatusShoppingCartOrder, \
+    Basket
+from django.views.generic import DetailView, TemplateView
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 
 
 class OrderListView(SearchView):
@@ -26,10 +28,35 @@ class OrderDetailView(DetailView):
     context_object_name = 'order'
 
 
-class OrderChangeStatusView(UpdateView):
-    template_name = 'order/update_order_status_view.html'
-    form_class = ChangeOrderStatusForm
-    model = ShoppingCartOrder
-    context_object_name = 'order'
-    success_url = reverse_lazy('orders_view')
+class OrderChangeStatusView(TemplateView):
+    template_name = 'order/detail_order_view.html'
 
+    def get_success_url(self):
+        return reverse('orders_view')
+
+    def post(self, request, *args, **kwargs):
+        current_status = request.POST.get('status')
+        order = get_object_or_404(ShoppingCartOrder, pk=kwargs.get('pk'))
+        statuses = StatusShoppingCartOrder.objects.all()
+        for status in statuses:
+            if status.status == current_status:
+                order.status = status
+                order.save()
+        return redirect(self.get_success_url())
+
+
+class CancelOrder(TemplateView):
+    def get_success_url(self):
+        return reverse('orders_view')
+
+    def post(self, request, *args, **kwargs):
+        order = get_object_or_404(ShoppingCartOrder, pk=kwargs.get('pk'))
+        for ord_bask in order.basket_order.all():
+            Basket.objects.create(
+                product=ord_bask.product,
+                telegram_user_id=ord_bask.telegram_user_id,
+                amount=ord_bask.amount,
+                product_total_price=ord_bask.product_total_price,
+            )
+        order.delete()
+        return redirect(self.get_success_url())
