@@ -29,28 +29,30 @@
                     <td data-label="Блюдо">
                         {{ basket_order.product.product_name }}
                     </td>
-                        {% if order.status_id == 1 %}
-                            <td data-label="Количество">
-                                <div style="display: flex; justify-content: center">
-                                    <form style="margin-right: 6%" action="{% url 'add_basket' basket_order.product.pk %}" method="post">
+                    {% if order.status_id == 1 %}
+                        <td data-label="Количество">
+                            <div style="display: flex; justify-content: center">
+                                <form style="margin-right: 6%" action="{% url 'add_basket' basket_order.product.pk %}" method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="order" id="order" value="{{ basket_order.order.id }}">
+                                    <input type="hidden" name="user_id" id="user_id" value="{{ basket_order.telegram_user_id_id }}">
                                     <input class="btn btn-success" value="+" type="submit">
                                 </form>
                                 <input readonly style="width: 22px; border: none; text-align: center;" type="text" value="{{ basket_order.amount|default:0 }}">
                                 <form style="margin-left: 6%" action="{% url 'subtract_basket' basket_order.product.pk %}" method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="order" id="order" value="{{ basket_order.order.id }}">
+                                    <input type="hidden" name="user_id" id="user_id" value="{{ basket_order.telegram_user_id_id }}">
                                     <input class="btn btn-success" value="-" type="submit">
                                 </form>
-                                </div>
-                            </td>
-                        {% endif %}
+                            </div>
+                        </td>
+                    {% endif %}
                     <td data-label="Цена">
                         {{ basket_order.product.price }}
                     </td>
                     <td data-label="Сумма">
-                       {{ basket_order.product_total_price }}
+                        {{ basket_order.product_total_price }}
                     </td>
                 </tr>
             {% endfor %}
@@ -63,3 +65,10 @@
         <p><b>Итого общая сумма:</b> {{ order.total_sum }}</p>
     </div>
 {% endblock %}
+
+{% block script %}
+    <script>
+        window.setTimeout(function(){location.reload()},6000)
+    </script>
+{% endblock %}
+
