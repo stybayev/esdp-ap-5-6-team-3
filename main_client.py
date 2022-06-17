@@ -16,7 +16,6 @@ from product.models import TelegramUser, Product, Basket, Aboutus, Category, Bas
 merchant_key = '5474930369:AAFYwY-sfz8B8-mqT9b_oxhofE46UvBgpcA'
 client_key = '5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U'
 
-
 bot = telebot.TeleBot(client_key)
 
 merchant_bot = telebot.TeleBot(merchant_key)
@@ -35,7 +34,6 @@ url_category = 'http://localhost:8080/api/v1/category/'
 
 response_menu = get(url_menu).json()
 response_categories = get(url_category).json()
-
 
 
 def text_basket(basket):
@@ -100,6 +98,8 @@ def start(m):
                        ['\U0001F4D6\U0001F372\U0001F354Меню', '\U0001F371Корзина']])
         keyboard.add(
             *[types.KeyboardButton(bot_message) for bot_message in ['\U0001F4DCО Нас', '\U0001F45DОформить заказ']])
+        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
+                       ['\U0001F55CСтатус заказа', '\U0001F51AВыполненные заказы']])
 
         bot.send_message(m.chat.id, 'Выберите в меню операции!', reply_markup=keyboard)
         bot.register_next_step_handler(msg, bot_message)
@@ -136,10 +136,6 @@ def bot_message(m):
                              parse_mode="Markdown")
 
     elif m.text == '\U0001F371Корзина':
-        # bot.delete_message(chat_id=m.chat.id, message_id=m.message_id, timeout=1)
-        # bot.delete_state(m.chat.id)
-        # # # bot.delete_message(m.chat.id, m.message_id)
-        # bot.delete_webhook()
         for basket in Basket.objects.all():
             if m.from_user.id == basket.telegram_user_id_id:
                 keyboard = types.InlineKeyboardMarkup(row_width=2)
@@ -194,26 +190,59 @@ def bot_message(m):
                                         f"Итого общая сумма: *{((total_sum * 10) / 100) + total_sum}*",
                              reply_markup=keyboard, parse_mode='Markdown')
 
-    elif m.text == 'Перейти в админ-панель':
-        bot.send_message(m.chat.id, '[Перейти в админ-панель](http://www.google.com/)', parse_mode='Markdown')
-        # keyboard = types.InlineKeyboardMarkup(row_width=1)
-        # keyboard.add(types.InlineKeyboardButton(text='Перейти в админ-панель',url='https://www.google.kz/'))
-        # bot.send_photo(m.chat.id, 'Перейти в админ-панель', reply_markup=keyboard)
+    elif m.text == '\U0001F55CСтатус заказа':
 
-    elif m.text == 'В начало':
-        print(m.from_user.first_name, m.from_user.last_name)
-        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        msg = bot.send_message(m.chat.id, 'В начало', reply_markup=keyboard)
-        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in ['Новые заказы', 'Заказы в процессе']])
-        keyboard.add(
-            *[types.KeyboardButton(bot_message) for bot_message in ['Выполненные заказы', 'Перейти в админ-панель']])
-        bot.send_message(m.chat.id, 'В начало, Выберите в меню операции!', reply_markup=keyboard)
-        bot.register_next_step_handler(msg, bot_message)
+        for orders in ShoppingCartOrder.objects.filter(telegram_user_id_id=m.from_user.id, status_id__lte=2):
+            keyboard = types.InlineKeyboardMarkup(row_width=2)
+
+            if orders.status_id == 1:
+                detail_view_order = types.InlineKeyboardButton(
+                    text=f"Детальный просмотр заказа №{orders.pk} \n",
+                    callback_data=f'order_detail_{orders.pk}')
+                keyboard.add(detail_view_order)
+                bot.send_message(m.chat.id, f"Заказ *№{orders.id}* еще не принято,\n статус: *{orders.status.status}*",
+                                 reply_markup=keyboard, parse_mode='Markdown')
+            elif orders.status_id == 2:
+                detail_view_order = types.InlineKeyboardButton(
+                    text=f"Детальный просмотр заказа №{orders.pk}",
+                    callback_data=f'order_detail_{orders.pk}')
+                keyboard.add(detail_view_order)
+                bot.send_message(m.chat.id,
+                                 f"Заказ *№{orders.id}* принято в обработку,\n статус: *{orders.status.status}*",
+                                 reply_markup=keyboard, parse_mode='Markdown')
+
+
+def order(call):
+    value = []
+    for orders in ShoppingCartOrder.objects.filter(telegram_user_id_id=call.from_user.id, status_id__lte=2):
+        value.append(f'order_detail_{orders.id}')
+    return value
 
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
     print(call.data)
+    if call.data in order(call):
+        order_pk = call.data[13:]
+        total_sum = 0
+        if BasketToOrder.objects.filter(telegram_user_id_id=call.from_user.id, order__status=1,
+                                        order=order_pk):
+            bot.send_message(call.message.chat.id, f"Заказ *№{order_pk}: еще не принято в обработку*",
+                             parse_mode='Markdown')
+        elif BasketToOrder.objects.filter(telegram_user_id_id=call.from_user.id, order__status=2,
+                                          order=order_pk):
+            bot.send_message(call.message.chat.id, f"Заказ *№{order_pk}: принято в обработку*", parse_mode='Markdown')
+        for basket in BasketToOrder.objects.filter(telegram_user_id_id=call.from_user.id, order__status__lte=2,
+                                                   order=order_pk):
+            total_sum += basket.product_total_price
+            bot.send_message(call.message.chat.id, f"_{basket.product.product_name}: {basket.amount}_шт. *x* "
+                                                   f"_{basket.product.price}_тг. = _{basket.product_total_price}_ тенге",
+                             parse_mode='Markdown')
+        bot.send_message(call.message.chat.id, f"_Итого общая сумма продукта:_ *{total_sum}* \n"
+                                               f"_10% за обслуживание:_ *{(total_sum * 10) / 100}* \n\n"
+                                               f"Итого общая сумма: *{((total_sum * 10) / 100) + total_sum}*",
+                         parse_mode='Markdown')
+
     if call.data == 'order_processing':
         for status in StatusShoppingCartOrder.objects.all():
             if status.status == 'Новый':
@@ -247,7 +276,6 @@ def callback_inline(call):
                                                f"Итого общая сумма: *{((total_sum * 10) / 100) + total_sum}*",
                          parse_mode='Markdown')
         for users in MerchantTelegramUser.objects.all():
-
             keyboard = types.InlineKeyboardMarkup()
             keyboard.add(types.InlineKeyboardButton(text=f"Перейти к заказу №{shopping_cart_orders.id}",
                                                     url=f"http://127.0.0.1:8000/order/{shopping_cart_orders.id}"))
