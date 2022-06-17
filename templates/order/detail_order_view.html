@@ -8,8 +8,32 @@
             <p class="card-text"><b>Статус:</b> {{ order.status.status }}</p>
             <p class="card-text"><b>Дата заказа:</b> {{ order.updated_at|date:'d F Y' }}</p>
             <p class="card-text"><b>Время заказа:</b> {{ order.updated_at|date:'G:i' }}</p>
-            <a href="{% url 'update_status_order' order.id %}" class="btn btn-primary">Поменять статус</a>
-            <a href="{% url 'orders_view' %}" class="btn btn-primary">Назад</a>
+            <div class="order-buttons" style="display: flex; flex-wrap: wrap;">
+                {% if order.status.status == 'Новый' %}
+                    <div style="margin: 5px;">
+                        <form action="{% url 'update_status_order' order.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="status" value="В процессе">
+                            <input type="submit" class="btn btn-success" value="Принять">
+                        </form>
+                    </div>
+                    <div style="margin: 5px;">
+                        <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-danger" >Сделать возврат</a>
+                    </div>
+                {% endif %}
+                {% if order.status.status == 'В процессе' %}
+                    <div style="margin: 5px;">
+                        <form action="{% url 'update_status_order' order.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="status" value="Выполнено">
+                            <input type="submit" class="btn btn-success" value="Завершить заказ">
+                        </form>
+                    </div>
+                {% endif %}
+                <div style="margin: 5px;">
+                    <a href="{% url 'orders_view' %}" class="btn btn-primary">Назад</a>
+                </div>
+            </div>
         </div>
     </div>
     <h3>Детали заказа</h3>
@@ -45,9 +69,13 @@
                                     <input type="hidden" name="user_id" id="user_id" value="{{ basket_order.telegram_user_id_id }}">
                                     <input class="btn btn-success" value="-" type="submit">
                                 </form>
-                            </div>
-                        </td>
-                    {% endif %}
+                                </div>
+                            </td>
+                        {% else %}
+                            <td data-label="Количество">
+                                {{ basket_order.amount }}
+                            </td>
+                        {% endif %}
                     <td data-label="Цена">
                         {{ basket_order.product.price }}
                     </td>
@@ -64,6 +92,7 @@
         <p><b>10% за обслуживание:</b> {{ order.service_price }}</p>
         <p><b>Итого общая сумма:</b> {{ order.total_sum }}</p>
     </div>
+    {% include 'common/cancel_order_view.html' with deleted_object=order %}
 {% endblock %}
 
 {% block script %}
@@ -71,4 +100,3 @@
         window.setTimeout(function(){location.reload()},6000)
     </script>
 {% endblock %}
-

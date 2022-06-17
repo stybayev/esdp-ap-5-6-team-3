@@ -3,15 +3,24 @@ from django.urls import path
 from product.views.aboutus_view import (
     AboutusCreateView, AboutusView, AboutusUpdateView, AboutusDetailView, AboutUsDeleteView
 )
-from product.views.basket_view import BasketProductListView, AddBasketView, SubtractBasketView, BasketListView
-from product.views.order_view import OrderListView, OrderDetailView, OrderChangeStatusView
-from product.views.review_view import ProductReviewCreateView, ProductReviewUpdateView, ProductReviewDeleteView
+from product.views.basket_view import (
+    BasketProductListView, AddBasketView, SubtractBasketView, BasketListView
+)
+from product.views.order_view import (
+    OrderListView, OrderDetailView, OrderChangeStatusView, CancelOrder
+)
+from product.views.review_view import (
+    ProductReviewCreateView, ProductReviewUpdateView, ProductReviewDeleteView
+)
 
-from product.views.product_view import (ProductCreateView, ProductDetailView, ProductDeleteView,
-                                        ProductUpdateView, ProductCategoryListView
-                                        )
-from product.views.category_view import (CategoryCreateView, CategoryListView, CategoryUpdateView,
-                                         CategoryDeleteView)
+from product.views.product_view import (
+    ProductCreateView, ProductDetailView, ProductDeleteView,
+    ProductUpdateView, ProductCategoryListView
+)
+from product.views.category_view import (
+    CategoryCreateView, CategoryListView, CategoryUpdateView,
+    CategoryDeleteView
+)
 
 urlpatterns = []
 
@@ -55,7 +64,8 @@ aboutus_urls = [
 orders_urls = [
     path('', OrderListView.as_view(), name='orders_view'),
     path('order/<int:pk>', OrderDetailView.as_view(), name='detail_order'),
-    path('order/<int:pk>/update', OrderChangeStatusView.as_view(), name='update_status_order')
+    path('order/<int:pk>/update', OrderChangeStatusView.as_view(), name='update_status_order'),
+    path('order/<int:pk>/cancel', CancelOrder.as_view(), name='cancel_order')
 ]
 
 urlpatterns += product_urls
