@@ -24,12 +24,12 @@ print(time.ctime())
 time.sleep(3)
 
 # # Для виртуального окружения
-# url_menu = 'http://localhost:8000/api/v1/menu/'
-# url_category = 'http://localhost:8000/api/v1/category/'
+url_menu = 'http://localhost:8000/api/v1/menu/'
+url_category = 'http://localhost:8000/api/v1/category/'
 
 # Для docker-compose
-url_menu = 'http://localhost:8080/api/v1/menu/'
-url_category = 'http://localhost:8080/api/v1/category/'
+# url_menu = 'http://localhost:8080/api/v1/menu/'
+# url_category = 'http://localhost:8080/api/v1/category/'
 
 
 response_menu = get(url_menu).json()
