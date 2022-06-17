@@ -14,9 +14,9 @@ class OrderListView(SearchView):
     paginate_orphans = 1
     search_form = SearchForm
     search_fields = {
-        'category_name': 'icontains',
-        'translit_category_name': 'icontains',
-        'category_name_translation': 'icontains'
+        'telegram_user_id__first_name': 'icontains',
+        'telegram_user_id__last_name': 'icontains',
+        'id': 'icontains'
     }
 
 
