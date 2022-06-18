@@ -14,6 +14,7 @@
                         <form action="{% url 'update_status_order' order.id %}" method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="status" value="В процессе">
+                            <input type="hidden" name="telegram_user_id" id="telegram_user_id" value="{{ order.telegram_user_id_id }}">
                             <input type="submit" class="btn btn-success" value="Принять">
                         </form>
                     </div>
@@ -26,6 +27,7 @@
                         <form action="{% url 'update_status_order' order.id %}" method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="status" value="Выполнено">
+                            <input type="hidden" name="telegram_user_id" id="telegram_user_id" value="{{ order.telegram_user_id_id }}">
                             <input type="submit" class="btn btn-success" value="Завершить заказ">
                         </form>
                     </div>
@@ -51,7 +53,12 @@
             {% for basket_order in order.basket_order.all %}
                 <tr>
                     <td data-label="Блюдо">
-                        {{ basket_order.product.product_name }}
+                        {% if basket_order.product.available == 'Нет' %}
+                            <p style="color: red; ">{{ basket_order.product.product_name }} <br><b>Отсутствует</b></p>
+                        {% else %}
+                            {{ basket_order.product.product_name }}
+                        {% endif %}
+
                     </td>
                     {% if order.status_id == 1 %}
                         <td data-label="Количество">
@@ -62,25 +69,40 @@
                                     <input type="hidden" name="user_id" id="user_id" value="{{ basket_order.telegram_user_id_id }}">
                                     <input class="btn btn-success" value="+" type="submit">
                                 </form>
-                                <input readonly style="width: 22px; border: none; text-align: center;" type="text" value="{{ basket_order.amount|default:0 }}">
+                                {% if basket_order.product.available == 'Нет' %}
+                                    <input readonly style="width: 22px; color: red; border: none; text-align: center;" type="text" value="{{ basket_order.amount|default:0 }}">
+{#                                    <p style="color: red; ">{{ basket_order.product.product_name }} <br><b>Отсутствует</b></p>#}
+                                {% else %}
+                                    <input readonly style="width: 22px; border: none; text-align: center;" type="text" value="{{ basket_order.amount|default:0 }}">
+                                {% endif %}
+
                                 <form style="margin-left: 6%" action="{% url 'subtract_basket' basket_order.product.pk %}" method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="order" id="order" value="{{ basket_order.order.id }}">
                                     <input type="hidden" name="user_id" id="user_id" value="{{ basket_order.telegram_user_id_id }}">
                                     <input class="btn btn-success" value="-" type="submit">
                                 </form>
-                                </div>
-                            </td>
-                        {% else %}
-                            <td data-label="Количество">
-                                {{ basket_order.amount }}
-                            </td>
-                        {% endif %}
+                            </div>
+                        </td>
+                    {% else %}
+                        <td data-label="Количество">
+                            {{ basket_order.amount }}
+                        </td>
+                    {% endif %}
                     <td data-label="Цена">
-                        {{ basket_order.product.price }}
+                        {% if basket_order.product.available == 'Нет' %}
+                            <p style="color: red; "><b>{{ basket_order.product.price }}</b></p>
+                        {% else %}
+                            {{ basket_order.product.price }}
+                        {% endif %}
                     </td>
                     <td data-label="Сумма">
-                        {{ basket_order.product_total_price }}
+                        {% if basket_order.product.available == 'Нет' %}
+                            <p style="color: red; "><b>{{ basket_order.product_total_price }}</b></p>
+                        {% else %}
+                            {{ basket_order.product_total_price }}
+                        {% endif %}
+
                     </td>
                 </tr>
             {% endfor %}
@@ -95,8 +117,8 @@
     {% include 'common/cancel_order_view.html' with deleted_object=order %}
 {% endblock %}
 
-{% block script %}
-    <script>
-        window.setTimeout(function(){location.reload()},6000)
-    </script>
-{% endblock %}
+{#{% block script %}#}
+{#    <script>#}
+{#        window.setTimeout(function(){location.reload()},9900)#}
+{#    </script>#}
+{#{% endblock %}#}
