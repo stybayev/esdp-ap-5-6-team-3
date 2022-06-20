@@ -278,37 +278,29 @@ class MerchantTelegramUser(models.Model):
 
 class TableReservation(models.Model):
     NEW = 'Новый'
-    DONE = 'Завершен'
-
-    CONDITION = (
-        (NEW, NEW), (DONE, DONE)
-    )
-
-    CONFIRMED = 'Подтвержден'
-    NOT_CONFIRMED = 'Не подтвержден'
+    DONE = 'Выполнено'
 
     STATUS = (
-        (CONFIRMED, CONFIRMED), (NOT_CONFIRMED, NOT_CONFIRMED)
-    )
-
-    condition = models.CharField(
-        max_length=20, choices=STATUS, null=False, blank=False, default=NEW, verbose_name="Состояние"
+        (NEW, NEW), (DONE, DONE)
     )
     status = models.CharField(
-        max_length=20, choices=STATUS, null=False, blank=False, default=NOT_CONFIRMED, verbose_name="Статус"
+        max_length=20, choices=STATUS, null=False, blank=False, default=NEW, verbose_name="Статус"
     )
     telegram_user_id = models.PositiveSmallIntegerField(
         null=False, blank=False, verbose_name="Telegram Id пользователя"
     )
-    date_n_time = models.DateTimeField(
-        null=False, blank=False, verbose_name="Дата и время бронирования"
+    date = models.DateField(
+        null=False, blank=False, verbose_name="Дата бронирования"
     )
-    persons_number = models.PositiveSmallIntegerField(
-        null=False, blank=False, verbose_name="Количество человек"
+    time = models.TimeField(
+        null=False, blank=False, verbose_name="Время бронирования"
+    )
+    persons_number = models.CharField(
+        null=False, max_length=20, blank=False, verbose_name="Количество человек"
     )
     table_number = models.PositiveSmallIntegerField(
         null=True, blank=True, verbose_name="Номер столика"
     )
 
     def __str__(self):
-        return f"{self.telegram_user_id} - {self.table_number}. {self.condition}. {self.status}"
+        return f"{self.telegram_user_id} - {self.table_number}.{self.status}"
