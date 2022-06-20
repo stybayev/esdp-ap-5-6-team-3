@@ -1,23 +1,24 @@
+import datetime
 import django
 import os
 from django.shortcuts import get_object_or_404
-
-from telegram import InputFile
-
 os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings'
 django.setup()
 import telebot
 from telebot import types
 from requests import get
+from cal import Calendar, CallbackData, RUSSIAN_LANGUAGE, get_time, TIME, get_persons, PERSONS
+from telebot.types import ReplyKeyboardRemove, CallbackQuery, InlineKeyboardMarkup
 import time
 from product.models import TelegramUser, Product, Basket, Aboutus, Category, BasketToOrder, ShoppingCartOrder, \
-    ShoppingCartOrderBasketToOrder, StatusShoppingCartOrder, MerchantTelegramUser
+    ShoppingCartOrderBasketToOrder, StatusShoppingCartOrder, MerchantTelegramUser, TableReservation
 
 merchant_key = '5474930369:AAFYwY-sfz8B8-mqT9b_oxhofE46UvBgpcA'
 client_key = '5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U'
-
+logger = telebot.logger
 bot = telebot.TeleBot(client_key)
-
+calendar = Calendar(language=RUSSIAN_LANGUAGE)
+calendar_1_callback = CallbackData("calendar_1", "action", "year", "month", "day")
 merchant_bot = telebot.TeleBot(merchant_key)
 
 print(time.ctime())
@@ -30,7 +31,7 @@ url_category = 'http://localhost:8000/api/v1/category/'
 # Для docker-compose
 # url_menu = 'http://localhost:8080/api/v1/menu/'
 # url_category = 'http://localhost:8080/api/v1/category/'
-
+database = {}
 
 response_menu = get(url_menu).json()
 response_categories = get(url_category).json()
@@ -100,6 +101,8 @@ def start(m):
             *[types.KeyboardButton(bot_message) for bot_message in ['\U0001F4DCО Нас', '\U0001F45DОформить заказ']])
         keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
                        ['\U0001F55CСтатус заказа', '\U0001F51AВыполненные заказы']])
+        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
+                       ['\U0001f6cb\ufe0fЗабронировать столик']])
 
         bot.send_message(m.chat.id, 'Выберите в меню операции!', reply_markup=keyboard)
         bot.register_next_step_handler(msg, bot_message)
@@ -135,6 +138,36 @@ def bot_message(m):
             bot.send_message(m.chat.id, f"*О НАС:* \n _{about.description}_ \n\n Телефон: *{about.telephone_number}*",
                              parse_mode="Markdown")
 
+    elif m.text == '\U0001f6cb\ufe0fЗабронировать столик' or m.text == 'Изменить бронь':
+        now = datetime.datetime.now()  # Получение сегодняшней даты
+        bot.send_message(
+            m.chat.id,
+            "Выберите дату",
+            reply_markup=calendar.create_calendar(
+                name=calendar_1_callback.prefix,
+                year=now.year,
+                month=now.month,
+            ),
+        )
+    elif m.text == 'Бронировать':
+        TableReservation.objects.create(telegram_user_id=m.from_user.id,
+                                        date=database[m.from_user.id]['date'], time=database[m.from_user.id]['time'],
+                                        persons_number=database[m.from_user.id]['persons'])
+        del database[m.from_user.id]
+        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
+                       ['\U0001F4D6\U0001F372\U0001F354Меню', '\U0001F371Корзина']])
+        keyboard.add(
+            *[types.KeyboardButton(bot_message) for bot_message in ['\U0001F4DCО Нас', '\U0001F45DОформить заказ']])
+        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
+                       ['\U0001F55CСтатус заказа', '\U0001F51AВыполненные заказы']])
+        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
+                       ['\U0001f6cb\ufe0fЗабронировать столик']])
+        bot.send_message(
+            m.chat.id,
+            "Вам придет ответа от менеджера",
+            reply_markup=keyboard
+            )
     elif m.text == '\U0001F371Корзина':
         for basket in Basket.objects.all():
             if m.from_user.id == basket.telegram_user_id_id:
@@ -219,9 +252,38 @@ def order(call):
     return value
 
 
+@bot.callback_query_handler(
+    func=lambda call: call.data.startswith(calendar_1_callback.prefix)
+)
+def callback_inline(call: CallbackQuery):
+    name, action, year, month, day = call.data.split(calendar_1_callback.sep)
+    global date
+    date_in = calendar.calendar_query_handler(
+        bot=bot, call=call, name=name, action=action, year=year, month=month, day=day
+    )
+    database.setdefault(call.from_user.id, {'date': date_in.strftime('%Y-%m-%d')})
+    if action == "DAY":
+        bot.send_message(
+            chat_id=call.from_user.id,
+            text=f"Выбранная дата: {database[call.from_user.id].get('date')}",
+            reply_markup=ReplyKeyboardRemove(),
+        )
+        keyboard = InlineKeyboardMarkup(row_width=4)
+        bot.send_message(
+            chat_id=call.from_user.id,
+            text="Выберите время",
+            reply_markup=get_time(keyboard),
+        )
+    elif action == "ОТМЕНА":
+        bot.send_message(
+            chat_id=call.from_user.id,
+            text="Отменен",
+            reply_markup=ReplyKeyboardRemove(),
+        )
+
+
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
-    print(call.data)
     if call.data in order(call):
         order_pk = call.data[13:]
         total_sum = 0
@@ -242,7 +304,26 @@ def callback_inline(call):
                                                f"_10% за обслуживание:_ *{(total_sum * 10) / 100}* \n\n"
                                                f"Итого общая сумма: *{((total_sum * 10) / 100) + total_sum}*",
                          parse_mode='Markdown')
-
+    if call.data in TIME:
+        database[call.from_user.id]['time'] = call.data
+        keyboard = InlineKeyboardMarkup(row_width=2)
+        bot.edit_message_text(
+            chat_id=call.message.chat.id,
+            message_id=call.message.message_id,
+            text=f"Время: {call.data}",
+            reply_markup=get_persons(keyboard)
+        )
+    if call.data in PERSONS:
+        database[call.from_user.id]['persons'] = call.data
+        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
+                       ['Изменить бронь', 'Бронировать']])
+        bot.send_message(
+            chat_id=call.from_user.id,
+            text=f'''Дата: {database[call.from_user.id]['date']}, время: {database[call.from_user.id]['time']}, количество людей: {database[call.from_user.id]['persons']}
+            Изменить данные или продолжить?''',
+            reply_markup=keyboard,
+        )
     if call.data == 'order_processing':
         for status in StatusShoppingCartOrder.objects.all():
             if status.status == 'Новый':
