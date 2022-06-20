@@ -102,9 +102,12 @@ def start(m):
         keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
                        ['\U0001F55CСтатус заказа', '\U0001F51AВыполненные заказы']])
         keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                       ['\U0001f6cb\ufe0fЗабронировать столик']])
-
+                       ['\U0001f6cb\ufe0fЗабронировать столик', ]])
+        # keyboard.add(types.KeyboardButton(text="Создать викторину",
+        #                                        request_poll=types.KeyboardButtonPollType()))
         bot.send_message(m.chat.id, 'Выберите в меню операции!', reply_markup=keyboard)
+        # bot.send_poll(m.chat.id, 'Это опрос?', ['Да', 'Нет', 'Не знаю'])
+
         bot.register_next_step_handler(msg, bot_message)
     else:
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -114,6 +117,7 @@ def start(m):
 
 @bot.message_handler(content_types=["text", "contact"])
 def bot_message(m):
+    print('---------',m)
     if m.contact is not None:
         TelegramUser.objects.get_or_create(user_id=m.contact.user_id, first_name=m.contact.first_name,
                                            last_name=m.contact.last_name, phone_number=m.contact.phone_number,
@@ -169,6 +173,13 @@ def bot_message(m):
             reply_markup=keyboard
             )
     elif m.text == '\U0001F371Корзина':
+        order_keyboard = types.InlineKeyboardMarkup(row_width=2)
+
+        order_processing = types.InlineKeyboardButton(
+            text=f"\U0001F45D Перейти в оформление заказа",
+            callback_data=f"\U0001F45DОформить заказ")
+        order_keyboard.add(order_processing)
+        total_sum = 0
         for basket in Basket.objects.all():
             if m.from_user.id == basket.telegram_user_id_id:
                 keyboard = types.InlineKeyboardMarkup(row_width=2)
@@ -180,9 +191,9 @@ def bot_message(m):
                 button_basket(keyboard, basket)
                 bot.send_photo(m.chat.id, photo, caption=text_basket(basket), reply_markup=keyboard,
                                parse_mode="Markdown")
-                # bot.export_chat_invite_link(m.chat.id)
-                # print(bot.export_chat_invite_link(m.chat.id))
-                # bot.forward_message(chat_id=m.chat.id, from_chat_id=m.chat.id, message_id=m.message_id)
+                total_sum += basket.product_total_price
+        bot.send_message(m.chat.id, f"'\n\n_Оформить заказ:_  \n\n'",
+                         reply_markup=order_keyboard, parse_mode='Markdown')
 
         if not Basket.objects.filter(telegram_user_id_id=m.from_user.id):
             keyboard = types.InlineKeyboardMarkup(row_width=1)
@@ -243,6 +254,32 @@ def bot_message(m):
                 bot.send_message(m.chat.id,
                                  f"Заказ *№{orders.id}* принято в обработку,\n статус: *{orders.status.status}*",
                                  reply_markup=keyboard, parse_mode='Markdown')
+    elif m.text == 'Оценить ресторан':
+        keyboard = types.InlineKeyboardMarkup(row_width=6)
+        A1 = types.InlineKeyboardButton(
+            text=f"0",
+            callback_data=f'0')
+        A2 = types.InlineKeyboardButton(
+            text=f"1",
+            callback_data=f'1')
+        A3 = types.InlineKeyboardButton(
+            text=f"2",
+            callback_data=f'2')
+        A4 = types.InlineKeyboardButton(
+            text=f"3",
+            callback_data=f'3')
+        A5 = types.InlineKeyboardButton(
+            text=f"4",
+            callback_data=f'4')
+        A6 = types.InlineKeyboardButton(
+            text=f"5",
+            callback_data=f'5')
+        keyboard.add(A1, A2, A3, A4, A5, A6)
+        bot.send_message(m.chat.id,
+                         f"*Кнопки*",
+                         reply_markup=keyboard, parse_mode='Markdown')
+    else:
+        print(m.text)
 
 
 def order(call):
@@ -365,6 +402,37 @@ def callback_inline(call):
                                                      f'сумма заказа *{((total_sum * 10) / 100) + total_sum}* тенге',
                                       reply_markup=keyboard, parse_mode='Markdown')
 
+    elif call.data == '\U0001F45DОформить заказ':
+        if not Basket.objects.filter(telegram_user_id_id=call.from_user.id):
+            keyboard = types.InlineKeyboardMarkup(row_width=1)
+            keyboard.add(types.InlineKeyboardButton(text='\U0001F4D6\U0001F372\U0001F354Меню',
+                                                    callback_data='\U0001F4D6\U0001F372\U0001F354Меню'))
+            bot.send_message(call.chat.id, f"_Заказ не можем создать, для начала выберите блюд из_ *Меню*  \n",
+                             reply_markup=keyboard, parse_mode='Markdown')
+        else:
+
+            keyboard = types.InlineKeyboardMarkup(row_width=2)
+
+            order_processing = types.InlineKeyboardButton(
+                text=f"\U0001F45D Оформить заказ",
+                callback_data=f"order_processing")
+            change_basket = types.InlineKeyboardButton(
+                text=f"\U0001F371 Изменить заказ - Корзина",
+                callback_data="edit_basket")
+            keyboard.add(order_processing, change_basket)
+
+            total_sum = 0
+            for basket in Basket.objects.all():
+                if basket.telegram_user_id_id == call.from_user.id:
+                    total_sum += basket.product_total_price
+                    bot.send_message(call.message.chat.id, f"*{basket.product.product_name}:* *{basket.amount}*шт. *x* "
+                                                f"*{basket.product.price}*тг. = *{basket.product_total_price}* тенге",
+                                     parse_mode='Markdown')
+            bot.send_message(call.message.chat.id, f"_Итого общая сумма продукта:_ *{total_sum}* \n"
+                                        f"_10% за обслуживание:_ *{(total_sum * 10) / 100}* \n\n"
+                                        f"Итого общая сумма: *{((total_sum * 10) / 100) + total_sum}*",
+                             reply_markup=keyboard, parse_mode='Markdown')
+
     if call.data != '\U0001F4D6\U0001F372\U0001F354Меню':
         for menu in response_menu:
 
@@ -440,9 +508,7 @@ def callback_inline(call):
 
                             basket = get_object_or_404(Basket, product_id=menu['id'],
                                                        telegram_user_id_id=telegram_user.user_id)
-
                             subtract_meals(basket, menu)
-
                             button_menu(keyboard, basket)
                             bot.answer_callback_query(callback_query_id=call.id, show_alert=False,
                                                       text=f'"{basket.product.product_name}" удалено с корзины \n Общая количество {basket.amount}')
@@ -498,6 +564,7 @@ def callback_inline(call):
                     bot.edit_message_caption(caption=text_basket(basket), chat_id=call.message.chat.id,
                                              message_id=call.message.message_id,
                                              reply_markup=keyboard, parse_mode="Markdown")
+
                     bot.answer_callback_query(callback_query_id=call.id, show_alert=False,
                                               text=f'"{basket.product.product_name}" добавлено в корзину \n Общая количество {basket.amount}')
 
@@ -566,5 +633,10 @@ def callback_inline(call):
                          reply_markup=keyboard, parse_mode="Markdown")
 
 
-bot.polling(none_stop=True, interval=0)
+if __name__ == '__main__':
+    bot.polling(none_stop=True)
+    while True:
+        time.sleep(200)
+
+# bot.polling(none_stop=True, interval=0)
 # merchant_bot.polling(none_stop=True, interval=0)
