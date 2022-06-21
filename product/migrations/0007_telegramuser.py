@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(
                     auto_created=True, primary_key=True,
-                    erialize=False, verbose_name='ID')),
+                    serialize=False, verbose_name='ID')),
                 ('user_id', models.PositiveSmallIntegerField(
                     verbose_name='Telegram Id пользователя')),
                 ('first_name', models.CharField(
