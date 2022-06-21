@@ -88,7 +88,7 @@ class Product(Entity):
         verbose_name='наличие', default="есть", max_length=20)
     translit_product_name = models.CharField(
         max_length=200, null=True, blank=True,
-        erbose_name="Транслитератор Название блюда")
+        verbose_name="Транслитератор Название блюда")
     translit_description = models.TextField(
         max_length=3000, null=True, blank=True,
         verbose_name="Транслитератор Описание блюда")
