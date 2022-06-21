@@ -14,7 +14,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='shoppingcartorder',
             name='status',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, to='product.statusshoppingcartorder'),
+            field=models.ForeignKey(
+                default=1, on_delete=django.db.models.deletion.PROTECT,
+                to='product.statusshoppingcartorder'),
             preserve_default=False,
         ),
     ]

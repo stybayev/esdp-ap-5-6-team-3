@@ -6,18 +6,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('product', '0021_statusshoppingcartorder_delete_merchanttelegramuser_and_more'),
+        ('product',
+         '0021_statusshoppingcartorder_delete_merchanttelegramuser_and_more'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='MerchantTelegramUser',
             fields=[
-                ('user_id', models.PositiveSmallIntegerField(primary_key=True, serialize=False, unique=True, verbose_name='Telegram Id пользователя')),
-                ('first_name', models.CharField(blank=True, max_length=100, null=True, verbose_name='Имя')),
-                ('last_name', models.CharField(blank=True, max_length=100, null=True, verbose_name='Фамилия')),
-                ('phone_number', models.PositiveSmallIntegerField(verbose_name='Телефон')),
-                ('vcard', models.CharField(blank=True, max_length=300, null=True, verbose_name='Электронная карта')),
+                ('user_id', models.PositiveSmallIntegerField(
+                    primary_key=True, serialize=False, unique=True,
+                    verbose_name='Telegram Id пользователя')),
+                ('first_name', models.CharField(
+                    blank=True, max_length=100, null=True,
+                    verbose_name='Имя')),
+                ('last_name', models.CharField(
+                    blank=True, max_length=100, null=True,
+                    verbose_name='Фамилия')),
+                ('phone_number', models.PositiveSmallIntegerField(
+                    verbose_name='Телефон')),
+                ('vcard', models.CharField(
+                    blank=True, max_length=300, null=True,
+                    verbose_name='Электронная карта')),
             ],
         ),
         migrations.RemoveField(
@@ -27,7 +37,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='shoppingcartorder',
             name='status',
-            field=models.CharField(choices=[('Новый', 'Новый'), ('В процессе', 'В процессе'), ('Выполнено', 'Выполнено')], default='Новый', max_length=20, verbose_name='Статус'),
+            field=models.CharField(
+                choices=[('Новый', 'Новый'), ('В процессе', 'В процессе'),
+                         ('Выполнено', 'Выполнено')], default='Новый',
+                max_length=20, verbose_name='Статус'),
         ),
         migrations.DeleteModel(
             name='StatusShoppingCartOrder',

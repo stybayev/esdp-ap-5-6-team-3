@@ -6,13 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('product', '0005_alter_category_category_name_alter_product_category'),
+        ('product',
+         '0005_alter_category_category_name_alter_product_category'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='basket',
             name='status',
-            field=models.CharField(choices=[('Оплачено', 'Оплачено'), ('Не оплачено', 'Не оплачено')], default='Не оплачено', max_length=20, verbose_name='Статус'),
+            field=models.CharField(
+                choices=[('Оплачено', 'Оплачено'),
+                         ('Не оплачено', 'Не оплачено')],
+                default='Не оплачено', max_length=20, verbose_name='Статус'),
         ),
     ]

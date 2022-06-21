@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import CreateView
 
-from product.models import Product, Basket, BasketStatus, TelegramUser, BasketToOrder, ShoppingCartOrder
+from product.models import Product, Basket, TelegramUser, BasketToOrder
 from product.forms import SearchForm
 from product.helpers import SearchView
 
@@ -66,15 +66,21 @@ class AddBasketView(CreateView):
         user_id = request.POST['user_id']
         product = get_object_or_404(Product, pk=product_pk)
         print(self.telegram_user().user_id)
-        if not self.model.objects.filter(product_id=product_pk, order_id=order_pk, telegram_user_id_id=user_id):
+        if not self.model.objects.filter(
+                product_id=product_pk, order_id=order_pk,
+                telegram_user_id_id=user_id):
             self.model.objects.create(
                 amount=1,
                 product_id=product_pk,
                 telegram_user_id_id=self.telegram_user().user_id,
                 product_total_price=product.price,
             )
-        elif self.model.objects.filter(product_id=product_pk, order_id=order_pk, telegram_user_id_id=user_id):
-            basket = get_object_or_404(self.model, product_id=product_pk, order_id=order_pk, telegram_user_id_id=user_id)
+        elif self.model.objects.filter(
+                product_id=product_pk, order_id=order_pk,
+                telegram_user_id_id=user_id):
+            basket = get_object_or_404(
+                self.model, product_id=product_pk,
+                order_id=order_pk, telegram_user_id_id=user_id)
             basket.amount += 1
             basket.product_total_price += product.price
             basket.save()
@@ -93,13 +99,20 @@ class SubtractBasketView(CreateView):
         product = get_object_or_404(Product, pk=product_pk)
         order_pk = request.POST['order']
         user_id = request.POST['user_id']
-        if self.model.objects.filter(amount__gt=1, product_id=product_pk, order_id=order_pk, telegram_user_id_id=user_id):
-            basket = get_object_or_404(self.model, product_id=product_pk, order_id=order_pk, telegram_user_id_id=user_id)
+        if self.model.objects.filter(
+                amount__gt=1, product_id=product_pk,
+                order_id=order_pk, telegram_user_id_id=user_id):
+            basket = get_object_or_404(
+                self.model, product_id=product_pk,
+                order_id=order_pk, telegram_user_id_id=user_id)
             basket.amount -= 1
             basket.product_total_price -= product.price
             basket.save()
-        elif self.model.objects.filter(amount=1, product_id=product_pk, order_id=order_pk, telegram_user_id_id=user_id):
-            basket = self.model.objects.filter(amount=1, product_id=product_pk, order_id=order_pk, telegram_user_id_id=user_id)
+        elif self.model.objects.filter(
+                amount=1, product_id=product_pk,
+                order_id=order_pk, telegram_user_id_id=user_id):
+            basket = self.model.objects.filter(
+                amount=1, product_id=product_pk,
+                order_id=order_pk, telegram_user_id_id=user_id)
             basket.delete()
         return redirect(request.META.get('HTTP_REFERER'))
-
