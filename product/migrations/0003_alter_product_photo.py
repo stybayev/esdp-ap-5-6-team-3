@@ -14,7 +14,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='product',
             name='photo',
-            field=models.ImageField(blank=True, default=django.utils.timezone.now, upload_to='menu_photo', verbose_name='Фото блюда'),
+            field=models.ImageField(
+                blank=True, default=django.utils.timezone.now,
+                upload_to='menu_photo', verbose_name='Фото блюда'),
             preserve_default=False,
         ),
     ]

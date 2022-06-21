@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='telegramuser',
             name='user_id',
-            field=models.PositiveSmallIntegerField(unique=True, verbose_name='Telegram Id пользователя'),
+            field=models.PositiveSmallIntegerField(
+                unique=True, verbose_name='Telegram Id пользователя'),
         ),
     ]

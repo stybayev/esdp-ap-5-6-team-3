@@ -7,13 +7,17 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('product', '0023_statusshoppingcartorder_baskettoorder_order_and_more'),
+        ('product',
+         '0023_statusshoppingcartorder_baskettoorder_order_and_more'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='shoppingcartorder',
             name='status',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='product.statusshoppingcartorder'),
+            field=models.ForeignKey(
+                blank=True, null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to='product.statusshoppingcartorder'),
         ),
     ]

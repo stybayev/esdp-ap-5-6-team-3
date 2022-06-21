@@ -17,16 +17,26 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='tablereservation',
             name='condition',
-            field=models.CharField(choices=[('Подтвержден', 'Подтвержден'), ('Не подтвержден', 'Не подтвержден')], default='Новый', max_length=20, verbose_name='Состояние'),
+            field=models.CharField(choices=[('Подтвержден', 'Подтвержден'),
+                                            ('Не подтвержден',
+                                             'Не подтвержден')],
+                                   default='Новый', max_length=20,
+                                   verbose_name='Состояние'),
         ),
         migrations.AddField(
             model_name='tablereservation',
             name='status',
-            field=models.CharField(choices=[('Подтвержден', 'Подтвержден'), ('Не подтвержден', 'Не подтвержден')], default='Не подтвержден', max_length=20, verbose_name='Статус'),
+            field=models.CharField(
+                choices=[('Подтвержден', 'Подтвержден'),
+                         ('Не подтвержден', 'Не подтвержден')],
+                default='Не подтвержден',
+                max_length=20, verbose_name='Статус'),
         ),
         migrations.AlterField(
             model_name='telegramuser',
             name='user_id',
-            field=models.PositiveSmallIntegerField(primary_key=True, serialize=False, unique=True, verbose_name='Telegram Id пользователя'),
+            field=models.PositiveSmallIntegerField(
+                primary_key=True, serialize=False, unique=True,
+                verbose_name='Telegram Id пользователя'),
         ),
     ]

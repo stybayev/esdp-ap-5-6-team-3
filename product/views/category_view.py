@@ -1,8 +1,8 @@
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from product.helpers import SearchView
-from product.models import Category, Product
+from product.models import Category
 from product.forms import CategoryForm, SearchForm
 from transliterate import translit
 from googletrans import Translator
@@ -37,12 +37,16 @@ class CategoryCreateView(CreateView):
         form = self.form_class(data=request.POST)
         if form.is_valid():
             category = form.save(commit=False)
-            if self.cyrillic_check(category.category_name) == True:
-                category.translit_category_name = translit(category.category_name, language_code='ru', reversed=True)
-                category.category_name_translation = translator.translate(category.category_name, src='ru', dest='en').text
+            if self.cyrillic_check(category.category_name) is True:
+                category.translit_category_name = translit(
+                    category.category_name, language_code='ru', reversed=True)
+                category.category_name_translation = translator.translate(
+                    category.category_name, src='ru', dest='en').text
             else:
-                category.translit_category_name = translit(category.category_name, 'ru')
-                category.category_name_translation = translator.translate(category.category_name, src='en', dest='ru').text
+                category.translit_category_name = translit(
+                    category.category_name, 'ru')
+                category.category_name_translation = translator.translate(
+                    category.category_name, src='en', dest='ru').text
             category.save()
             return redirect(self.redirect_url)
         return render(request, self.template_name,
@@ -57,7 +61,8 @@ class CategoryUpdateView(UpdateView):
     model = Category
 
     def get_success_url(self):
-        return reverse('list_category_product', kwargs={'category': self.get_object().category_name})
+        return reverse('list_category_product',
+                       kwargs={'category': self.get_object().category_name})
 
 
 class CategoryDeleteView(DeleteView):

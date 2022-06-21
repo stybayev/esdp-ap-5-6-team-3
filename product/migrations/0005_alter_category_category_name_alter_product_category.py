@@ -14,11 +14,15 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='category',
             name='category_name',
-            field=models.CharField(max_length=200, verbose_name='Категория'),
+            field=models.CharField(
+                max_length=200, verbose_name='Категория'),
         ),
         migrations.AlterField(
             model_name='product',
             name='category',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='products', to='product.category', verbose_name='Категория'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='products',
+                to='product.category', verbose_name='Категория'),
         ),
     ]

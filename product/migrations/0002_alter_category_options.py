@@ -12,6 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='category',
-            options={'verbose_name': 'Категория', 'verbose_name_plural': 'Категории'},
+            options={'verbose_name': 'Категория',
+                     'verbose_name_plural': 'Категории'},
         ),
     ]

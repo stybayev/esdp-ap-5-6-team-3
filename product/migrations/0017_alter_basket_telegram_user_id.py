@@ -7,13 +7,17 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('product', '0016_remove_telegramuser_id_tablereservation_condition_and_more'),
+        ('product',
+         '0016_remove_telegramuser_id_tablereservation_condition_and_more'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='basket',
             name='telegram_user_id',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='baskets_user', to='product.telegramuser', verbose_name='Телеграмм клиент'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='baskets_user', to='product.telegramuser',
+                verbose_name='Телеграмм клиент'),
         ),
     ]

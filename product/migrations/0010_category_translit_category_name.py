@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='category',
             name='translit_category_name',
-            field=models.CharField(blank=True, max_length=200, null=True, verbose_name='Категория'),
+            field=models.CharField(
+                blank=True, max_length=200,
+                null=True, verbose_name='Категория'),
         ),
     ]
