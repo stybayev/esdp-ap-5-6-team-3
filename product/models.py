@@ -304,3 +304,12 @@ class TableReservation(models.Model):
 
     def __str__(self):
         return f"{self.telegram_user_id} - {self.table_number}.{self.status}"
+
+
+class CustomerFeedback(models.Model):
+    telegram_user_id = models.ForeignKey(
+        'product.TelegramUser', on_delete=models.CASCADE, related_name='telegram_users_client',
+        verbose_name="Telegram Id пользователя"
+    )
+    quiz_answer = models.PositiveSmallIntegerField(verbose_name="Оценка клиента")
+    description = models.CharField(max_length=5000, null=True, blank=True, verbose_name="Отзыв клиента")

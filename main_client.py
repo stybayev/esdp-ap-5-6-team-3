@@ -2,6 +2,8 @@ import datetime
 import django
 import os
 from django.shortcuts import get_object_or_404
+import json
+
 os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings'
 django.setup()
 import telebot
@@ -11,7 +13,7 @@ from cal import Calendar, CallbackData, RUSSIAN_LANGUAGE, get_time, TIME, get_pe
 from telebot.types import ReplyKeyboardRemove, CallbackQuery, InlineKeyboardMarkup
 import time
 from product.models import TelegramUser, Product, Basket, Aboutus, Category, BasketToOrder, ShoppingCartOrder, \
-    ShoppingCartOrderBasketToOrder, StatusShoppingCartOrder, MerchantTelegramUser, TableReservation
+    ShoppingCartOrderBasketToOrder, StatusShoppingCartOrder, MerchantTelegramUser, TableReservation, CustomerFeedback
 
 merchant_key = '5474930369:AAFYwY-sfz8B8-mqT9b_oxhofE46UvBgpcA'
 client_key = '5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U'
@@ -28,10 +30,14 @@ time.sleep(3)
 url_menu = 'http://localhost:8000/api/v1/menu/'
 url_category = 'http://localhost:8000/api/v1/category/'
 
+base_url = f"https://api.telegram.org/bot{client_key}/sendPoll"
+print(base_url)
+
 # Для docker-compose
 # url_menu = 'http://localhost:8080/api/v1/menu/'
 # url_category = 'http://localhost:8080/api/v1/category/'
 database = {}
+customer_feedback = {}
 
 response_menu = get(url_menu).json()
 response_categories = get(url_category).json()
@@ -87,10 +93,16 @@ def button_menu(keyboard, basket):
     keyboard.add(add_menu, subtract_menu)
 
 
+def order(call):
+    value = []
+    for orders in ShoppingCartOrder.objects.filter(telegram_user_id_id=call.from_user.id, status_id__lte=2):
+        value.append(f'order_detail_{orders.id}')
+    return value
+
+
 @bot.message_handler(commands=["start"])
 def start(m):
     print(type(m.from_user.id))
-
     if TelegramUser.objects.filter(user_id=m.from_user.id):
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
         msg = bot.send_message(m.chat.id, f'Приветствую Вас *{m.from_user.first_name}*!', reply_markup=keyboard,
@@ -102,11 +114,8 @@ def start(m):
         keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
                        ['\U0001F55CСтатус заказа', '\U0001F51AВыполненные заказы']])
         keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                       ['\U0001f6cb\ufe0fЗабронировать столик', ]])
-        # keyboard.add(types.KeyboardButton(text="Создать викторину",
-        #                                        request_poll=types.KeyboardButtonPollType()))
+                       ['\U0001f6cb\ufe0fЗабронировать столик', 'Оценить ресторан']])
         bot.send_message(m.chat.id, 'Выберите в меню операции!', reply_markup=keyboard)
-        # bot.send_poll(m.chat.id, 'Это опрос?', ['Да', 'Нет', 'Не знаю'])
 
         bot.register_next_step_handler(msg, bot_message)
     else:
@@ -117,7 +126,6 @@ def start(m):
 
 @bot.message_handler(content_types=["text", "contact"])
 def bot_message(m):
-    print('---------',m)
     if m.contact is not None:
         TelegramUser.objects.get_or_create(user_id=m.contact.user_id, first_name=m.contact.first_name,
                                            last_name=m.contact.last_name, phone_number=m.contact.phone_number,
@@ -166,12 +174,12 @@ def bot_message(m):
         keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
                        ['\U0001F55CСтатус заказа', '\U0001F51AВыполненные заказы']])
         keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                       ['\U0001f6cb\ufe0fЗабронировать столик']])
+                       ['\U0001f6cb\ufe0fЗабронировать столик', 'Оценить ресторан']])
         bot.send_message(
             m.chat.id,
             "Вам придет ответа от менеджера",
             reply_markup=keyboard
-            )
+        )
     elif m.text == '\U0001F371Корзина':
         order_keyboard = types.InlineKeyboardMarkup(row_width=2)
 
@@ -255,38 +263,90 @@ def bot_message(m):
                                  f"Заказ *№{orders.id}* принято в обработку,\n статус: *{orders.status.status}*",
                                  reply_markup=keyboard, parse_mode='Markdown')
     elif m.text == 'Оценить ресторан':
-        keyboard = types.InlineKeyboardMarkup(row_width=6)
-        A1 = types.InlineKeyboardButton(
-            text=f"0",
-            callback_data=f'0')
-        A2 = types.InlineKeyboardButton(
-            text=f"1",
-            callback_data=f'1')
-        A3 = types.InlineKeyboardButton(
-            text=f"2",
-            callback_data=f'2')
-        A4 = types.InlineKeyboardButton(
-            text=f"3",
-            callback_data=f'3')
-        A5 = types.InlineKeyboardButton(
-            text=f"4",
-            callback_data=f'4')
-        A6 = types.InlineKeyboardButton(
-            text=f"5",
-            callback_data=f'5')
-        keyboard.add(A1, A2, A3, A4, A5, A6)
-        bot.send_message(m.chat.id,
-                         f"*Кнопки*",
-                         reply_markup=keyboard, parse_mode='Markdown')
+        bot.send_poll(m.chat.id, 'Оцените по 5-ти бальной шкале степень Вашей удовлетворенности',
+                      is_anonymous=False, explanation="Спасибо за оценку", type='regular',
+                      options=['1 - очень плохо', '2 - плохо', '3 - удовлетворительно', '4 - хорошо',
+                               '5 - очень хорошо'])
+    elif m.text == '\U0001F4F5Отменить оценку':
+        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
+                       ['\U0001F4D6\U0001F372\U0001F354Меню', '\U0001F371Корзина']])
+        keyboard.add(
+            *[types.KeyboardButton(bot_message) for bot_message in ['\U0001F4DCО Нас', '\U0001F45DОформить заказ']])
+        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
+                       ['\U0001F55CСтатус заказа', '\U0001F51AВыполненные заказы']])
+        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
+                       ['\U0001f6cb\ufe0fЗабронировать столик', 'Оценить ресторан']])
+        if customer_feedback == {}:
+            bot.send_message(m.chat.id, 'Оценка отменен!', reply_markup=keyboard)
+        elif customer_feedback[m.from_user.id]:
+            customer_feedback.pop(m.from_user.id)
+            bot.send_message(m.chat.id, 'Оценка отменен!', reply_markup=keyboard)
+
+    elif m.text == '\U0001F4DDОставить оценку':
+        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
+                       ['\U0001F4D6\U0001F372\U0001F354Меню', '\U0001F371Корзина']])
+        keyboard.add(
+            *[types.KeyboardButton(bot_message) for bot_message in ['\U0001F4DCО Нас', '\U0001F45DОформить заказ']])
+        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
+                       ['\U0001F55CСтатус заказа', '\U0001F51AВыполненные заказы']])
+        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
+                       ['\U0001f6cb\ufe0fЗабронировать столик', 'Оценить ресторан']])
+
+        if customer_feedback == {}:
+            bot.send_message(m.chat.id, 'Для начало просим поставить оценки', reply_markup=keyboard)
+
+        elif customer_feedback[m.from_user.id]:
+
+            CustomerFeedback.objects.create(
+                telegram_user_id_id=customer_feedback[m.from_user.id]['user_id'],
+                quiz_answer=customer_feedback[m.from_user.id]['quiz_answer'],
+                description=customer_feedback[m.from_user.id]['text_client']
+            )
+            bot.send_message(m.chat.id, 'Спасибо за отзыв', reply_markup=keyboard)
+            customer_feedback.pop(m.from_user.id)
+
     else:
         print(m.text)
+        for user_id in customer_feedback.keys():
+            if user_id == m.from_user.id:
+                customer_feedback[m.from_user.id].update({'text_client': m.text})
+                print(customer_feedback)
+                bot.send_message(m.chat.id, f"Ваша оценка: *{customer_feedback[m.from_user.id]['quiz_answer']}* \n"
+                                            f"Мнение: *{customer_feedback[m.from_user.id]['text_client']}* \n\n\n"
+                                            f"если согласны с оценкой нажмите на кнопку *\U0001F4DDОставить оценку* \n\n"
+                                            f"если не согласны или требуется доработка в оценке нажмите на *\U0001F4F5Отменить оценку*",
+                                 parse_mode="Markdown")
 
 
-def order(call):
-    value = []
-    for orders in ShoppingCartOrder.objects.filter(telegram_user_id_id=call.from_user.id, status_id__lte=2):
-        value.append(f'order_detail_{orders.id}')
-    return value
+@bot.poll_answer_handler()
+def handle_poll_answer(quiz_answer: types.PollAnswer):
+    print(quiz_answer)
+    customer_feedback.update({quiz_answer.user.id: {'user_id': quiz_answer.user.id,
+                                                    'quiz_answer': quiz_answer.option_ids[0] + 1,
+                                                    'text_client': None}})
+
+    print(customer_feedback)
+    print(customer_feedback.keys())
+    for qwe in customer_feedback.keys():
+        print(qwe)
+
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+    keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
+                   ['\U0001F4F5Отменить оценку', '\U0001F4DDОставить оценку']])
+
+    photo = open(f"photo/Telegram-mess.jpg", 'rb')
+
+    bot.send_photo(quiz_answer.user.id, photo,
+                   caption='Прокомментируйте, пожалуйста, Ваше мнение. \n'
+                           'Для этого напишите сообщением ваше пожелание. \n\n'
+                           'либо если не хотите писать пожелание и согласны с оценкой нажмите на кнопку '
+                           '*\U0001F4DDОставить оценку*, \n\n'
+                           'если не согласны или требуется дороботка в оценке нажмите на *\U0001F4F5Отменить оценку*',
+                   reply_markup=keyboard, parse_mode="Markdown")
 
 
 @bot.callback_query_handler(
@@ -426,11 +486,11 @@ def callback_inline(call):
                 if basket.telegram_user_id_id == call.from_user.id:
                     total_sum += basket.product_total_price
                     bot.send_message(call.message.chat.id, f"*{basket.product.product_name}:* *{basket.amount}*шт. *x* "
-                                                f"*{basket.product.price}*тг. = *{basket.product_total_price}* тенге",
+                                                           f"*{basket.product.price}*тг. = *{basket.product_total_price}* тенге",
                                      parse_mode='Markdown')
             bot.send_message(call.message.chat.id, f"_Итого общая сумма продукта:_ *{total_sum}* \n"
-                                        f"_10% за обслуживание:_ *{(total_sum * 10) / 100}* \n\n"
-                                        f"Итого общая сумма: *{((total_sum * 10) / 100) + total_sum}*",
+                                                   f"_10% за обслуживание:_ *{(total_sum * 10) / 100}* \n\n"
+                                                   f"Итого общая сумма: *{((total_sum * 10) / 100) + total_sum}*",
                              reply_markup=keyboard, parse_mode='Markdown')
 
     if call.data != '\U0001F4D6\U0001F372\U0001F354Меню':
@@ -636,7 +696,7 @@ def callback_inline(call):
 if __name__ == '__main__':
     bot.polling(none_stop=True)
     while True:
-        time.sleep(200)
+        time.sleep(200000)
 
 # bot.polling(none_stop=True, interval=0)
 # merchant_bot.polling(none_stop=True, interval=0)
