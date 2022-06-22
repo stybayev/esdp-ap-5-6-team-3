@@ -341,7 +341,8 @@ class TableReservation(models.Model):
         (NEW, NEW), (DONE, DONE)
     )
     status = models.CharField(
-        max_length=20, choices=STATUS, null=False, blank=False, default=NEW, verbose_name="Статус"
+        max_length=20, choices=STATUS, null=False,
+        blank=False, default=NEW, verbose_name="Статус"
     )
     telegram_user_id = models.PositiveSmallIntegerField(
         null=False, blank=False, verbose_name="Telegram Id пользователя"
@@ -353,7 +354,8 @@ class TableReservation(models.Model):
         null=False, blank=False, verbose_name="Время бронирования"
     )
     persons_number = models.CharField(
-        null=False, max_length=20, blank=False, verbose_name="Количество человек"
+        null=False, max_length=20, blank=False,
+        verbose_name="Количество человек"
     )
     table_number = models.PositiveSmallIntegerField(
         null=True, blank=True, verbose_name="Номер столика"
