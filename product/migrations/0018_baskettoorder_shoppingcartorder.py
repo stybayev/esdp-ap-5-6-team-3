@@ -14,23 +14,52 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BasketToOrder',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.PositiveSmallIntegerField(verbose_name='Количество')),
-                ('product_total_price', models.PositiveIntegerField(blank=True, null=True, verbose_name='Цена блюда * на количество')),
-                ('status', models.CharField(choices=[('Оплачено', 'Оплачено'), ('Не оплачено', 'Не оплачено')], default='Не оплачено', max_length=20, verbose_name='Статус')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Время создания')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='products', to='product.product', verbose_name='Блюдо')),
-                ('telegram_user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='baskets_users', to='product.telegramuser', verbose_name='Телеграмм клиент')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID')),
+                ('amount', models.PositiveSmallIntegerField(
+                    verbose_name='Количество')),
+                ('product_total_price', models.PositiveIntegerField(
+                    blank=True, null=True,
+                    verbose_name='Цена блюда * на количество')),
+                ('status', models.CharField(
+                    choices=[('Оплачено', 'Оплачено'),
+                             ('Не оплачено', 'Не оплачено')],
+                    default='Не оплачено', max_length=20,
+                    verbose_name='Статус')),
+                ('created_at', models.DateTimeField(
+                    auto_now_add=True, verbose_name='Время создания')),
+                ('product', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    related_name='products',
+                    to='product.product', verbose_name='Блюдо')),
+                ('telegram_user_id', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    related_name='baskets_users',
+                    to='product.telegramuser',
+                    verbose_name='Телеграмм клиент')),
             ],
         ),
         migrations.CreateModel(
             name='ShoppingCartOrder',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('status', models.CharField(choices=[('Новый', 'Новый'), ('В процессе', 'В процессе'), ('Выполнено', 'Выполнено')], default='Новый', max_length=20, verbose_name='Статус')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Время изменения')),
-                ('basket_id', models.ManyToManyField(blank=True, related_name='basket_to_orders', to='product.baskettoorder', verbose_name='Id корзины')),
-                ('telegram_user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='telegram_users', to='product.telegramuser', verbose_name='Telegram Id пользователя')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID')),
+                ('status', models.CharField(
+                    choices=[('Новый', 'Новый'), ('В процессе', 'В процессе'),
+                             ('Выполнено', 'Выполнено')], default='Новый',
+                    max_length=20, verbose_name='Статус')),
+                ('updated_at', models.DateTimeField(
+                    auto_now=True, verbose_name='Время изменения')),
+                ('basket_id', models.ManyToManyField(
+                    blank=True, related_name='basket_to_orders',
+                    to='product.baskettoorder', verbose_name='Id корзины')),
+                ('telegram_user_id', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    related_name='telegram_users',
+                    to='product.telegramuser',
+                    verbose_name='Telegram Id пользователя')),
             ],
         ),
     ]

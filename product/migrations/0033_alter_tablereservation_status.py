@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='tablereservation',
             name='status',
-            field=models.CharField(choices=[('Новый', 'Новый'), ('Выполнено', 'Выполнено')], default='Новый', max_length=20, verbose_name='Статус'),
+            field=models.CharField(
+                choices=[('Новый', 'Новый'), ('Выполнено', 'Выполнено')],
+                default='Новый', max_length=20, verbose_name='Статус'),
         ),
     ]

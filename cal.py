@@ -2,7 +2,8 @@ import datetime
 import calendar
 import typing
 from dataclasses import dataclass
-from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
+from telebot.types import InlineKeyboardButton, \
+    InlineKeyboardMarkup, CallbackQuery
 
 
 @dataclass
@@ -94,8 +95,10 @@ class Calendar:
         """
         Create a built in inline keyboard with calendar
         :param name:
-        :param year: Year to use in the calendar if you are not using the current year.
-        :param month: Month to use in the calendar if you are not using the current month.
+        :param year: Year to use in the calendar
+        if you are not using the current year.
+        :param month: Month to use in the calendar
+        if you are not using the current month.
         :return: Returns an InlineKeyboardMarkup object with a calendar.
         """
 
@@ -106,7 +109,8 @@ class Calendar:
         if month is None:
             month = now_day.month
 
-        calendar_callback = CallbackData(name, "action", "year", "month", "day")
+        calendar_callback = CallbackData(
+            name, "action", "year", "month", "day")
         data_ignore = calendar_callback.new("IGNORE", year, month, "!")
         data_months = calendar_callback.new("MONTHS", year, month, "!")
 
@@ -130,7 +134,8 @@ class Calendar:
             row = list()
             for day in week:
                 if day == 0:
-                    row.append(InlineKeyboardButton(" ", callback_data=data_ignore))
+                    row.append(InlineKeyboardButton(
+                        " ", callback_data=data_ignore))
                 elif (
                     f"{now_day.day}.{now_day.month}.{now_day.year}"
                     == f"{day}.{month}.{year}"
@@ -157,14 +162,17 @@ class Calendar:
         keyboard.add(
             InlineKeyboardButton(
                 "<",
-                callback_data=calendar_callback.new("PREVIOUS-MONTH", year, month, "!"),
+                callback_data=calendar_callback.new(
+                    "PREVIOUS-MONTH", year, month, "!"),
             ),
             InlineKeyboardButton(
                 "Отмена",
-                callback_data=calendar_callback.new("ОТМЕНА", year, month, "!"),
+                callback_data=calendar_callback.new(
+                    "ОТМЕНА", year, month, "!"),
             ),
             InlineKeyboardButton(
-                ">", callback_data=calendar_callback.new("NEXT-MONTH", year, month, "!")
+                ">", callback_data=calendar_callback.new(
+                    "NEXT-MONTH", year, month, "!")
             ),
         )
 
@@ -183,7 +191,8 @@ class Calendar:
         if year is None:
             year = datetime.datetime.now().year
 
-        calendar_callback = CallbackData(name, "action", "year", "month", "day")
+        calendar_callback = CallbackData(
+            name, "action", "year", "month", "day")
 
         keyboard = InlineKeyboardMarkup()
 
@@ -193,7 +202,8 @@ class Calendar:
             keyboard.add(
                 InlineKeyboardButton(
                     month[0],
-                    callback_data=calendar_callback.new("MONTH", year, 2 * i + 1, "!"),
+                    callback_data=calendar_callback.new(
+                        "MONTH", year, 2 * i + 1, "!"),
                 ),
                 InlineKeyboardButton(
                     month[1],
@@ -216,7 +226,8 @@ class Calendar:
         day: int,
     ) -> None or datetime.datetime:
         """
-        The method creates a new calendar if the forward or backward button is pressed
+        The method creates a new calendar if the forward or
+        backward button is pressed
         This method should be called inside CallbackQueryHandler.
         :param bot: The object of the bot CallbackQueryHandler
         :param call: CallbackQueryHandler data
@@ -234,7 +245,8 @@ class Calendar:
             return False, None
         elif action == "DAY":
             bot.delete_message(
-                chat_id=call.message.chat.id, message_id=call.message.message_id
+                chat_id=call.message.chat.id,
+                message_id=call.message.message_id
             )
             return datetime.datetime(int(year), int(month), int(day))
         elif action == "PREVIOUS-MONTH":
@@ -257,7 +269,8 @@ class Calendar:
                 chat_id=call.message.chat.id,
                 message_id=call.message.message_id,
                 reply_markup=self.create_calendar(
-                    name=name, year=int(next_month.year), month=int(next_month.month)
+                    name=name, year=int(next_month.year),
+                    month=int(next_month.month)
                 ),
             )
             return None
@@ -266,7 +279,8 @@ class Calendar:
                 text=call.message.text,
                 chat_id=call.message.chat.id,
                 message_id=call.message.message_id,
-                reply_markup=self.create_months_calendar(name=name, year=current.year),
+                reply_markup=self.create_months_calendar(
+                    name=name, year=current.year),
             )
             return None
         elif action == "MONTH":
@@ -281,13 +295,16 @@ class Calendar:
             return None
         elif action == "ОТМЕНА":
             bot.delete_message(
-                chat_id=call.message.chat.id, message_id=call.message.message_id
+                chat_id=call.message.chat.id,
+                message_id=call.message.message_id
             )
             return "ОТМЕНА", None
         else:
-            bot.answer_callback_query(callback_query_id=call.id, text="ERROR!")
+            bot.answer_callback_query(callback_query_id=call.id,
+                                      text="ERROR!")
             bot.delete_message(
-                chat_id=call.message.chat.id, message_id=call.message.message_id
+                chat_id=call.message.chat.id,
+                message_id=call.message.message_id
             )
             return None
 
@@ -341,7 +358,8 @@ class CallbackData:
                 raise ValueError(f"Value for part {part!r} can't be empty!'")
             if self.sep in value:
                 raise ValueError(
-                    f"Symbol {self.sep!r} is defined as the separator and can't be used in parts' values"
+                    f"Symbol {self.sep!r} is defined as the separator and"
+                    f" can't be used in parts' values"
                 )
 
             data.append(value)
@@ -365,7 +383,8 @@ class CallbackData:
         prefix, *parts = callback_data.split(self.sep)
 
         if prefix != self.prefix:
-            raise ValueError("Passed callback data can't be parsed with that prefix.")
+            raise ValueError(
+                "Passed callback data can't be parsed with that prefix.")
         elif len(parts) != len(self._part_names):
             raise ValueError("Invalid parts count!")
 

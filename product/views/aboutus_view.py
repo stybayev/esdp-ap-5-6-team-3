@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
-from django.views.generic import CreateView, ListView, UpdateView, DetailView, DeleteView
+from django.views.generic import CreateView, ListView, \
+    UpdateView, DetailView, DeleteView
 from product.forms import AboutusForm
 from django.urls import reverse
 from product.models import Aboutus
@@ -34,7 +35,7 @@ class AboutusCreateView(CreateView):
     object = None
 
     def get_success_url(self):
-         return reverse('detail_aboutus', kwargs={'pk': self.object.pk})
+        return reverse('detail_aboutus', kwargs={'pk': self.object.pk})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST)
@@ -54,4 +55,4 @@ class AboutusUpdateView(UpdateView):
     model = Aboutus
 
     def get_success_url(self):
-         return reverse('detail_aboutus', kwargs={'pk': self.get_object().pk})
+        return reverse('detail_aboutus', kwargs={'pk': self.get_object().pk})

@@ -1,4 +1,5 @@
-from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
+from django.contrib.auth import authenticate, login, logout, \
+    get_user_model, update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import DetailView, UpdateView
@@ -132,7 +133,3 @@ class ChangePasswordView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.model.objects.get(id=self.request.user.id)
-
-
-
-

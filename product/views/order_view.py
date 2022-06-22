@@ -1,6 +1,6 @@
-from product.forms import SearchForm, ChangeOrderStatusForm
+from product.forms import SearchForm
 from product.helpers import SearchView
-from product.models import ShoppingCartOrder, ShoppingCartOrderBasketToOrder, BasketToOrder, StatusShoppingCartOrder, \
+from product.models import ShoppingCartOrder, StatusShoppingCartOrder, \
     Basket
 from django.views.generic import DetailView, TemplateView
 from django.shortcuts import get_object_or_404, redirect
@@ -57,8 +57,10 @@ class OrderChangeStatusView(TemplateView):
                 keyboard.add(detail_view_order)
                 if order.status_id == 2:
                     bot.send_message(telegram_user_id,
-                                     f"Заказ *№{order_pk}* принята мерчантом в обработку \n ",
-                                     reply_markup=keyboard, parse_mode='Markdown')
+                                     f"Заказ *№{order_pk}* "
+                                     f"принята мерчантом в обработку \n ",
+                                     reply_markup=keyboard,
+                                     parse_mode='Markdown')
                 elif order.status_id == 3:
                     bot.send_message(telegram_user_id,
                                      f"Заказ *№{order_pk}* заверщен \n"
@@ -84,12 +86,14 @@ class CancelOrder(TemplateView):
             )
             if basket.product.available == 'Нет':
                 bot.send_message(telegram_user_id,
-                                 f"Заказ *№{order_pk}* возвращен в *Корзину* \n"
+                                 f"Заказ *№{order_pk}* "
+                                 f"возвращен в *Корзину* \n"
                                  f"закончился *{basket.product.product_name}*",
                                  parse_mode='Markdown')
             else:
                 bot.send_message(telegram_user_id,
-                                 f"Заказ *№{order_pk}* возвращен в *Корзину* \n"
+                                 f"Заказ *№{order_pk}* "
+                                 f"возвращен в *Корзину* \n"
                                  f"для уточнение просим обратиться к Мерчанту",
                                  parse_mode='Markdown')
         order.delete()

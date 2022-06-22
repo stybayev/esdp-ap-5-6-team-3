@@ -13,11 +13,15 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='category',
             name='category_name_translation',
-            field=models.CharField(blank=True, max_length=200, null=True, verbose_name='Перевод Категория'),
+            field=models.CharField(
+                blank=True, max_length=200, null=True,
+                verbose_name='Перевод Категория'),
         ),
         migrations.AlterField(
             model_name='category',
             name='translit_category_name',
-            field=models.CharField(blank=True, max_length=200, null=True, verbose_name='Транслит Категория'),
+            field=models.CharField(
+                blank=True, max_length=200, null=True,
+                verbose_name='Транслит Категория'),
         ),
     ]

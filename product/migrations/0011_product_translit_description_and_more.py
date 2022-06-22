@@ -13,11 +13,15 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='product',
             name='translit_description',
-            field=models.TextField(blank=True, max_length=3000, null=True, verbose_name='Транслитератор Описание блюда'),
+            field=models.TextField(
+                blank=True, max_length=3000, null=True,
+                verbose_name='Транслитератор Описание блюда'),
         ),
         migrations.AddField(
             model_name='product',
             name='translit_product_name',
-            field=models.CharField(blank=True, max_length=200, null=True, verbose_name='Транслитератор Название блюда'),
+            field=models.CharField(
+                blank=True, max_length=200, null=True,
+                verbose_name='Транслитератор Название блюда'),
         ),
     ]

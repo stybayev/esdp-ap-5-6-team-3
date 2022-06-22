@@ -13,12 +13,22 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TelegramUser',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('user_id', models.PositiveSmallIntegerField(verbose_name='Telegram Id пользователя')),
-                ('first_name', models.CharField(blank=True, max_length=100, null=True, verbose_name='Имя')),
-                ('last_name', models.CharField(blank=True, max_length=100, null=True, verbose_name='Фамилия')),
-                ('phone_number', models.PositiveSmallIntegerField(max_length=15, verbose_name='Телефон')),
-                ('vcard', models.CharField(blank=True, max_length=300, null=True, verbose_name='Электронная карта')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID')),
+                ('user_id', models.PositiveSmallIntegerField(
+                    verbose_name='Telegram Id пользователя')),
+                ('first_name', models.CharField(
+                    blank=True, max_length=100,
+                    null=True, verbose_name='Имя')),
+                ('last_name', models.CharField(
+                    blank=True, max_length=100,
+                    null=True, verbose_name='Фамилия')),
+                ('phone_number', models.PositiveSmallIntegerField(
+                    max_length=15, verbose_name='Телефон')),
+                ('vcard', models.CharField(
+                    blank=True, max_length=300, null=True,
+                    verbose_name='Электронная карта')),
             ],
         ),
     ]
