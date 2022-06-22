@@ -5,33 +5,33 @@ from django.contrib.auth.models import (
 from django.contrib import auth
 from django.apps import apps
 from django.contrib.auth.hashers import make_password
-from datetime import datetime
-from datetime import timedelta
-# import jwt
 
-from django.conf import settings
 
 """
-Описываем менеджер нашей модели пользователь. Как и в любом другом менеджере пользователей 
-тут описываются многие команды которые можно сделать в рамках нашего приложения.
+Описываем менеджер нашей модели пользователь. Как и в любом другом
+менеджере пользователей тут описываются многие команды которые можно
+сделать в рамках нашего приложения.
 
-При отправке запросов в ORM для получения данных о каком либо объекте менеджером 
-формирующим queryset является именно UserManager.
+При отправке запросов в ORM для получения данных о каком либо
+объекте менеджером формирующим queryset является именно UserManager.
 
-Описан метод создания обычного пользователя. Все аргументы указанные в методе инициализации 
-обязательны к указанию. Сразу после создания объекта класса Пользователь (User) вызывается 
-метод save который и делает запись в базу данных и сохраняет объект. Отныне каждый раз 
-после сохранения этот объект будет доступен с помощью описанного нами менеджера из ORM. 
-Все методы описанные в этом менеджере будут доступны разработчикам из 
-консоли shell (python manage.py shell)
+Описан метод создания обычного пользователя. Все аргументы указанные
+в методе инициализации обязательны к указанию. Сразу после создания
+объекта класса Пользователь (User) вызывается метод save который и
+делает запись в базу данных и сохраняет объект. Отныне каждый раз
+после сохранения этот объект будет доступен с помощью описанного
+нами менеджера из ORM. Все методы описанные в этом менеджере будут
+доступны разработчикам из консоли shell (python manage.py shell)
 
-Также мы описали метод создания супер пользователя. Он создается так же как и обычный 
-пользователь (оба объекта являются объектами класса User) только при создании 
-автозаполняются поля is_superuser и is_staff значением True (суперпользователь создается 
-методом create_user). Обновление этих полей позволяет пользователям этой категории 
-авторизовываться в административной панели без верификации пользователя через токен 
-высылаемый на электронную почту при регистрации. В целях безопасности данных пароль не 
-записывается в базу данных в виде строки а устанавливается методом set_password()
+Также мы описали метод создания супер пользователя. Он создается
+так же как и обычный пользователь (оба объекта являются объектами
+класса User) только при создании автозаполняются поля is_superuser
+и is_staff значением True (суперпользователь создается методом create_user).
+Обновление этих полей позволяет пользователям этой категории
+авторизовываться в административной панели без верификации пользователя
+через токен высылаемый на электронную почту при регистрации. В целях
+безопасности данных пароль не записывается в базу данных в виде строки
+ а устанавливается методом set_password()
 """
 
 
@@ -72,7 +72,8 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
     def with_perm(
-            self, perm, is_active=True, include_superusers=True, backend=None, obj=None
+            self, perm, is_active=True, include_superusers=True,
+            backend=None, obj=None
     ):
         if backend is None:
             backends = auth._get_backends(return_tuples=True)
@@ -85,7 +86,8 @@ class UserManager(BaseUserManager):
                 )
         elif not isinstance(backend, str):
             raise TypeError(
-                "backend must be a dotted import path string (got %r)." % backend
+                "backend must be a dotted import "
+                "path string (got %r)." % backend
             )
         else:
             backend = auth.load_backend(backend)
@@ -100,11 +102,13 @@ class UserManager(BaseUserManager):
 
 
 class Client(AbstractBaseUser):
-    # username = models.CharField(max_length=255, db_index=True, blank=True, null=True)
+    # username = models.CharField(max_length=255, db_index=True,
+    # blank=True, null=True)
 
     email = models.EmailField(max_length=255, unique=True, db_index=True)
     email_verified = models.BooleanField(default=False)
-    email_verification_code = models.CharField(max_length=255, null=True, blank=True)
+    email_verification_code = models.CharField(
+        max_length=255, null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -113,24 +117,40 @@ class Client(AbstractBaseUser):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    phone_number = models.CharField(max_length=255, null=True, blank=True)
+    phone_number = models.CharField(
+        max_length=255, null=True, blank=True)
     phone_verified = models.BooleanField(default=False)
-    phone_verification_code = models.CharField(max_length=255, null=True, blank=True)
+    phone_verification_code = models.CharField(
+        max_length=255, null=True, blank=True)
 
-    first_name_cyrillic = models.CharField(max_length=255, null=True, blank=True)
-    last_name_cyrillic = models.CharField(max_length=255, null=True, blank=True)
-    first_name_latin = models.CharField(max_length=255, null=True, blank=True)
-    last_name_latin = models.CharField(max_length=255, null=True, blank=True)
-    patronymic = models.CharField(max_length=255, null=True, blank=True)
-    iin_number = models.CharField(max_length=12, null=True, blank=True)
-    country_of_residence = models.CharField(max_length=255, null=True, blank=True)
-    city_of_residence = models.CharField(max_length=255, null=True, blank=True)
-    postcode = models.CharField(max_length=255, null=True, blank=True)
-    address_of_residence = models.CharField(max_length=255, null=True, blank=True)
-    citizenship_country = models.CharField(max_length=255, null=True, blank=True)
-    verification_document = models.CharField(max_length=255, null=True, blank=True)
-    verification_document_number = models.CharField(max_length=255, null=True, blank=True)
-    verification_document_expires_date = models.DateField(null=True, blank=True)
+    first_name_cyrillic = models.CharField(
+        max_length=255, null=True, blank=True)
+    last_name_cyrillic = models.CharField(
+        max_length=255, null=True, blank=True)
+    first_name_latin = models.CharField(
+        max_length=255, null=True, blank=True)
+    last_name_latin = models.CharField(
+        max_length=255, null=True, blank=True)
+    patronymic = models.CharField(
+        max_length=255, null=True, blank=True)
+    iin_number = models.CharField(
+        max_length=12, null=True, blank=True)
+    country_of_residence = models.CharField(
+        max_length=255, null=True, blank=True)
+    city_of_residence = models.CharField(
+        max_length=255, null=True, blank=True)
+    postcode = models.CharField(
+        max_length=255, null=True, blank=True)
+    address_of_residence = models.CharField(
+        max_length=255, null=True, blank=True)
+    citizenship_country = models.CharField(
+        max_length=255, null=True, blank=True)
+    verification_document = models.CharField(
+        max_length=255, null=True, blank=True)
+    verification_document_number = models.CharField(
+        max_length=255, null=True, blank=True)
+    verification_document_expires_date = models.DateField(
+        null=True, blank=True)
 
     USERNAME_FIELD = 'email'
 

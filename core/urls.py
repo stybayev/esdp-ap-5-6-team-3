@@ -21,7 +21,6 @@ from django.conf import settings
 from api_client.yasg import urlpatterns as doc_urls
 
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('product.urls')),

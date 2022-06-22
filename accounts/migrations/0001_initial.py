@@ -17,12 +17,26 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Profile',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('avatar', models.ImageField(upload_to='user_pics', verbose_name='Аватар')),
-                ('about_profile', models.TextField(blank=True, max_length=1000, null=True, verbose_name='О себе')),
-                ('phone', models.CharField(blank=True, max_length=15, null=True, verbose_name='Номер телефона')),
-                ('gender', models.CharField(blank=True, choices=[('they', 'Не задано'), ('woman', 'Женщина'), ('man', 'Мужчина')], max_length=20, null=True, verbose_name='Пол')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='profile', to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID')),
+                ('avatar', models.ImageField(
+                    upload_to='user_pics', verbose_name='Аватар')),
+                ('about_profile', models.TextField(
+                    blank=True, max_length=1000, null=True,
+                    verbose_name='О себе')),
+                ('phone', models.CharField(
+                    blank=True, max_length=15, null=True,
+                    verbose_name='Номер телефона')),
+                ('gender', models.CharField(
+                    blank=True, choices=[('they', 'Не задано'),
+                                         ('woman', 'Женщина'),
+                                         ('man', 'Мужчина')],
+                    max_length=20, null=True, verbose_name='Пол')),
+                ('user', models.OneToOneField(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    related_name='profile',
+                    to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
             ],
         ),
     ]
