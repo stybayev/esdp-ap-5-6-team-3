@@ -123,7 +123,7 @@ def menu(m, text):
     keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
                    ['\U0001F55CСтатус заказа', '\U0001F51AВыполненные заказы']])
     keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                   ['\U0001f6cb\ufe0fЗабронировать столик']])
+                   ['\U0001f6cb\ufe0fЗабронировать столик', 'Оценить ресторан']])
     bot.send_message(
         m.chat.id,
         text=text,
