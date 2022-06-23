@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from urllib.parse import urlencode
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView
 
 
 class SearchView(ListView):

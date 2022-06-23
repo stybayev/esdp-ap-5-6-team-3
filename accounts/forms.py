@@ -18,7 +18,8 @@ class UserCreationForm(forms.ModelForm):
         widget=forms.PasswordInput
     )
     password_confirm = forms.CharField(
-        label='Подтвердить пароль', strip=False, required=True, widget=forms.PasswordInput
+        label='Подтвердить пароль', strip=False, required=True,
+        widget=forms.PasswordInput
     )
 
     def clean(self):
@@ -93,5 +94,3 @@ class PasswordChangeForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
         fields = ['password', 'password_confirm', 'password_old']
-
-

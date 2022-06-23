@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='tablereservation',
             name='persons_number',
-            field=models.CharField(max_length=20, verbose_name='Количество человек'),
+            field=models.CharField(
+                max_length=20, verbose_name='Количество человек'),
         ),
     ]

@@ -13,9 +13,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Aboutus',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('description', models.CharField(max_length=500, verbose_name='О Нас')),
-                ('telephone_number', models.PositiveBigIntegerField(max_length=15, verbose_name='Телефон компании')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID')),
+                ('description', models.CharField(
+                    max_length=500, verbose_name='О Нас')),
+                ('telephone_number', models.PositiveBigIntegerField(
+                    max_length=15, verbose_name='Телефон компании')),
             ],
         ),
     ]

@@ -1,11 +1,10 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.views.generic import CreateView, DeleteView, UpdateView
+from django.views.generic import CreateView, UpdateView
 from ..helpers import DeleteView
 from product.forms import ReviewForm
 from product.models import Review, Product
-from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
@@ -15,10 +14,9 @@ class ProductReviewCreateView(CreateView):
     form_class = ReviewForm
     template_name = 'product/detail_product_view.html'
 
-
     def get_success_url(self):
-        return reverse('detail_product', kwargs={'pk': self.kwargs.get('pk')})
-
+        return reverse('detail_product',
+                       kwargs={'pk': self.kwargs.get('pk')})
 
     def post(self, request, *args, **kwargs):
         product_pk = kwargs.get('pk')
@@ -60,7 +58,8 @@ class ProductReviewDeleteView(UserPassesTestMixin, DeleteView):
     permission_required = 'product.delete_review'
 
     def test_func(self):
-        return self.get_object().author == self.request.user or self.request.user.has_perm(
+        return self.get_object().author == self.request.user or \
+               self.request.user.has_perm(
             self.permission_required)
 
     def get_success_url(self):

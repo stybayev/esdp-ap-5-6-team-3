@@ -18,9 +18,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ShoppingCartOrderBasketToOrder',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('baske_to_order', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='basket_to_orders', to='product.baskettoorder', verbose_name='Id корзины')),
-                ('shopping_cart_order', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='shopping_cart_orders', to='product.shoppingcartorder', verbose_name='Id заказа')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID')),
+                ('baske_to_order', models.ForeignKey(
+                    on_delete=django.db.models.deletion.PROTECT,
+                    related_name='basket_to_orders',
+                    to='product.baskettoorder', verbose_name='Id корзины')),
+                ('shopping_cart_order', models.ForeignKey(
+                    on_delete=django.db.models.deletion.PROTECT,
+                    related_name='shopping_cart_orders',
+                    to='product.shoppingcartorder', verbose_name='Id заказа')),
             ],
         ),
     ]

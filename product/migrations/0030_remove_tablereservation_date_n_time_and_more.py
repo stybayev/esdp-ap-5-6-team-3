@@ -17,11 +17,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='tablereservation',
             name='date',
-            field=models.DateField(default='2022-06-22', verbose_name='Дата бронирования'),
+            field=models.DateField(
+                default='2022-06-22', verbose_name='Дата бронирования'),
         ),
         migrations.AddField(
             model_name='tablereservation',
             name='time',
-            field=models.TimeField(default='22:30', verbose_name='Время бронирования'),
+            field=models.TimeField(
+                default='22:30', verbose_name='Время бронирования'),
         ),
     ]
