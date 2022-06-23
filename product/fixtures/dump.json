@@ -153,7 +153,7 @@
     "photo": "menu_photo/7.jpg",
     "description": "Свежий салат Свежий салат",
     "price": 600,
-    "available": "Есть",
+    "available": "Нет",
     "translit_product_name": "Svezhij salat",
     "translit_description": "Svezhij salat Svezhij salat",
     "product_name_translation": "Fresh salad",
@@ -180,126 +180,336 @@
 },
 {
   "model": "product.basket",
-  "pk": 244,
+  "pk": 452,
+  "fields": {
+    "product": 6,
+    "telegram_user_id": 1198799862,
+    "amount": 2,
+    "product_total_price": 1000,
+    "status": "Не оплачено"
+  }
+},
+{
+  "model": "product.basket",
+  "pk": 458,
+  "fields": {
+    "product": 2,
+    "telegram_user_id": 1198799862,
+    "amount": 1,
+    "product_total_price": 300,
+    "status": "Не оплачено"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 58,
+  "fields": {
+    "product": 7,
+    "telegram_user_id": 1198799862,
+    "amount": 4,
+    "product_total_price": 2400,
+    "status": "Не оплачено",
+    "order": 14,
+    "created_at": "2022-06-15T08:34:56.141Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 59,
+  "fields": {
+    "product": 6,
+    "telegram_user_id": 1198799862,
+    "amount": 4,
+    "product_total_price": 2000,
+    "status": "Не оплачено",
+    "order": 14,
+    "created_at": "2022-06-15T08:34:56.161Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 60,
+  "fields": {
+    "product": 5,
+    "telegram_user_id": 965045582,
+    "amount": 3,
+    "product_total_price": 2700,
+    "status": "Не оплачено",
+    "order": 15,
+    "created_at": "2022-06-15T08:35:12.902Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 61,
+  "fields": {
+    "product": 4,
+    "telegram_user_id": 965045582,
+    "amount": 3,
+    "product_total_price": 2400,
+    "status": "Не оплачено",
+    "order": 15,
+    "created_at": "2022-06-15T08:35:12.971Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 62,
+  "fields": {
+    "product": 9,
+    "telegram_user_id": 965045582,
+    "amount": 3,
+    "product_total_price": 300,
+    "status": "Не оплачено",
+    "order": 16,
+    "created_at": "2022-06-15T08:35:59.332Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 63,
+  "fields": {
+    "product": 2,
+    "telegram_user_id": 965045582,
+    "amount": 5,
+    "product_total_price": 1500,
+    "status": "Не оплачено",
+    "order": 16,
+    "created_at": "2022-06-15T08:35:59.352Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 64,
+  "fields": {
+    "product": 2,
+    "telegram_user_id": 965045582,
+    "amount": 5,
+    "product_total_price": 1500,
+    "status": "Не оплачено",
+    "order": 17,
+    "created_at": "2022-06-15T12:21:23.742Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 65,
+  "fields": {
+    "product": 9,
+    "telegram_user_id": 965045582,
+    "amount": 5,
+    "product_total_price": 500,
+    "status": "Не оплачено",
+    "order": 17,
+    "created_at": "2022-06-15T12:21:23.830Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 66,
+  "fields": {
+    "product": 7,
+    "telegram_user_id": 965045582,
+    "amount": 2,
+    "product_total_price": 1200,
+    "status": "Не оплачено",
+    "order": 18,
+    "created_at": "2022-06-16T14:08:17.725Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 67,
+  "fields": {
+    "product": 6,
+    "telegram_user_id": 965045582,
+    "amount": 2,
+    "product_total_price": 1000,
+    "status": "Не оплачено",
+    "order": 18,
+    "created_at": "2022-06-16T14:08:17.763Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 68,
+  "fields": {
+    "product": 7,
+    "telegram_user_id": 965045582,
+    "amount": 2,
+    "product_total_price": 1200,
+    "status": "Не оплачено",
+    "order": 19,
+    "created_at": "2022-06-17T09:10:24.621Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 69,
+  "fields": {
+    "product": 6,
+    "telegram_user_id": 965045582,
+    "amount": 2,
+    "product_total_price": 1000,
+    "status": "Не оплачено",
+    "order": 20,
+    "created_at": "2022-06-17T09:11:23.279Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 78,
+  "fields": {
+    "product": 5,
+    "telegram_user_id": 965045582,
+    "amount": 2,
+    "product_total_price": 1800,
+    "status": "Не оплачено",
+    "order": 27,
+    "created_at": "2022-06-20T12:08:20.307Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 79,
+  "fields": {
+    "product": 4,
+    "telegram_user_id": 965045582,
+    "amount": 2,
+    "product_total_price": 1600,
+    "status": "Не оплачено",
+    "order": 27,
+    "created_at": "2022-06-20T12:08:20.324Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 82,
+  "fields": {
+    "product": 6,
+    "telegram_user_id": 717825368,
+    "amount": 3,
+    "product_total_price": 1500,
+    "status": "Не оплачено",
+    "order": 28,
+    "created_at": "2022-06-22T11:34:51.206Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 83,
+  "fields": {
+    "product": 9,
+    "telegram_user_id": 717825368,
+    "amount": 1,
+    "product_total_price": 100,
+    "status": "Не оплачено",
+    "order": 28,
+    "created_at": "2022-06-22T11:34:51.235Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 86,
+  "fields": {
+    "product": 9,
+    "telegram_user_id": 431132059,
+    "amount": 3,
+    "product_total_price": 300,
+    "status": "Не оплачено",
+    "order": 30,
+    "created_at": "2022-06-22T11:45:58.248Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 88,
+  "fields": {
+    "product": 5,
+    "telegram_user_id": 965045582,
+    "amount": 8,
+    "product_total_price": 7200,
+    "status": "Не оплачено",
+    "order": 32,
+    "created_at": "2022-06-22T11:46:20.328Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 89,
+  "fields": {
+    "product": 9,
+    "telegram_user_id": 965045582,
+    "amount": 3,
+    "product_total_price": 300,
+    "status": "Не оплачено",
+    "order": 32,
+    "created_at": "2022-06-22T11:46:20.349Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 93,
   "fields": {
     "product": 5,
     "telegram_user_id": 717825368,
     "amount": 1,
     "product_total_price": 900,
-    "status": "Не оплачено"
-  }
-},
-{
-  "model": "product.basket",
-  "pk": 245,
-  "fields": {
-    "product": 7,
-    "telegram_user_id": 717825368,
-    "amount": 2,
-    "product_total_price": 1200,
-    "status": "Не оплачено"
-  }
-},
-{
-  "model": "product.basket",
-  "pk": 256,
-  "fields": {
-    "product": 3,
-    "telegram_user_id": 1198799862,
-    "amount": 2,
-    "product_total_price": 800,
-    "status": "Не оплачено"
+    "status": "Не оплачено",
+    "order": 34,
+    "created_at": "2022-06-22T11:56:55.907Z"
   }
 },
 {
   "model": "product.baskettoorder",
-  "pk": 1,
+  "pk": 94,
   "fields": {
-    "product": 1,
-    "telegram_user_id": 431132059,
+    "product": 6,
+    "telegram_user_id": 717825368,
+    "amount": 2,
+    "product_total_price": 1000,
+    "status": "Не оплачено",
+    "order": 34,
+    "created_at": "2022-06-22T11:56:55.925Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 95,
+  "fields": {
+    "product": 2,
+    "telegram_user_id": 717825368,
+    "amount": 2,
+    "product_total_price": 600,
+    "status": "Не оплачено",
+    "order": 34,
+    "created_at": "2022-06-22T11:56:55.939Z"
+  }
+},
+{
+  "model": "product.baskettoorder",
+  "pk": 96,
+  "fields": {
+    "product": 6,
+    "telegram_user_id": 965045582,
     "amount": 3,
     "product_total_price": 1500,
     "status": "Не оплачено",
-    "order": 1,
-    "created_at": "2022-06-13T19:26:52.980Z"
+    "order": 35,
+    "created_at": "2022-06-23T06:16:45.749Z"
   }
 },
 {
   "model": "product.baskettoorder",
-  "pk": 2,
-  "fields": {
-    "product": 3,
-    "telegram_user_id": 431132059,
-    "amount": 2,
-    "product_total_price": 800,
-    "status": "Не оплачено",
-    "order": 1,
-    "created_at": "2022-06-13T19:26:53.029Z"
-  }
-},
-{
-  "model": "product.baskettoorder",
-  "pk": 3,
-  "fields": {
-    "product": 4,
-    "telegram_user_id": 431132059,
-    "amount": 2,
-    "product_total_price": 1600,
-    "status": "Не оплачено",
-    "order": 1,
-    "created_at": "2022-06-13T19:26:53.053Z"
-  }
-},
-{
-  "model": "product.baskettoorder",
-  "pk": 4,
-  "fields": {
-    "product": 6,
-    "telegram_user_id": 431132059,
-    "amount": 1,
-    "product_total_price": 500,
-    "status": "Не оплачено",
-    "order": 1,
-    "created_at": "2022-06-13T19:26:53.094Z"
-  }
-},
-{
-  "model": "product.baskettoorder",
-  "pk": 5,
-  "fields": {
-    "product": 7,
-    "telegram_user_id": 431132059,
-    "amount": 1,
-    "product_total_price": 600,
-    "status": "Не оплачено",
-    "order": 1,
-    "created_at": "2022-06-13T19:26:53.116Z"
-  }
-},
-{
-  "model": "product.baskettoorder",
-  "pk": 6,
-  "fields": {
-    "product": 3,
-    "telegram_user_id": 431132059,
-    "amount": 2,
-    "product_total_price": 800,
-    "status": "Не оплачено",
-    "order": 2,
-    "created_at": "2022-06-13T20:01:29.373Z"
-  }
-},
-{
-  "model": "product.baskettoorder",
-  "pk": 7,
+  "pk": 97,
   "fields": {
     "product": 9,
-    "telegram_user_id": 431132059,
-    "amount": 2,
-    "product_total_price": 200,
+    "telegram_user_id": 965045582,
+    "amount": 3,
+    "product_total_price": 300,
     "status": "Не оплачено",
-    "order": 2,
-    "created_at": "2022-06-13T20:01:29.418Z"
+    "order": 35,
+    "created_at": "2022-06-23T06:16:45.770Z"
   }
 },
 {
@@ -325,20 +535,119 @@
 },
 {
   "model": "product.shoppingcartorder",
-  "pk": 1,
+  "pk": 14,
   "fields": {
-    "telegram_user_id": 431132059,
+    "telegram_user_id": 1198799862,
     "status": 1,
-    "updated_at": "2022-06-14T06:58:03.830Z"
+    "updated_at": "2022-06-15T08:34:56.097Z"
   }
 },
 {
   "model": "product.shoppingcartorder",
-  "pk": 2,
+  "pk": 15,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "status": 3,
+    "updated_at": "2022-06-17T18:33:27.418Z"
+  }
+},
+{
+  "model": "product.shoppingcartorder",
+  "pk": 16,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "status": 3,
+    "updated_at": "2022-06-16T11:09:43.831Z"
+  }
+},
+{
+  "model": "product.shoppingcartorder",
+  "pk": 17,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "status": 3,
+    "updated_at": "2022-06-17T09:13:41.336Z"
+  }
+},
+{
+  "model": "product.shoppingcartorder",
+  "pk": 18,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "status": 3,
+    "updated_at": "2022-06-17T18:33:31.716Z"
+  }
+},
+{
+  "model": "product.shoppingcartorder",
+  "pk": 19,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "status": 3,
+    "updated_at": "2022-06-17T09:13:47.622Z"
+  }
+},
+{
+  "model": "product.shoppingcartorder",
+  "pk": 20,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "status": 3,
+    "updated_at": "2022-06-17T17:57:49.528Z"
+  }
+},
+{
+  "model": "product.shoppingcartorder",
+  "pk": 27,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "status": 1,
+    "updated_at": "2022-06-20T12:08:20.287Z"
+  }
+},
+{
+  "model": "product.shoppingcartorder",
+  "pk": 28,
+  "fields": {
+    "telegram_user_id": 717825368,
+    "status": 2,
+    "updated_at": "2022-06-22T11:40:29.794Z"
+  }
+},
+{
+  "model": "product.shoppingcartorder",
+  "pk": 30,
   "fields": {
     "telegram_user_id": 431132059,
     "status": 2,
-    "updated_at": "2022-06-14T06:19:43.186Z"
+    "updated_at": "2022-06-22T11:48:20.688Z"
+  }
+},
+{
+  "model": "product.shoppingcartorder",
+  "pk": 32,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "status": 2,
+    "updated_at": "2022-06-22T11:48:40.460Z"
+  }
+},
+{
+  "model": "product.shoppingcartorder",
+  "pk": 34,
+  "fields": {
+    "telegram_user_id": 717825368,
+    "status": 2,
+    "updated_at": "2022-06-22T12:02:41.658Z"
+  }
+},
+{
+  "model": "product.shoppingcartorder",
+  "pk": 35,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "status": 2,
+    "updated_at": "2022-06-23T06:17:32.642Z"
   }
 },
 {
@@ -348,6 +657,16 @@
     "first_name": "Just",
     "last_name": "R",
     "phone_number": 77770918657,
+    "vcard": null
+  }
+},
+{
+  "model": "product.telegramuser",
+  "pk": 455466112,
+  "fields": {
+    "first_name": "555",
+    "last_name": null,
+    "phone_number": 77081992262,
     "vcard": null
   }
 },
@@ -399,6 +718,222 @@
     "last_name": "Сатаев",
     "phone_number": 77773999819,
     "vcard": null
+  }
+},
+{
+  "model": "product.merchanttelegramuser",
+  "pk": 965045582,
+  "fields": {
+    "first_name": "Мейржан",
+    "last_name": "Конаев",
+    "phone_number": 77774440432,
+    "vcard": null
+  }
+},
+{
+  "model": "product.merchanttelegramuser",
+  "pk": 1198799862,
+  "fields": {
+    "first_name": "Tolkyn",
+    "last_name": null,
+    "phone_number": 77761885243,
+    "vcard": null
+  }
+},
+{
+  "model": "product.merchanttelegramuser",
+  "pk": 1810248042,
+  "fields": {
+    "first_name": "Бакытбек",
+    "last_name": "Сатаев",
+    "phone_number": 77773999819,
+    "vcard": null
+  }
+},
+{
+  "model": "product.tablereservation",
+  "pk": 1,
+  "fields": {
+    "status": "Выполнено",
+    "telegram_user_id": 965045582,
+    "date": "2022-06-22",
+    "time": "16:00:00",
+    "persons_number": "6-10",
+    "table_number": "1"
+  }
+},
+{
+  "model": "product.tablereservation",
+  "pk": 2,
+  "fields": {
+    "status": "Выполнено",
+    "telegram_user_id": 717825368,
+    "date": "2022-06-17",
+    "time": "14:00:00",
+    "persons_number": "6-10",
+    "table_number": "10"
+  }
+},
+{
+  "model": "product.tablereservation",
+  "pk": 3,
+  "fields": {
+    "status": "Новый",
+    "telegram_user_id": 431132059,
+    "date": "2022-06-25",
+    "time": "18:00:00",
+    "persons_number": "6-10",
+    "table_number": null
+  }
+},
+{
+  "model": "product.tablereservation",
+  "pk": 4,
+  "fields": {
+    "status": "Новый",
+    "telegram_user_id": 717825368,
+    "date": "2022-06-17",
+    "time": "18:00:00",
+    "persons_number": "6-10",
+    "table_number": null
+  }
+},
+{
+  "model": "product.tablereservation",
+  "pk": 5,
+  "fields": {
+    "status": "Новый",
+    "telegram_user_id": 717825368,
+    "date": "2022-06-23",
+    "time": "17:30:00",
+    "persons_number": "6-10",
+    "table_number": null
+  }
+},
+{
+  "model": "product.customerfeedback",
+  "pk": 3,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "quiz_answer": 5,
+    "description": "wsedtrfgyu asdfghjk"
+  }
+},
+{
+  "model": "product.customerfeedback",
+  "pk": 4,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "quiz_answer": 3,
+    "description": null
+  }
+},
+{
+  "model": "product.customerfeedback",
+  "pk": 5,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "quiz_answer": 1,
+    "description": null
+  }
+},
+{
+  "model": "product.customerfeedback",
+  "pk": 6,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "quiz_answer": 4,
+    "description": "ывапрол ывапролдж"
+  }
+},
+{
+  "model": "product.customerfeedback",
+  "pk": 7,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "quiz_answer": 3,
+    "description": null
+  }
+},
+{
+  "model": "product.customerfeedback",
+  "pk": 8,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "quiz_answer": 3,
+    "description": null
+  }
+},
+{
+  "model": "product.customerfeedback",
+  "pk": 9,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "quiz_answer": 4,
+    "description": "👍 хорошо"
+  }
+},
+{
+  "model": "product.customerfeedback",
+  "pk": 10,
+  "fields": {
+    "telegram_user_id": 1198799862,
+    "quiz_answer": 5,
+    "description": null
+  }
+},
+{
+  "model": "product.customerfeedback",
+  "pk": 11,
+  "fields": {
+    "telegram_user_id": 431132059,
+    "quiz_answer": 4,
+    "description": "все круто"
+  }
+},
+{
+  "model": "product.customerfeedback",
+  "pk": 12,
+  "fields": {
+    "telegram_user_id": 717825368,
+    "quiz_answer": 5,
+    "description": "очень вкусно"
+  }
+},
+{
+  "model": "product.customerfeedback",
+  "pk": 13,
+  "fields": {
+    "telegram_user_id": 717825368,
+    "quiz_answer": 4,
+    "description": "вкусно"
+  }
+},
+{
+  "model": "product.customerfeedback",
+  "pk": 14,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "quiz_answer": 5,
+    "description": "Хорошо, луче всех"
+  }
+},
+{
+  "model": "product.customerfeedback",
+  "pk": 15,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "quiz_answer": 3,
+    "description": null
+  }
+},
+{
+  "model": "product.customerfeedback",
+  "pk": 16,
+  "fields": {
+    "telegram_user_id": 965045582,
+    "quiz_answer": 4,
+    "description": "ывапршлщдзшгонрпав ролдлорпав"
   }
 }
 ]
