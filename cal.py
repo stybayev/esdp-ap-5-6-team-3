@@ -166,11 +166,6 @@ class Calendar:
                     "PREVIOUS-MONTH", year, month, "!"),
             ),
             InlineKeyboardButton(
-                "Отмена",
-                callback_data=calendar_callback.new(
-                    "ОТМЕНА", year, month, "!"),
-            ),
-            InlineKeyboardButton(
                 ">", callback_data=calendar_callback.new(
                     "NEXT-MONTH", year, month, "!")
             ),

@@ -2,19 +2,19 @@
 
 {% load static %}
 {% block content %}
-    <ul id="tabs" style="margin-top: 20px;">
+    <ul id="tabs" class="tabs" style="margin-top: 20px;">
         <li><a href="#" name="tab1">Новые заказы</a></li>
         <li><a href="#" name="tab2">Заказы в процессе</a></li>
         <li><a href="#" name="tab3">Выполненные заказы</a></li>
     </ul>
-    <div id="content" >
-        <div id="tab1" class="row">
+    <div id="content" class="content" >
+        <div id="tab1" >
             {% include 'order/list_order.html' with name_status='Новый' %}
         </div>
-        <div id="tab2" class="row">
+        <div id="tab2" >
             {% include 'order/list_order.html' with name_status='В процессе' %}
         </div>
-        <div id="tab3" class="row">
+        <div id="tab3" >
             {% include 'order/list_order.html' with name_status='Выполнено' %}
         </div>
     </div>

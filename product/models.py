@@ -340,6 +340,10 @@ class TableReservation(models.Model):
     STATUS = (
         (NEW, NEW), (DONE, DONE)
     )
+    TABLE_NUMBERS = []
+    for t in range(1, 21):
+        TABLE_NUMBERS.append((t, t))
+
     status = models.CharField(
         max_length=20, choices=STATUS, null=False,
         blank=False, default=NEW, verbose_name="Статус"
@@ -357,8 +361,9 @@ class TableReservation(models.Model):
         null=False, max_length=20, blank=False,
         verbose_name="Количество человек"
     )
-    table_number = models.PositiveSmallIntegerField(
-        null=True, blank=True, verbose_name="Номер столика"
+    table_number = models.CharField(
+        max_length=20,
+        null=True, blank=True, choices=TABLE_NUMBERS, verbose_name="Номер столика"
     )
 
     def __str__(self):

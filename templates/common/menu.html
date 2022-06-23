@@ -7,21 +7,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#"></a>
-                </li>
                 <li class="nav-item" >
-                    <a class="nav-link active menu" aria-current="page" href="{% url 'list_category' %} ">Меню</a>
+                    <a class="nav-link menu" aria-current="page" href="{% url 'list_category' %} ">Меню</a>
                 </li>
               <li class="nav-item" >
-                  <a class="nav-link active menu" aria-current="page"  href="{% url 'orders_view' %} ">Заказы</a>
+                  <a class="nav-link menu" aria-current="page"  href="{% url 'orders_view' %} ">Заказы</a>
                 </li>
 
                 <li class="nav-item" >
-                    <a class="nav-link active menu" aria-current="page"  href="#">Столики</a>
+                    <a class="nav-link menu" aria-current="page"  href="{% url 'reserv_list' %}">Столики</a>
                 </li>
                 <li class="nav-item" >
-                    <a class="nav-link active menu" aria-current="page"  href="{% url 'aboutus_view' %} ">О нас</a>
+                    <a class="nav-link menu" aria-current="page"  href="{% url 'aboutus_view' %} ">О нас</a>
                 </li>
             </ul>
             <span class="navbar-text">
