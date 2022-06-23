@@ -1,0 +1,56 @@
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Номер брони</th>
+            <th>Стол №</th>
+            <th>Статус</th>
+            <th>Дата брони</th>
+            <th>Время брони</th>
+            <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for reserv in reservations %}
+            {% if reserv.status == name_status %}
+                <tr>
+                    <td data-label="Номер брони">
+                        {{ reserv.id }}
+                    </td>
+                    <td data-label="Стол №">
+                        {% if name_status == 'Новый' %}
+                            <form id="table{{ reserv.id }}" action="{% url 'table_edit' reserv.id %}" method="POST">
+                                {% csrf_token %}
+                                <select name="table_number" class="form-control select">
+                                    {% for obj in table %}
+                                            <option value="{{ obj.0 }}">{{ obj.1}}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        {% else %}
+                            {{ reserv.table_number }}
+                        {% endif %}
+                    </td>
+                    <td data-label="Статус">
+                        {{ reserv.status }}
+                    </td>
+                    <td data-label="Дата брони">
+                        {{ reserv.date|date:'d F Y' }}
+                    </td>
+                    <td data-label="Время брони">
+                        {{ reserv.time|date:'G:i' }}
+                    </td>
+                    <td data-label="Действие">
+                        {% if name_status == 'Новый' %}
+                            <button form="table{{ reserv.id }}">Бронировать</button>
+                            <a class="btn" href="{% url 'delete_reserv' reserv.id %}">Отменить бронь</a>
+                        {% else %}
+                            <button>Редактировать</button>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

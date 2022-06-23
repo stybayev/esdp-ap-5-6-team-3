@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+    <ul id="title_reserv" class="tabs" style="margin-top: 20px;">
+        <li><a href="#" name="2tab1">Новые брони</a></li>
+        <li><a href="#" name="2tab2">Бронированные столики</a></li>
+    </ul>
+    <div id="reserv" class="content" >
+        <div id="2tab1" >
+            {% include 'table/table_list.html' with name_status='Новый' %}
+        </div>
+        <div id="2tab2" >
+            {% include 'table/table_list.html' with name_status='Выполнено' %}
+        </div>
+    </div>
+{% endblock %}
