@@ -42,10 +42,10 @@
                     </td>
                     <td data-label="Действие">
                         {% if name_status == 'Новый' %}
-                            <button form="table{{ reserv.id }}">Бронировать</button>
-                            <a class="btn" href="{% url 'delete_reserv' reserv.id %}">Отменить бронь</a>
+                            <button class="btn btn-2 btn-sm" form="table{{ reserv.id }}">Бронировать</button>
+                            <a class="btn btn-3 btn-sm" href="{% url 'delete_reserv' reserv.id %}">Отменить бронь</a>
                         {% else %}
-                            <button>Редактировать</button>
+                            <a href="#" class="btn btn-2 btn-sm">Редактировать</a>
                         {% endif %}
                     </td>
                 </tr>
