@@ -14,7 +14,7 @@ from product.models import TelegramUser, Product, Basket, Aboutus, Category, Bas
     ShoppingCartOrderBasketToOrder, StatusShoppingCartOrder, MerchantTelegramUser, TableReservation
 
 merchant_key = '5474930369:AAFYwY-sfz8B8-mqT9b_oxhofE46UvBgpcA'
-client_key = '5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U'
+client_key = '5364245042:AAFrhGGJjLitrjAubUocJfrzTHkegtuMxIg'
 logger = telebot.logger
 bot = telebot.TeleBot(client_key)
 calendar = Calendar(language=RUSSIAN_LANGUAGE)
@@ -89,27 +89,33 @@ def button_menu(keyboard, basket):
 
 @bot.message_handler(commands=["start"])
 def start(m):
-    print(type(m.from_user.id))
-
     if TelegramUser.objects.filter(user_id=m.from_user.id):
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
         msg = bot.send_message(m.chat.id, f'Приветствую Вас *{m.from_user.first_name}*!', reply_markup=keyboard,
                                parse_mode="Markdown")
-        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                       ['\U0001F4D6\U0001F372\U0001F354Меню', '\U0001F371Корзина']])
-        keyboard.add(
-            *[types.KeyboardButton(bot_message) for bot_message in ['\U0001F4DCО Нас', '\U0001F45DОформить заказ']])
-        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                       ['\U0001F55CСтатус заказа', '\U0001F51AВыполненные заказы']])
-        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                       ['\U0001f6cb\ufe0fЗабронировать столик']])
-
-        bot.send_message(m.chat.id, 'Выберите в меню операции!', reply_markup=keyboard)
+        menu(m, 'Выберите в меню операции!')
         bot.register_next_step_handler(msg, bot_message)
     else:
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
         keyboard.add(types.KeyboardButton(text='\U0001F4F2Поделиться номером', request_contact=True))
         bot.send_message(m.chat.id, '\U0001F4F2Поделиться номером!', reply_markup=keyboard)
+
+
+def menu(m, text):
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
+                   ['\U0001F4D6\U0001F372\U0001F354Меню', '\U0001F371Корзина']])
+    keyboard.add(
+        *[types.KeyboardButton(bot_message) for bot_message in ['\U0001F4DCО Нас', '\U0001F45DОформить заказ']])
+    keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
+                   ['\U0001F55CСтатус заказа', '\U0001F51AВыполненные заказы']])
+    keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
+                   ['\U0001f6cb\ufe0fЗабронировать столик']])
+    bot.send_message(
+        m.chat.id,
+        text=text,
+        reply_markup=keyboard
+    )
 
 
 @bot.message_handler(content_types=["text", "contact"])
@@ -154,20 +160,17 @@ def bot_message(m):
                                         date=database[m.from_user.id]['date'], time=database[m.from_user.id]['time'],
                                         persons_number=database[m.from_user.id]['persons'])
         del database[m.from_user.id]
-        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                       ['\U0001F4D6\U0001F372\U0001F354Меню', '\U0001F371Корзина']])
-        keyboard.add(
-            *[types.KeyboardButton(bot_message) for bot_message in ['\U0001F4DCО Нас', '\U0001F45DОформить заказ']])
-        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                       ['\U0001F55CСтатус заказа', '\U0001F51AВыполненные заказы']])
-        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                       ['\U0001f6cb\ufe0fЗабронировать столик']])
-        bot.send_message(
-            m.chat.id,
-            "Вам придет ответа от менеджера",
-            reply_markup=keyboard
-            )
+        for users in MerchantTelegramUser.objects.all():
+            keyboard = types.InlineKeyboardMarkup()
+            keyboard.add(types.InlineKeyboardButton(text=f"Перейти в бронь столиков",
+                                                    url=f"http://127.0.0.1:8000/reservations/"))
+
+            merchant_bot.send_message(users.user_id, 'Забронировали столик, подтвердите',
+                                      reply_markup=keyboard, parse_mode='Markdown')
+        menu(m, "Вам придет ответа от менеджера")
+    elif m.text == 'Вернуться в меню':
+        del database[m.from_user.id]
+        menu(m, 'Выберите операцию')
     elif m.text == '\U0001F371Корзина':
         for basket in Basket.objects.all():
             if m.from_user.id == basket.telegram_user_id_id:
@@ -261,8 +264,8 @@ def callback_inline(call: CallbackQuery):
     date_in = calendar.calendar_query_handler(
         bot=bot, call=call, name=name, action=action, year=year, month=month, day=day
     )
-    database.setdefault(call.from_user.id, {'date': date_in.strftime('%Y-%m-%d')})
     if action == "DAY":
+        database.setdefault(call.from_user.id, {'date': date_in.strftime('%Y-%m-%d')})
         bot.send_message(
             chat_id=call.from_user.id,
             text=f"Выбранная дата: {database[call.from_user.id].get('date')}",
@@ -274,13 +277,6 @@ def callback_inline(call: CallbackQuery):
             text="Выберите время",
             reply_markup=get_time(keyboard),
         )
-    elif action == "ОТМЕНА":
-        bot.send_message(
-            chat_id=call.from_user.id,
-            text="Отменен",
-            reply_markup=ReplyKeyboardRemove(),
-        )
-
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
@@ -317,7 +313,7 @@ def callback_inline(call):
         database[call.from_user.id]['persons'] = call.data
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
         keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                       ['Изменить бронь', 'Бронировать']])
+                       ['Изменить бронь', 'Бронировать', 'Вернуться в меню']])
         bot.send_message(
             chat_id=call.from_user.id,
             text=f'''Дата: {database[call.from_user.id]['date']}, время: {database[call.from_user.id]['time']}, количество людей: {database[call.from_user.id]['persons']}
