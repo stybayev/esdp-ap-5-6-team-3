@@ -16,7 +16,7 @@ from product.models import TelegramUser, Product, Basket, Aboutus, Category, Bas
     ShoppingCartOrderBasketToOrder, StatusShoppingCartOrder, MerchantTelegramUser, TableReservation, CustomerFeedback
 
 merchant_key = '5474930369:AAFYwY-sfz8B8-mqT9b_oxhofE46UvBgpcA'
-client_key = '5364245042:AAFrhGGJjLitrjAubUocJfrzTHkegtuMxIg'
+client_key = '5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U'
 logger = telebot.logger
 bot = telebot.TeleBot(client_key)
 calendar = Calendar(language=RUSSIAN_LANGUAGE)
@@ -204,8 +204,9 @@ def bot_message(m):
                 bot.send_photo(m.chat.id, photo, caption=text_basket(basket), reply_markup=keyboard,
                                parse_mode="Markdown")
                 total_sum += basket.product_total_price
-        bot.send_message(m.chat.id, f"'\n\n_Оформить заказ:_  \n\n'",
-                         reply_markup=order_keyboard, parse_mode='Markdown')
+        if Basket.objects.filter(telegram_user_id_id=m.from_user.id):
+            bot.send_message(m.chat.id, f"'\n_Оформить заказ:_  \n'",
+                             reply_markup=order_keyboard, parse_mode='Markdown')
 
         if not Basket.objects.filter(telegram_user_id_id=m.from_user.id):
             keyboard = types.InlineKeyboardMarkup(row_width=1)
