@@ -18,8 +18,6 @@ class OrderListView(SearchView):
     model = ShoppingCartOrder
     ordering = ("updated_at",)
     context_object_name = 'orders'
-    paginate_by = 10
-    paginate_orphans = 1
     search_form = SearchForm
     search_fields = {
         'telegram_user_id__first_name': 'icontains',
