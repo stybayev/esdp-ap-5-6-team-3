@@ -6,7 +6,7 @@ from product.models import TableReservation
 import telebot
 
 
-client_key = '5364245042:AAFrhGGJjLitrjAubUocJfrzTHkegtuMxIg'
+client_key = '5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U'
 bot = telebot.TeleBot(client_key)
 
 
