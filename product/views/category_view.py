@@ -1,6 +1,6 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView, FormView
+from django.views.generic import CreateView, DeleteView, FormView
 from product.helpers import SearchView
 from product.models import Category
 from product.forms import CategoryForm, SearchForm
