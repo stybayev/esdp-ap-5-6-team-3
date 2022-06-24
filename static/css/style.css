@@ -1,4 +1,6 @@
-body {}
+footer {
+    height: 200px;
+}
 .pagination {
   text-align: center;
 }
@@ -48,6 +50,10 @@ body {}
     display: flex;
     color: #6c757d;
 }
+.form_all {
+    width: 50%;
+    margin-top: 30px;
+}
 .box {
     margin-top: 30px;
     display: flex;
@@ -68,12 +74,6 @@ body {}
 }
 .btn-2 {
     background-color: #ff9f1c;
-    color: white;
-    border-radius: 10px;
-    padding: 10px;
-}
-.btn-3 {
-    background-color: #FF6840;
     color: white;
     border-radius: 10px;
     padding: 10px;
@@ -118,6 +118,12 @@ body {}
   margin-top: 30px;
     border-radius: 10px;
 }
+.table-responsive-3 {
+	overflow-x: auto;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  margin-top: 30px;
+    border-radius: 10px;
+}
 .table th, .table td{
     text-align: center;
     padding: 10px;
@@ -137,6 +143,37 @@ body {}
 .create {
     border-radius: 10px;
     padding: 10px;
+}
+@media (max-width: 1000px) {
+    .form_all {
+        width: 80%;
+    }
+    .table-responsive-3 table thead {
+        display: none;
+    }
+    .table-responsive-3 table tr {
+        display: block;
+    }
+    .table-responsive-3 table td {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+    }
+    .table-responsive-3 table td::before {
+        content: attr(data-label);
+    }
+    .box {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .image {
+        margin-top: 20px;
+        width: 100%;
+    }
+    .body-card {
+        margin-top: 20px;
+        width: 100%;
+    }
 }
 @media (max-width: 800px) {
     .table-responsive table thead {
