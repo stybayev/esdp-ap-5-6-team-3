@@ -16,7 +16,7 @@ from product.models import TelegramUser, Product, Basket, Aboutus, Category, Bas
     ShoppingCartOrderBasketToOrder, StatusShoppingCartOrder, MerchantTelegramUser, TableReservation, CustomerFeedback
 
 merchant_key = '5474930369:AAFYwY-sfz8B8-mqT9b_oxhofE46UvBgpcA'
-client_key = '5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U'
+client_key = '5364245042:AAFrhGGJjLitrjAubUocJfrzTHkegtuMxIg'
 logger = telebot.logger
 bot = telebot.TeleBot(client_key)
 calendar = Calendar(language=RUSSIAN_LANGUAGE)
@@ -169,7 +169,7 @@ def bot_message(m):
             ),
         )
     elif m.text == 'Бронировать':
-        TableReservation.objects.create(telegram_user_id=m.from_user.id,
+        TableReservation.objects.create(telegram_user_id_id=m.from_user.id,
                                         date=database[m.from_user.id]['date'], time=database[m.from_user.id]['time'],
                                         persons_number=database[m.from_user.id]['persons'])
         del database[m.from_user.id]
@@ -178,7 +178,8 @@ def bot_message(m):
             keyboard.add(types.InlineKeyboardButton(text=f"Перейти в бронь столиков",
                                                     url=f"http://127.0.0.1:8000/reservations/"))
 
-            merchant_bot.send_message(users.user_id, 'Забронировали столик, подтвердите',
+            merchant_bot.send_message(users.user_id,
+                                      f'Клиент с именем {m.from_user.first_name} назначил бронь, подтвердите',
                                       reply_markup=keyboard, parse_mode='Markdown')
         menu(m, "Вам придет ответа от менеджера")
     elif m.text == 'Вернуться в меню':
