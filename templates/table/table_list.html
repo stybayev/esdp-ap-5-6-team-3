@@ -1,10 +1,12 @@
-<div class="table-responsive">
+<div class="table-responsive-3">
     <table class="table">
         <thead>
         <tr>
             <th>Номер брони</th>
             <th>Стол №</th>
             <th>Статус</th>
+            <th>Клиент</th>
+            <th>Номер клиента</th>
             <th>Дата брони</th>
             <th>Время брони</th>
             <th>Действие</th>
@@ -23,7 +25,11 @@
                                 {% csrf_token %}
                                 <select name="table_number" class="form-control select">
                                     {% for obj in table %}
-                                            <option value="{{ obj.0 }}">{{ obj.1}}</option>
+                                        {% if obj.0 == reserv.table_number %}
+                                            <option selected value="{{ obj.0 }}">{{ obj.1 }}</option>
+                                        {% else %}
+                                            <option value="{{ obj.0 }}">{{ obj.1 }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                 </select>
                             </form>
@@ -34,6 +40,12 @@
                     <td data-label="Статус">
                         {{ reserv.status }}
                     </td>
+                    <td data-label="Клиент">
+                        {{ reserv.telegram_user_id.first_name }}
+                    </td>
+                    <td data-label="Номер клиента">
+                        +{{ reserv.telegram_user_id.phone_number }}
+                    </td>
                     <td data-label="Дата брони">
                         {{ reserv.date|date:'d F Y' }}
                     </td>
@@ -42,10 +54,14 @@
                     </td>
                     <td data-label="Действие">
                         {% if name_status == 'Новый' %}
-                            <button class="btn btn-2 btn-sm" form="table{{ reserv.id }}">Бронировать</button>
-                            <a class="btn btn-3 btn-sm" href="{% url 'delete_reserv' reserv.id %}">Отменить бронь</a>
+                            {% load static %}
+                            <div style="display: flex">
+                                <button class="btn" form="table{{ reserv.id }}"><img style="width: 30px; height: 25px" src="{% static 'images_common/reserve.png' %}" alt=""></button>
+                                <a class="btn" href="{% url 'delete_reserve' reserv.id %}"><img style="width: 30px; height: 25px" src="{% static 'images_common/cancel.png' %}" alt=""></a>
+                                <a href="{% url 'update_reserve' reserv.id %}" class="btn"><img style="width: 30px; height: 25px" src="{% static 'images_common/edit.png' %}" alt=""></a>
+                            </div>
                         {% else %}
-                            <a href="#" class="btn btn-2 btn-sm">Редактировать</a>
+                            <a href="{% url 'update_reserve' reserv.id %}" class="btn"><img style="width: 30px; height: 25px" src="{% static 'images_common/edit.png' %}" alt=""></a>
                         {% endif %}
                     </td>
                 </tr>
