@@ -23,7 +23,8 @@ from product.views.category_view import (
     CategoryDeleteView
 )
 from product.views.table_reservation_view import (
-    ReservationListView, ReservationTableEditView, TableReservationDeleteView
+    ReservationListView, ReservationTableEditView, TableReservationDeleteView,
+    ReservationTableUpdateView
 )
 
 urlpatterns = []
@@ -98,9 +99,10 @@ orders_urls = [
 ]
 
 reserv_urls = [
-    path('reservations/', ReservationListView.as_view(), name='reserv_list'),
+    path('reservations/', ReservationListView.as_view(), name='reserve_list'),
     path('reservation/edit/<int:pk>/', ReservationTableEditView.as_view(), name='table_edit'),
-    path('reservation/delete/<int:pk>/', TableReservationDeleteView.as_view(), name='delete_reserv')
+    path('reservation/delete/<int:pk>/', TableReservationDeleteView.as_view(), name='delete_reserve'),
+    path('reservation/update/<int:pk>/', ReservationTableUpdateView.as_view(), name='update_reserve')
 ]
 
 urlpatterns += product_urls
