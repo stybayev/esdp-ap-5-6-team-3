@@ -342,14 +342,15 @@ class TableReservation(models.Model):
     )
     TABLE_NUMBERS = []
     for t in range(1, 21):
-        TABLE_NUMBERS.append((t, t))
+        TABLE_NUMBERS.append((str(t), t))
 
     status = models.CharField(
         max_length=20, choices=STATUS, null=False,
         blank=False, default=NEW, verbose_name="Статус"
     )
-    telegram_user_id = models.PositiveSmallIntegerField(
-        null=False, blank=False, verbose_name="Telegram Id пользователя"
+    telegram_user_id = models.ForeignKey(
+        'product.TelegramUser', on_delete=models.CASCADE,
+        related_name='table_user', verbose_name="Телеграмм клиент"
     )
     date = models.DateField(
         null=False, blank=False, verbose_name="Дата бронирования"
