@@ -54,7 +54,7 @@ review_urls = [
 category_urls = [
     path('category/add', CategoryCreateView.as_view(),
          name='create_category'),
-    path('category/', CategoryListView.as_view(),
+    path('', CategoryListView.as_view(),
          name='list_category'),
     path('category/<int:pk>/delete', CategoryDeleteView.as_view(),
          name='delete_category'),
@@ -88,7 +88,7 @@ aboutus_urls = [
 
 
 orders_urls = [
-    path('', OrderListView.as_view(),
+    path('orders/<str:status>/', OrderListView.as_view(),
          name='orders_view'),
     path('order/<int:pk>', OrderDetailView.as_view(),
          name='detail_order'),
@@ -99,7 +99,7 @@ orders_urls = [
 ]
 
 reserv_urls = [
-    path('reservations/', ReservationListView.as_view(), name='reserve_list'),
+    path('reservations/<str:status>/', ReservationListView.as_view(), name='reserve_list'),
     path('reservation/edit/<int:pk>/', ReservationTableEditView.as_view(), name='table_edit'),
     path('reservation/delete/<int:pk>/', TableReservationDeleteView.as_view(), name='delete_reserve'),
     path('reservation/update/<int:pk>/', ReservationTableUpdateView.as_view(), name='update_reserve')
