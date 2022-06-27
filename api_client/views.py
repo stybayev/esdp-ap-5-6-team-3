@@ -71,3 +71,4 @@ class CommentsAPIView(APIView):
                                      f"*{self.request.data['text']}* \n ",
                                      parse_mode='Markdown')
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
