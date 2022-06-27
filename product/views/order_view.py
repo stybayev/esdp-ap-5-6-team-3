@@ -1,3 +1,4 @@
+from config import client_key
 from product.forms import SearchForm
 from product.helpers import SearchView
 from product.models import ShoppingCartOrder, StatusShoppingCartOrder, \
@@ -8,7 +9,6 @@ from django.urls import reverse
 import telebot
 from telebot import types
 
-client_key = '5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U'
 
 bot = telebot.TeleBot(client_key)
 

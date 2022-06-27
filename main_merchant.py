@@ -1,5 +1,8 @@
 import django
 import os
+
+from config import merchant_key
+
 os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings'
 django.setup()
 import telebot
@@ -8,9 +11,6 @@ import time
 from product.models import (TelegramUser,
                             MerchantTelegramUser,
                             ShoppingCartOrder)
-
-merchant_key = '5474930369:AAFYwY-sfz8B8-mqT9b_oxhofE46UvBgpcA'
-client_key = '5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U'
 
 
 merchant_bot = telebot.TeleBot(merchant_key)

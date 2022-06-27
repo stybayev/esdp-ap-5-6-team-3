@@ -4,6 +4,8 @@ import os
 from django.shortcuts import get_object_or_404
 import json
 
+from config import client_key, merchant_key
+
 os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings'
 django.setup()
 import telebot
@@ -15,8 +17,7 @@ import time
 from product.models import TelegramUser, Product, Basket, Aboutus, Category, BasketToOrder, ShoppingCartOrder, \
     ShoppingCartOrderBasketToOrder, StatusShoppingCartOrder, MerchantTelegramUser, TableReservation, CustomerFeedback
 
-merchant_key = '5474930369:AAFYwY-sfz8B8-mqT9b_oxhofE46UvBgpcA'
-client_key = '5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U'
+
 logger = telebot.logger
 bot = telebot.TeleBot(client_key)
 calendar = Calendar(language=RUSSIAN_LANGUAGE)

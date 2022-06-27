@@ -1,7 +1,7 @@
 from django import forms
 
-from product.models import Product, Review, \
-    Category, Aboutus, ShoppingCartOrder
+from product.models import (Product, Category,
+                            Aboutus, ShoppingCartOrder, Comments)
 
 
 class ProductForm(forms.ModelForm):
@@ -23,12 +23,6 @@ class SearchForm(forms.Form):
     search = forms.CharField(max_length=100, required=False)
 
 
-class ReviewForm(forms.ModelForm):
-    class Meta:
-        model = Review
-        fields = ['review', 'order_id']
-
-
 class AboutusForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea)
 
@@ -41,3 +35,9 @@ class ChangeOrderStatusForm(forms.ModelForm):
     class Meta:
         model = ShoppingCartOrder
         fields = ['status', ]
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comments
+        fields = ('text', )

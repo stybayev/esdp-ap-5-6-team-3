@@ -2,11 +2,11 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, UpdateView, DeleteView
 from rest_framework.reverse import reverse_lazy
 
+from config import client_key
 from product.models import TableReservation
 import telebot
 
 
-client_key = '5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U'
 bot = telebot.TeleBot(client_key)
 
 
