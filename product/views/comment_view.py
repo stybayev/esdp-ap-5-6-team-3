@@ -56,4 +56,3 @@ class CommentCreateView(CreateView):
                  'form': form
             }
         )
-
