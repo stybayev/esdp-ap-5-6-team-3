@@ -59,7 +59,7 @@ class OrderChangeStatusView(TemplateView):
     order = None
 
     def get_success_url(self):
-        return reverse('orders_view', kwargs=self.order.status)
+        return reverse('orders_view', kwargs={'status': self.order.status.status})
 
     def post(self, request, *args, **kwargs):
         current_status = request.POST.get('status')
@@ -94,7 +94,7 @@ class CancelOrder(TemplateView):
     order = None
 
     def get_success_url(self):
-        return reverse('orders_view', kwargs=self.order.status)
+        return reverse('orders_view', kwargs={'status': self.order.status.status})
 
     def post(self, request, *args, **kwargs):
         order_pk = kwargs.get('pk')
