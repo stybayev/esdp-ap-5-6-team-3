@@ -50,11 +50,6 @@
         <div class="card-footer text-muted">
             {{ feedback.created_at }}
         </div>
-
-        {#                        <div style="border-top: 1px solid #e0d6d6; padding: 20px">#}
-        {#                            {% include 'partial/comment/comment_form.html' with button_text='Отправить' %}#}
-        {#                        </div>#}
-
         <form id="createForm" enctype="multipart/form-data" >
             <div style="display: flex; justify-content: space-between">
                 <input type="hidden" id="feedback" name="feedback" value="{{ feedback.id }}">

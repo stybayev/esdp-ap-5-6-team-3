@@ -38,10 +38,16 @@ class CommentCreateView(CreateView):
             comment.save()
             print(comment.text)
             print(product.telegram_user_id_id)
-            bot.send_message(product.telegram_user_id_id,
-                             f"_Оценка:{product.quiz_answer}, {product.description}_ \n\n"
-                             f"*{comment.text}* \n ",
-                             parse_mode='Markdown')
+            if product.description is not None:
+                bot.send_message(product.telegram_user_id_id,
+                                 f"_Оценка:{product.quiz_answer}, {product.description}_ \n\n"
+                                 f"*{comment.text}* \n ",
+                                 parse_mode='Markdown')
+            else:
+                bot.send_message(product.telegram_user_id_id,
+                                 f"_Оценка:{product.quiz_answer}, без отзыва_ \n\n"
+                                 f"*{comment.text}* \n ",
+                                 parse_mode='Markdown')
             return redirect(reverse('detail_feedback', kwargs={'pk': product.pk}))
         return render(
             request,
