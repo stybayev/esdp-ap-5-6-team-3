@@ -3,24 +3,63 @@
 {% load static %}
 {% block content %}
     <ul id="tabs" class="tabs" style="margin-top: 20px;">
-        <li><a href="#" name="tab1">Новые заказы</a></li>
-        <li><a href="#" name="tab2">Заказы в процессе</a></li>
-        <li><a href="#" name="tab3">Выполненные заказы</a></li>
+        <li><a href="{% url 'orders_view' status='Новый' %}"
+                {% if status == 'Новый' %}
+               style="background: #fff; z-index: 3;"
+                {% endif %}
+        >Новые заказы</a></li>
+        <li><a href="{% url 'orders_view' status='В процессе' %}"
+                {% if status == 'В процессе' %}
+               style="background: #fff; z-index: 3;"
+                {% endif %}
+        >Заказы в процессе</a></li>
+        <li><a href="{% url 'orders_view' status='Выполнено' %}"
+                {% if status == 'Выполнено' %}
+               style="background: #fff; z-index: 3;"
+                {% endif %}
+        >Выполненные заказы</a></li>
     </ul>
-    <div id="content" class="content" >
-        <div id="tab1" >
-            {% include 'order/list_order.html' with name_status='Новый' %}
-        </div>
-        <div id="tab2" >
-            {% include 'order/list_order.html' with name_status='В процессе' %}
-        </div>
-        <div id="tab3" >
-            {% include 'order/list_order.html' with name_status='Выполнено' %}
+    <div class="content" >
+        <div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Заказ</th>
+                        <th>Статус</th>
+                        <th>Дата заказа</th>
+                        <th>Время заказа</th>
+                        <th>Действие</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td data-label="Заказ №">
+                                {{ order.id }}
+                            </td>
+                            <td data-label="Статус">
+                                {{ order.status.status }}
+                            </td>
+                            <td data-label="Дата заказа">
+                                {{ order.updated_at|date:'d F Y' }}
+                            </td>
+                            <td data-label="Время заказа">
+                                {{ order.updated_at|date:'G:i' }}
+                            </td>
+                            <td data-label="Действие">
+                                <a href="{% url 'detail_order' order.id %}" class="btn btn-2 btn-sm">Подробнее</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if is_paginated %}
+                {% include 'common/pagination.html' %}
+            {% endif %}
         </div>
     </div>
-{% endblock %}
-
-{% block script %}
     <script>
         window.setTimeout(function(){location.reload()},15000)
     </script>

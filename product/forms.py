@@ -1,7 +1,7 @@
 from django import forms
-
 from product.models import (Product, Category,
-                            Aboutus, ShoppingCartOrder, Comments)
+                            Aboutus, ShoppingCartOrder,
+                            Comments, TableReservation)
 
 
 class ProductForm(forms.ModelForm):
@@ -41,3 +41,10 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comments
         fields = ('text', )
+
+
+class TableReservationForm(forms.ModelForm):
+    class Meta:
+        model = TableReservation
+        fields = ['table_number', 'date', 'time', 'status']
+
