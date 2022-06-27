@@ -1,7 +1,12 @@
 from django import forms
+<<<<<<< HEAD
+from product.models import (Product, Category,
+                            Aboutus, ShoppingCartOrder,
+=======
 
 from product.models import (Product, Category,
                             Aboutus, ShoppingCartOrder, 
+>>>>>>> 87fff4484f1450edc72da0aabc960fd45ec6549a
                             Comments, TableReservation)
 
 
