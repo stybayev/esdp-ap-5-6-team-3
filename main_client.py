@@ -16,7 +16,7 @@ from product.models import TelegramUser, Product, Basket, Aboutus, Category, Bas
     ShoppingCartOrderBasketToOrder, StatusShoppingCartOrder, MerchantTelegramUser, TableReservation, CustomerFeedback
 
 merchant_key = '5474930369:AAFYwY-sfz8B8-mqT9b_oxhofE46UvBgpcA'
-client_key = '5364245042:AAFrhGGJjLitrjAubUocJfrzTHkegtuMxIg'
+client_key = '5388600014:AAHFGhuoNaXEK7dcd-qRi0okx-Wa2S5Gs2U'
 logger = telebot.logger
 bot = telebot.TeleBot(client_key)
 calendar = Calendar(language=RUSSIAN_LANGUAGE)
