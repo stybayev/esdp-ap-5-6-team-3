@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+    {% load static %}
+{% block content %}
+    <div class="form_all">
+        <p style="color: #6c757d; font-size: 25px;">Редактирование брони</p><br/>
+        <form action="{% url 'update_reserve' object.pk %}" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="table_number" class="form-label">Стол №</label>
+                <select name="table_number" id="table_number" class="form-control">
+                    {% for obj in form.table_number.field.choices %}
+                        {% if obj.0 == form.table_number.value %}
+                            <option selected value="{{ obj.0 }}">{{ obj.1 }}</option>
+                        {% elif obj.0 != '' %}
+                            <option value="{{ obj.0 }}">{{ obj.1 }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="status" class="form-label">Статус</label>
+                <select name="status" id="status" class="form-control">
+                    {% for obj in form.status.field.choices %}
+                        {% if obj.0 == form.status.value %}
+                            <option selected value="{{ obj.0 }}">{{ obj.1 }}</option>
+                        {% else %}
+                            <option value="{{ obj.0 }}">{{ obj.1 }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label  for="date" class="form-label">Дата брони</label>
+                <input type="date" name="date" id="date"
+                       class="form-control {% if form.date.errors %}is-invalid{% endif %}"
+                       placeholder="Введите название" value="{{ form.date.value|date:'Y-m-d'| default:'' }}">
+                {% for error in form.date.errors %}
+                    <p id="title" class="invalid-feedback">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <div class="mb-3">
+                <label  for="time" class="form-label">Время брони</label>
+                <input type="time" name="time" id="time"
+                       class="form-control {% if form.time.errors %}is-invalid{% endif %}"
+                       placeholder="Введите название" value="{{ form.time.value|time:'H:i' | default:'' }}">
+                {% for error in form.time.errors %}
+                    <p id="title" class="invalid-feedback">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <div class="submit">
+                <button type="submit" class="btn btn-danger"> Изменить </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
