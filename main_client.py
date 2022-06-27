@@ -169,7 +169,7 @@ def bot_message(m):
             ),
         )
     elif m.text == 'Бронировать':
-        TableReservation.objects.create(telegram_user_id=m.from_user.id,
+        TableReservation.objects.create(telegram_user_id_id=m.from_user.id,
                                         date=database[m.from_user.id]['date'], time=database[m.from_user.id]['time'],
                                         persons_number=database[m.from_user.id]['persons'])
         del database[m.from_user.id]
@@ -178,7 +178,8 @@ def bot_message(m):
             keyboard.add(types.InlineKeyboardButton(text=f"Перейти в бронь столиков",
                                                     url=f"http://127.0.0.1:8000/reservations/"))
 
-            merchant_bot.send_message(users.user_id, 'Забронировали столик, подтвердите',
+            merchant_bot.send_message(users.user_id,
+                                      f'Клиент с именем {m.from_user.first_name} назначил бронь, подтвердите',
                                       reply_markup=keyboard, parse_mode='Markdown')
         menu(m, "Вам придет ответа от менеджера")
     elif m.text == 'Вернуться в меню':

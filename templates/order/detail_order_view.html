@@ -33,7 +33,7 @@
                     </div>
                 {% endif %}
                 <div style="margin: 5px;">
-                    <a href="{% url 'orders_view' %}" class="btn btn-primary">Назад</a>
+                    <a href="{% url 'orders_view' order.status.status %}" class="btn btn-primary">Назад</a>
                 </div>
             </div>
         </div>

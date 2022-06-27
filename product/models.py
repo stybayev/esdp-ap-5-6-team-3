@@ -342,14 +342,15 @@ class TableReservation(models.Model):
     )
     TABLE_NUMBERS = []
     for t in range(1, 21):
-        TABLE_NUMBERS.append((t, t))
+        TABLE_NUMBERS.append((str(t), t))
 
     status = models.CharField(
         max_length=20, choices=STATUS, null=False,
         blank=False, default=NEW, verbose_name="Статус"
     )
-    telegram_user_id = models.PositiveSmallIntegerField(
-        null=False, blank=False, verbose_name="Telegram Id пользователя"
+    telegram_user_id = models.ForeignKey(
+        'product.TelegramUser', on_delete=models.CASCADE,
+        related_name='table_user', verbose_name="Телеграмм клиент"
     )
     date = models.DateField(
         null=False, blank=False, verbose_name="Дата бронирования"
@@ -365,6 +366,10 @@ class TableReservation(models.Model):
         max_length=20,
         null=True, blank=True, choices=TABLE_NUMBERS, verbose_name="Номер столика"
     )
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Время создания", blank=True)
+    updated_at = models.DateTimeField(
+        auto_now=True, verbose_name="Время изменения", blank=True)
 
     def __str__(self):
         return f"{self.telegram_user_id} - {self.table_number}.{self.status}"
