@@ -7,12 +7,14 @@ from product.views.aboutus_view import (
 from product.views.basket_view import (
     BasketProductListView, AddBasketView, SubtractBasketView, BasketListView
 )
+from product.views.comment_view import CommentCreateView, CommentListView
+from product.views.feedback_view import CustomerFeedbackListView, CustomerFeedbackDetailView
 from product.views.order_view import (
     OrderListView, OrderDetailView, OrderChangeStatusView, CancelOrder
 )
-from product.views.review_view import (
-    ProductReviewCreateView, ProductReviewUpdateView, ProductReviewDeleteView
-)
+# from product.views.review_view import (
+#     ProductReviewCreateView, ProductReviewUpdateView, ProductReviewDeleteView
+# )
 
 from product.views.product_view import (
     ProductCreateView, ProductDetailView, ProductDeleteView,
@@ -42,14 +44,14 @@ product_urls = [
          name='list_category_product'),
 ]
 
-review_urls = [
-    path('product/<int:pk>/review', ProductReviewCreateView.as_view(),
-         name='create_review'),
-    path('product/review/<int:pk>/update', ProductReviewUpdateView.as_view(),
-         name='update_review'),
-    path('product/review/<int:pk>/delete', ProductReviewDeleteView.as_view(),
-         name='delete_review')
-]
+# review_urls = [
+#     path('product/<int:pk>/review', ProductReviewCreateView.as_view(),
+#          name='create_review'),
+#     path('product/review/<int:pk>/update', ProductReviewUpdateView.as_view(),
+#          name='update_review'),
+#     path('product/review/<int:pk>/delete', ProductReviewDeleteView.as_view(),
+#          name='delete_review')
+# ]
 
 category_urls = [
     path('category/add', CategoryCreateView.as_view(),
@@ -105,10 +107,24 @@ reserv_urls = [
     path('reservation/update/<int:pk>/', ReservationTableUpdateView.as_view(), name='update_reserve')
 ]
 
+
+feedback_urls = [
+    path('feedbacks/', CustomerFeedbackListView.as_view(), name='feedback_list'),
+    path('feedback/<int:pk>/', CustomerFeedbackDetailView.as_view(), name='detail_feedback'),
+]
+
+comment_urls = [
+    path('comment/<int:pk>/add', CommentCreateView.as_view(), name='create_comment'),
+    path('comments/', CommentListView.as_view(), name='comment_list'),
+]
+
+
 urlpatterns += product_urls
-urlpatterns += review_urls
+# urlpatterns += review_urls
 urlpatterns += category_urls
 urlpatterns += basket_urls
 urlpatterns += aboutus_urls
 urlpatterns += orders_urls
 urlpatterns += reserv_urls
+urlpatterns += feedback_urls
+urlpatterns += comment_urls

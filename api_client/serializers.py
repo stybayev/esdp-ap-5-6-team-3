@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from product.models import Basket, Product, Category
+from product.models import Basket, Product, Category, Comments
 
 
 # class AuthorSerializer(serializers.ModelSerializer):
@@ -36,3 +36,12 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'category_name', 'translit_category_name',
                   'category_name_translation']
         read_only_fields = ['id']
+
+
+class CommentsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Comments
+        fields = ['id', 'feedback', 'text']
+        read_only_fields = ['id']
+

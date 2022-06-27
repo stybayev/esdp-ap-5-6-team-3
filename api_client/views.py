@@ -1,9 +1,12 @@
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api_client.serializers import ProductSerializer, \
-    BasketSerializer, CategorySerializer
-from product.models import Product, Basket, Category
+    BasketSerializer, CategorySerializer, CommentsSerializer
+from product.models import Product, Basket, Category, Comments
 
 
 class ProductAPIView(APIView):
@@ -36,20 +39,22 @@ class BasketAPIView(APIView):
         serializer = self.serializer_class(self.queryset.all(), many=True)
         return Response(data=serializer.data)
 
-    # def post(self, request, *args, **kwargs):
-    #     product_pk = kwargs['pk']
-    #     basket = get_object_or_404(Product, pk=product_pk)
-    #     if not self.model.objects.filter(post_id=product_pk,
-    #     author_id=self.request.user.pk):
-    #         self.model.objects.create(post_id=product_pk,
-    #         author_id=self.request.user.pk)
-    #         basket.like_count += 1
-    #         basket.save()
-    #     else:
-    #         basket.like_count -= 1
-    #         basket.save()
-    #         self.model.objects.filter(post_id=product_pk,
-    #         author_id=self.request.user.pk).delete()
-    #
-    #     data = {'likes_count': basket.like_count}
-    #     return JsonResponse(data)
+
+# @csrf_exempt
+class CommentsAPIView(APIView):
+    queryset = Comments.objects.all()
+    serializer_class = CommentsSerializer
+    # permission_classes = [IsAuthenticated, ]
+
+    def get(self, request, *args, **kwargs):
+        serializer = self.serializer_class(self.queryset.all(), many=True)
+        print(serializer)
+        return Response(data=serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=self.request.data)
+        print(serializer)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        print(serializer)
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
