@@ -366,6 +366,10 @@ class TableReservation(models.Model):
         max_length=20,
         null=True, blank=True, choices=TABLE_NUMBERS, verbose_name="Номер столика"
     )
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Время создания", blank=True)
+    updated_at = models.DateTimeField(
+        auto_now=True, verbose_name="Время изменения", blank=True)
 
     def __str__(self):
         return f"{self.telegram_user_id} - {self.table_number}.{self.status}"
