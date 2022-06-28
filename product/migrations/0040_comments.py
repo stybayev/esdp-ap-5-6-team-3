@@ -7,18 +7,28 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('product', '0039_comment_customerfeedback_created_at_delete_review_and_more'),
+        ('product',
+         '0039_comment_customerfeedback_created_at_delete_review_and_more'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Comments',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('text', models.TextField(max_length=5000, verbose_name='Текст отзыва')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Время создания')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Время изменения')),
-                ('feedback', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='feedback_comments', to='product.customerfeedback', verbose_name='Обратная связь')),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID')),
+                ('text', models.TextField(
+                    max_length=5000, verbose_name='Текст отзыва')),
+                ('created_at', models.DateTimeField(
+                    auto_now_add=True, verbose_name='Время создания')),
+                ('updated_at', models.DateTimeField(
+                    auto_now=True, verbose_name='Время изменения')),
+                ('feedback', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    related_name='feedback_comments',
+                    to='product.customerfeedback',
+                    verbose_name='Обратная связь')),
             ],
         ),
     ]

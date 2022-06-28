@@ -310,8 +310,8 @@ def callback_inline(call):
 
                     keyboard = types.InlineKeyboardMarkup(row_width=2)
                     add_menu = types.InlineKeyboardButton(
-                        text=
-                        f"\U00002795\U0001F371Добавить в корзину",
+                        text=f"\U00002795\U0001F371"
+                             f"Добавить в корзину",
                         callback_data=f"add_menu_{menu['id']}")
                     category = types.InlineKeyboardButton(
                         text=f"Назад в категории {menu['category']}",
@@ -320,8 +320,8 @@ def callback_inline(call):
                     keyboard.add(add_menu, category)
                     bot.answer_callback_query(
                         callback_query_id=call.id, show_alert=False,
-                        text=
-                        f'"{product.product.product_name}" удалено с корзины')
+                        text=f'"{product.product.product_name}" '
+                             f'удалено с корзины')
                     bot.edit_message_caption(
                         caption=text_menu(menu), chat_id=call.message.chat.id,
                         message_id=call.message.message_id,
@@ -409,8 +409,8 @@ def callback_inline(call):
                     basket.delete()
                     bot.answer_callback_query(
                         callback_query_id=call.id, show_alert=False,
-                        text=
-                        f'"{product.product.product_name}" удалено с корзины')
+                        text=f'"{product.product.product_name}" '
+                             f'удалено с корзины')
                     bot.delete_message(
                         chat_id=call.message.chat.id,
                         message_id=call.message.message_id, timeout=1)
@@ -420,10 +420,10 @@ def callback_inline(call):
                             row_width=1)
                         keyboard.add(
                             types.InlineKeyboardButton(
-                                text=
-                                '\U0001F4D6\U0001F372\U0001F354Меню',
-                                callback_data=
-                                '\U0001F4D6\U0001F372\U0001F354Меню'))
+                                text='\U0001F4D6\U0001F372\U0001F354'
+                                     'Меню',
+                                callback_data='\U0001F4D6\U0001F372\U0001F354'
+                                              'Меню'))
                         bot.send_message(
                             call.message.chat.id,
                             '_Корзина пуста, для добавление '

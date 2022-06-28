@@ -13,11 +13,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='tablereservation',
             name='phone_number',
-            field=models.PositiveSmallIntegerField(default=1, verbose_name='Номер пользователя'),
+            field=models.PositiveSmallIntegerField(
+                default=1, verbose_name='Номер пользователя'),
         ),
         migrations.AlterField(
             model_name='tablereservation',
             name='table_number',
-            field=models.CharField(blank=True, choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10), (11, 11), (12, 12), (13, 13), (14, 14), (15, 15), (16, 16), (17, 17), (18, 18), (19, 19), (20, 20)], default=1, max_length=20, null=True, verbose_name='Номер столика'),
+            field=models.CharField(
+                blank=True, choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5),
+                                     (6, 6), (7, 7), (8, 8), (9, 9), (10, 10),
+                                     (11, 11), (12, 12), (13, 13), (14, 14),
+                                     (15, 15), (16, 16), (17, 17), (18, 18),
+                                     (19, 19), (20, 20)],
+                default=1, max_length=20, null=True,
+                verbose_name='Номер столика'),
         ),
     ]

@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='tablereservation',
             name='created_at',
-            field=models.DateTimeField(blank=True, default='52', verbose_name='Время создания'),
+            field=models.DateTimeField(
+                blank=True, default='52', verbose_name='Время создания'),
         ),
     ]

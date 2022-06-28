@@ -1,13 +1,11 @@
 from django.db.models import Q
-from django.shortcuts import redirect, render, get_object_or_404, reverse
+from django.shortcuts import redirect, get_object_or_404, reverse
 from django.views.generic import UpdateView, DeleteView
-from rest_framework.reverse import reverse_lazy
 from config import client_key
 from product.forms import TableReservationForm, SearchForm
 from product.helpers import SearchView
 from product.models import TableReservation
 import telebot
-
 
 bot = telebot.TeleBot(client_key)
 
@@ -60,7 +58,8 @@ class ReservationTableEditView(UpdateView):
         self.object.status = 'Выполнено'
         self.object.table_number = request.POST.get('table_number')
         bot.send_message(self.object.telegram_user_id_id,
-            f'Ваша бронь: Стол №{self.object.table_number}, дата: {self.object.date}, время:{self.object.time}',
+                         f'Ваша бронь: Стол №{self.object.table_number}, '
+                         f'дата: {self.object.date}, время:{self.object.time}',
                          parse_mode='Markdown')
         self.object.save()
         return redirect('reserve_list', status='Новый')
@@ -72,7 +71,9 @@ class TableReservationDeleteView(DeleteView):
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(self.model, pk=kwargs.get('pk'))
         bot.send_message(user.telegram_user_id_id,
-        f'Бронь на дату {user.date} и время {user.time} отменили. Если у вас возникли вопросы свяжитесь с менеджером',
+                         f'Бронь на дату {user.date} и '
+                         f'время {user.time} отменили. '
+                         f'Если у вас возникли вопросы свяжитесь с менеджером',
                          parse_mode='Markdown')
         return self.delete(request=request)
 

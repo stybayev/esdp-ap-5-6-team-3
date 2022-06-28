@@ -14,6 +14,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='tablereservation',
             name='telegram_user_id',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='table_user', to='product.telegramuser', verbose_name='Телеграмм клиент'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='table_user', to='product.telegramuser',
+                verbose_name='Телеграмм клиент'),
         ),
     ]
