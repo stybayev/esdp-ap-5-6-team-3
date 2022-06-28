@@ -1,6 +1,6 @@
 <div class="form-group">
     <label for="first_name" class="form-label col-5">Имя</label>
-    <input type="text" name='first_name' id="first_name" value="{{ form.first_name.value|default:'' }}"
+    <input type="text" placeholder="Имя" name='first_name' id="first_name" value="{{ form.first_name.value|default:'' }}"
            class="form-control {% if form.first_name.errors %} is-invalid {% endif %}">
 
     {% for error in form.first_name.errors %}
@@ -10,19 +10,30 @@
     {% endfor %}
 </div>
 <div class="form-group">
-    <label for="username" class="form-label col-5">Имя пользователя</label>
-    <input type="text" name='username' id="username" value="{{ form.username.value|default:'' }}"
-           class="form-control {% if form.username.errors %} is-invalid {% endif %}">
-    {% for error in form.username.errors %}
+    <label for="last_name" class="form-label col-5">Фамилия</label>
+    <input type="text" placeholder="Фамилия" name='last_name' id="last_name" value="{{ form.last_name.value|default:'' }}"
+           class="form-control {% if form.last_name.errors %} is-invalid {% endif %}">
+
+    {% for error in form.last_name.errors %}
         <div class="alert alert-danger" role="alert">
             {{ error }}
         </div>
     {% endfor %}
 </div>
+{#<div class="form-group">#}
+{#    <label for="username" class="form-label col-5">Имя пользователя (Логин)</label>#}
+{#    <input type="text" placeholder="Логин" name='username' id="username" value="{{ form.username.value|default:'' }}"#}
+{#           class="form-control {% if form.username.errors %} is-invalid {% endif %}">#}
+{#    {% for error in form.username.errors %}#}
+{#        <div class="alert alert-danger" role="alert">#}
+{#            {{ error }}#}
+{#        </div>#}
+{#    {% endfor %}#}
+{#</div>#}
 
 <div class="form-group">
     <label for="email" class="form-label col-5">email</label>
-    <input type="email" name='email' id="email" value="{{ form.email.value|default:'' }}"
+    <input type="email" name='email' placeholder="EMail" id="email" value="{{ form.email.value|default:'' }}"
            class="form-control {% if form.email.errors %} is-invalid {% endif %}">
 
     {% for error in form.email.errors %}

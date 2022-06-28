@@ -3,16 +3,19 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from accounts.validators import validate_email
 from accounts.models import Profile
+from product.models import MerchantTelegramUser
 
 
 class UserCreationForm(forms.ModelForm):
     first_name = forms.CharField(
         label='Имя', strip=False, required=False
     )
-    email = forms.EmailField(
-        label='email', required=True, validators=[validate_email, ]
+    last_name = forms.CharField(
+        label='Фамилия', strip=False, required=False
     )
-
+    email = forms.EmailField(
+        label='email', required=False, validators=[validate_email, ]
+    )
     password = forms.CharField(
         label='Пароль', strip=False, required=True,
         widget=forms.PasswordInput
@@ -22,48 +25,44 @@ class UserCreationForm(forms.ModelForm):
         widget=forms.PasswordInput
     )
 
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get('password')
-        password_confirm = cleaned_data.get('password_confirm')
-        if password and password_confirm and password != password_confirm:
-            self.add_error('password', 'Пароли не совпадают')
-        return cleaned_data
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.set_password(self.cleaned_data.get('password'))
-        if commit:
-            user.save()
-        return user
+    def clean_password2(self):
+        cleaned_data = self.cleaned_data
+        if cleaned_data['password'] != cleaned_data['password_confirm']:
+            raise forms.ValidationError('Passwords don\'t match.')
+        return cleaned_data['password']
 
     class Meta:
         model = User
         fields = [
-            'username', 'first_name', 'password', 'password_confirm', 'email'
+            'username', 'first_name', 'last_name', 'password', 'password_confirm', 'email'
         ]
 
 
-class ProfileCreateForm(forms.ModelForm):
-    avatar = forms.ImageField(required=True)
-
-    class Meta:
-        model = Profile
-        fields = ['avatar', 'about_profile', 'phone', 'gender']
+# class ProfileCreateForm(forms.ModelForm):
+#     avatar = forms.ImageField(required=False)
+#     about_profile = forms.CharField(required=False)
+#     phone = forms.CharField(required=False)
+#     gender = forms.CharField(required=False)
+#
+#     class Meta:
+#         model = Profile
+#         fields = ['avatar', 'about_profile', 'phone', 'gender']
 
 
 class UserChangeForm(forms.ModelForm):
-    email = forms.EmailField(required=True)
+    email = forms.EmailField(required=False)
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
 
     class Meta:
         model = get_user_model()
-        fields = ['username', 'first_name', 'email']
+        fields = ['first_name', 'last_name', 'email']
 
 
 class ProfileChangeForm(forms.ModelForm):
     class Meta:
-        model = Profile
-        exclude = ['user']
+        model = MerchantTelegramUser
+        fields = ['phone_number', 'vcard']
 
 
 class PasswordChangeForm(forms.ModelForm):

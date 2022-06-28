@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-
-{%  block content %}
-    <h3>Редактирование комментария</h3>
-    <form action="{% url 'update_review' review.pk %}" method="POST">
-        {% include 'partial/review/review_form.html' with button_text='Редактировать комментарий' %}
-        <input type="hidden" name="post" value="{{ form.post.value }}">
-    </form>
-{% endblock %}
