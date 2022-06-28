@@ -25,7 +25,8 @@ class CustomerFeedbackListView(SearchView):
         avg_quiz_answer = self.model.objects.aggregate(Avg('quiz_answer'))
         kwargs['sum_quiz_answer'] = sum_quiz_answer['quiz_answer__sum']
         kwargs['avg_quiz_answer'] = avg_quiz_answer['quiz_answer__avg']
-        kwargs['round_avg_quiz_answer'] = round(avg_quiz_answer['quiz_answer__avg'])
+        kwargs['round_avg_quiz_answer'] = round(
+            avg_quiz_answer['quiz_answer__avg'])
         return super().get_context_data(**kwargs)
 
 
@@ -38,11 +39,11 @@ class CustomerFeedbackDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         comments = self.object.feedback_comments.order_by('-id')
-        paginator = Paginator(comments, self.paginate_related_by, orphans=self.paginate_related_orphans)
+        paginator = Paginator(comments, self.paginate_related_by,
+                              orphans=self.paginate_related_orphans)
         page_number = self.request.GET.get('page', 1)
         page = paginator.get_page(page_number)
         kwargs['page_obj'] = page
         kwargs['comments'] = page.object_list
         kwargs['is_paginated'] = page.has_other_pages()
         return super().get_context_data(**kwargs)
-

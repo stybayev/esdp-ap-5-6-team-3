@@ -10,6 +10,7 @@ from product.models import CustomerFeedback, Comments
 
 bot = telebot.TeleBot(client_key)
 
+
 class CommentListView(SearchView):
     template_name = 'comment/list_comment_view.html'
     model = Comments
@@ -39,16 +40,20 @@ class CommentCreateView(CreateView):
             print(comment.text)
             print(product.telegram_user_id_id)
             if product.description is not None:
-                bot.send_message(product.telegram_user_id_id,
-                                 f"_Оценка:{product.quiz_answer}, {product.description}_ \n\n"
-                                 f"*{comment.text}* \n ",
-                                 parse_mode='Markdown')
+                bot.send_message(
+                    product.telegram_user_id_id,
+                    f"_Оценка:{product.quiz_answer}, "
+                    f"{product.description}_ \n\n"
+                    f"*{comment.text}* \n ",
+                    parse_mode='Markdown')
             else:
-                bot.send_message(product.telegram_user_id_id,
-                                 f"_Оценка:{product.quiz_answer}, без отзыва_ \n\n"
-                                 f"*{comment.text}* \n ",
-                                 parse_mode='Markdown')
-            return redirect(reverse('detail_feedback', kwargs={'pk': product.pk}))
+                bot.send_message(
+                    product.telegram_user_id_id,
+                    f"_Оценка:{product.quiz_answer}, без отзыва_ \n\n"
+                    f"*{comment.text}* \n ",
+                    parse_mode='Markdown')
+            return redirect(
+                reverse('detail_feedback', kwargs={'pk': product.pk}))
         return render(
             request,
             self.template_name,
