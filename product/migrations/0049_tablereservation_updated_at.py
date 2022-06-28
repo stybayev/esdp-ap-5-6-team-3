@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='tablereservation',
             name='updated_at',
-            field=models.DateTimeField(auto_now=True, verbose_name='Время изменения'),
+            field=models.DateTimeField(
+                auto_now=True, verbose_name='Время изменения'),
         ),
     ]

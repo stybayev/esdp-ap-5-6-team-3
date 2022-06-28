@@ -47,7 +47,8 @@
 #                 self.request.user.has_perm(self.permission_required))
 #
 #     def get_success_url(self):
-#         return reverse('detail_product', kwargs={'pk': self.object.product.pk})
+#         return reverse('detail_product',
+#         kwargs={'pk': self.object.product.pk})
 #
 #
 # class ProductReviewDeleteView(UserPassesTestMixin, DeleteView):
@@ -63,4 +64,5 @@
 #             self.permission_required)
 #
 #     def get_success_url(self):
-#         return reverse('detail_product', kwargs={'pk': self.object.product.pk})
+#         return reverse('detail_product',
+#         kwargs={'pk': self.object.product.pk})

@@ -11,4 +11,3 @@ def statuses(request):
     return {
         'statuses': StatusShoppingCartOrder.objects.all()
     }
-

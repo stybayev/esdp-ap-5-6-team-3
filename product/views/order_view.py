@@ -34,7 +34,8 @@ class OrderListView(SearchView):
         return context
 
     def get_queryset(self):
-        queryset = self.model.objects.filter(status__status=self.kwargs.get('status'))
+        queryset = self.model.objects.filter(
+            status__status=self.kwargs.get('status'))
         if self.search_value:
             query = Q()
             query_list = [
@@ -58,7 +59,8 @@ class OrderChangeStatusView(TemplateView):
     order = None
 
     def get_success_url(self):
-        return reverse('orders_view', kwargs={'status': self.order.status.status})
+        return reverse('orders_view',
+                       kwargs={'status': self.order.status.status})
 
     def post(self, request, *args, **kwargs):
         current_status = request.POST.get('status')
@@ -93,7 +95,8 @@ class CancelOrder(TemplateView):
     order = None
 
     def get_success_url(self):
-        return reverse('orders_view', kwargs={'status': self.order.status.status})
+        return reverse('orders_view',
+                       kwargs={'status': self.order.status.status})
 
     def post(self, request, *args, **kwargs):
         order_pk = kwargs.get('pk')
