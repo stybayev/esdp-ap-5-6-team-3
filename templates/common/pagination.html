@@ -1,24 +1,24 @@
+{% load static %}
 <div class="pagination">
     <span class="step-links">
-        <a href="?page=1{% if query %}&{{ query }}{% endif %}">&laquo; В начало</a>
+        <a href="?page=1{% if query %}&{{ query }}{% endif %}"><img style="width: 30px; height: 25px" src="{% static 'images_common/previous.png' %}" alt=""></a>
         {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}{% if query %}&{{ query }}{% endif %}">Назад</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if query %}&{{ query }}{% endif %}"><img style="width: 30px; height: 25px" src="{% static 'images_common/previous(1).png' %}" alt=""></a>
         {% else %}
-            <span class="page-disabled">Назад</span>
+            <span class="page-disabled"><img style="width: 30px; height: 25px" src="{% static 'images_common/previous(1).png' %}" alt=""></span>
         {% endif %}
 
         <form class="current-page" method="get">
-            <label for="page">
+            <label style="font-size: 13px" for="page">
                 Страница <input type="text" name="page" id="page" value="{{ page_obj.number }}">
                 из {{ page_obj.paginator.num_pages }}.
             </label>
         </form>
-
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{% if query %}&{{ query }}{% endif %}">Далее</a>
+            <a href="?page={{ page_obj.next_page_number }}{% if query %}&{{ query }}{% endif %}"><img style="width: 30px; height: 25px" src="{% static 'images_common/next(1).png' %}" alt=""></a>
         {% else %}
-            <span class="page-disabled">Далее</span>
+            <span class="page-disabled"><img style="width: 30px; height: 25px" src="{% static 'images_common/next(1).png' %}" alt=""></span>
         {% endif %}
-        <a href="?page={{ page_obj.paginator.num_pages }}{% if query %}&{{ query }}{% endif %}">В конец &raquo;</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{% if query %}&{{ query }}{% endif %}"><img style="width: 30px; height: 25px" src="{% static 'images_common/next.png' %}" alt=""></a>
     </span>
 </div>
