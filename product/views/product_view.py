@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import CreateView, \
@@ -19,7 +20,7 @@ class ProductDetailView(DetailView):
     model = Product
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
 
     def get_success_url(self):
@@ -73,7 +74,7 @@ class ProductCategoryListView(SearchView):
                       {self.context_object_name: result})
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     template_name = 'product/create_product_view.html'
     form_class = ProductForm
     object = None
@@ -122,7 +123,7 @@ class ProductCreateView(CreateView):
                       })
 
 
-class ProductUpdateView(FormView):
+class ProductUpdateView(LoginRequiredMixin, FormView):
     template_name = 'product/update_product_view.html'
     form_class = ProductForm
     model = Product

@@ -1,17 +1,40 @@
 {% extends 'base.html' %}
-
+<style>
+    .photo {
+        display: inline-block; /* Строчно-блочный элемент */
+        position: relative; /* Относительное позиционирование */
+    }
+    .photo:hover::after {
+        content: attr(data-title); /* Выводим текст */
+        position: absolute; /* Абсолютное позиционирование */
+        right: 0; top: 50%; /* Положение подсказки */
+        z-index: 1; /* Отображаем подсказку поверх других элементов */
+    {#background: rgba(255,255,230,0.9); /* Полупрозрачный цвет фона */#}
+        font-family: Arial, sans-serif; /* Гарнитура шрифта */
+        font-size: 15px; /* Размер текста подсказки */
+        padding: 5px 10px; /* Поля */
+    {#border: 1px solid #333; /* Параметры рамки */#}
+    }
+</style>
 {% block content %}
     {% load static %}
-        <div class="category">
-           <div class="name">
-               <p style="padding-right: 20px; font-size: 25px">Категория:</p>
-               <p style="font-size: 25px; padding-right: 10px">{{ category.category_name }}</p>
-           </div>
-            <div style="margin-top: 5px">
-                <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn" style="padding: 0"><img style="width: 30px; height: 25px" src="{% static 'images_common/delete.png' %}" alt=""></button>
-            <a class="btn" href="{% url 'update_category' category.pk %}" role="button" style="padding: 0"><img style="width: 30px; height: 25px" src="{% static 'images_common/edit.png' %}" alt=""></a>
-            </div>
+    <div class="category">
+        <div class="name">
+            <p style="padding-right: 20px; font-size: 25px">Категория:</p>
+            <p style="font-size: 25px; padding-right: 10px">{{ category.category_name }}</p>
         </div>
+        {% if user.is_authenticated %}
+            <div style="margin-top: 5px">
+                <div class="photo" data-title="Удалить категорию {{ category.category_name }}">
+                    <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn" style="padding: 0"><img style="width: 30px; height: 25px" src="{% static 'images_common/delete.png' %}" alt=""></button>
+
+                </div>
+                <div class="photo" data-title="Редактировать категорию {{ category.category_name }}">
+                    <a class="btn" href="{% url 'update_category' category.pk %}" role="button" style="padding: 0"><img style="width: 30px; height: 25px" src="{% static 'images_common/edit.png' %}" alt=""></a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
     <h2 class="title_dish">Список блюд</h2>
     {% include 'partial/product/list_menu.html' %}
     {% include 'common/delete_modal.html' with deleted_object=category view="delete_category" %}

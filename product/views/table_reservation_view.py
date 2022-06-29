@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import redirect, get_object_or_404, reverse
 from django.views.generic import UpdateView, DeleteView
@@ -10,7 +11,7 @@ import telebot
 bot = telebot.TeleBot(client_key)
 
 
-class ReservationListView(SearchView):
+class ReservationListView(LoginRequiredMixin, SearchView):
     template_name = 'table/table_reservation_list.html'
     model = TableReservation
     context_object_name = 'reservations'
@@ -49,7 +50,7 @@ class ReservationListView(SearchView):
         return queryset
 
 
-class ReservationTableEditView(UpdateView):
+class ReservationTableEditView(LoginRequiredMixin, UpdateView):
     template_name = 'table/table_reservation_list.html'
     model = TableReservation
 
@@ -65,7 +66,7 @@ class ReservationTableEditView(UpdateView):
         return redirect('reserve_list', status='Новый')
 
 
-class TableReservationDeleteView(DeleteView):
+class TableReservationDeleteView(LoginRequiredMixin, DeleteView):
     model = TableReservation
 
     def get(self, request, *args, **kwargs):
@@ -81,7 +82,7 @@ class TableReservationDeleteView(DeleteView):
         return reverse('reserve_list', kwargs={'status': self.object.status})
 
 
-class ReservationTableUpdateView(UpdateView):
+class ReservationTableUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'table/table_update.html'
     model = TableReservation
     form_class = TableReservationForm

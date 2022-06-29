@@ -1,4 +1,21 @@
 {% load static %}
+<style>
+   .photo {
+    display: inline-block; /* Строчно-блочный элемент */
+    position: relative; /* Относительное позиционирование */
+   }
+   .photo:hover::after {
+    content: attr(data-title); /* Выводим текст */
+    position: absolute; /* Абсолютное позиционирование */
+    right: 0; top: 50%; /* Положение подсказки */
+    z-index: 1; /* Отображаем подсказку поверх других элементов */
+    {#background: rgba(255,255,230,0.9); /* Полупрозрачный цвет фона */#}
+    font-family: Arial, sans-serif; /* Гарнитура шрифта */
+    font-size: 15px; /* Размер текста подсказки */
+    padding: 5px 10px; /* Поля */
+    {#border: 1px solid #333; /* Параметры рамки */#}
+   }
+  </style>
 <nav class="navbar navbar-expand-lg all">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'orders_view' status='Новый' %}" ><img src="{% static 'images_common/food-stall.png' %}" style="width: 80px; height: 60px"></a>
@@ -10,13 +27,15 @@
                 <li class="nav-item" >
                     <a class="nav-link menu" aria-current="page" href="{% url 'list_category' %} ">Меню</a>
                 </li>
-              <li class="nav-item" >
-                  <a class="nav-link menu" aria-current="page"  href="{% url 'orders_view' status='Новый' %} ">Заказы</a>
-                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item" >
+                        <a class="nav-link menu" aria-current="page"  href="{% url 'orders_view' status='Новый' %} ">Заказы</a>
+                    </li>
 
-                <li class="nav-item" >
-                    <a class="nav-link menu" aria-current="page"  href="{% url 'reserve_list' status='Новый' %}">Столики</a>
-                </li>
+                    <li class="nav-item" >
+                        <a class="nav-link menu" aria-current="page"  href="{% url 'reserve_list' status='Новый' %}">Столики</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item" >
                     <a class="nav-link menu" aria-current="page"  href="{% url 'feedback_list' %}">Отзывы</a>
                 </li>
@@ -43,15 +62,21 @@
                 </li>
                     {% else %}
                         <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}"><img style="width: 35px; height: 35px; padding-top: 7px; margin-left: 4px" src="{% static 'images_common/logout.png' %}"  alt=""></a>
+                        <div class="photo" data-title="Выход из профиля {{ request.user.first_name }}">
+                            <a class="nav-link" href="{% url 'logout' %}"><img style="width: 35px; height: 35px; padding-top: 7px; margin-left: 4px" src="{% static 'images_common/logout.png' %}"  alt=""></a>
+                        </div>
                       </li>
                     {% endif %}
 
                     <li class="nav-item">
                     {% if user.is_authenticated %}
+
+                        <div class="photo" data-title="Профиль {{ request.user.first_name }}">
                         <a class="nav-link"
                            href="{% url 'profile' request.user.pk %}"><img style="width: 35px; height: 35px" src="{% static 'images_common/user.png' %}"  alt=""
-                                                                           class="d-inline-block align-text-top icons"><br>{{ request.user.first_name }}</a>
+                                                                           class="d-inline-block align-text-top icons"><br></a>
+                        </div>
+
                     {% endif %}
                 </li>
               </ul>

@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from config import client_key
 from django.db.models import Q
 from product.forms import SearchForm
@@ -14,7 +16,7 @@ from telebot import types
 bot = telebot.TeleBot(client_key)
 
 
-class OrderListView(SearchView):
+class OrderListView(LoginRequiredMixin, SearchView):
     template_name = 'order/list_order_view.html'
     model = ShoppingCartOrder
     ordering = ("updated_at",)
@@ -48,13 +50,13 @@ class OrderListView(SearchView):
         return queryset
 
 
-class OrderDetailView(DetailView):
+class OrderDetailView(LoginRequiredMixin, DetailView):
     template_name = 'order/detail_order_view.html'
     model = ShoppingCartOrder
     context_object_name = 'order'
 
 
-class OrderChangeStatusView(TemplateView):
+class OrderChangeStatusView(LoginRequiredMixin, TemplateView):
     template_name = 'order/detail_order_view.html'
     order = None
 

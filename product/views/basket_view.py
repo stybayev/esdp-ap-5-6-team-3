@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import CreateView
 
@@ -6,7 +7,7 @@ from product.forms import SearchForm
 from product.helpers import SearchView
 
 
-class BasketProductListView(SearchView):
+class BasketProductListView(LoginRequiredMixin, SearchView):
     template_name = 'basket/list_basket_menu_view.html'
     model = Product
     queryset = Product.objects.filter(available='Есть')
@@ -28,7 +29,7 @@ class BasketProductListView(SearchView):
         return context
 
 
-class BasketListView(SearchView):
+class BasketListView(LoginRequiredMixin, SearchView):
     template_name = 'basket/list_basket_view.html'
     model = Basket
     ordering = ("id",)
@@ -53,7 +54,7 @@ class BasketListView(SearchView):
         return context
 
 
-class AddBasketView(CreateView):
+class AddBasketView(LoginRequiredMixin, CreateView):
     model = BasketToOrder
 
     def telegram_user(self):
@@ -65,7 +66,6 @@ class AddBasketView(CreateView):
         order_pk = request.POST['order']
         user_id = request.POST['user_id']
         product = get_object_or_404(Product, pk=product_pk)
-        print(self.telegram_user().user_id)
         if not self.model.objects.filter(
                 product_id=product_pk, order_id=order_pk,
                 telegram_user_id_id=user_id):
@@ -87,7 +87,7 @@ class AddBasketView(CreateView):
         return redirect(request.META.get('HTTP_REFERER'))
 
 
-class SubtractBasketView(CreateView):
+class SubtractBasketView(LoginRequiredMixin, CreateView):
     model = BasketToOrder
 
     def telegram_user(self):

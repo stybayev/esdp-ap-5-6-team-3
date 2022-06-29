@@ -22,6 +22,22 @@
             text-shadow: 1px 1px #c60;
         }
 
+        .photo {
+            display: inline-block; /* Строчно-блочный элемент */
+            position: relative; /* Относительное позиционирование */
+        }
+        .photo:hover::after {
+            content: attr(data-title); /* Выводим текст */
+            position: absolute; /* Абсолютное позиционирование */
+            left: 0%; top: 70%; /* Положение подсказки */
+            z-index: 1; /* Отображаем подсказку поверх других элементов */
+        {#background: rgba(255,255,230,0.9); /* Полупрозрачный цвет фона */#}
+            font-family: Arial, sans-serif; /* Гарнитура шрифта */
+            font-size: 15px; /* Размер текста подсказки */
+            padding: 5px 10px; /* Поля */
+        {#border: 1px solid #333; /* Параметры рамки */#}
+        }
+
     </style>
     <h1 style="text-align: center">Список отзывов</h1>
 
@@ -42,10 +58,21 @@
 
         <div class="card" style="margin-top: 3%">
             <div class="card-header">
-                <a href="{% url 'detail_feedback' feedback.pk %}" style="text-decoration: none">
-                    №{{ feedback.id }}
-                    Автор: <b>{{ feedback.telegram_user_id.first_name }}</b> Телефон: <b>{{ feedback.telegram_user_id.phone_number }}</b>
-                </a>
+                {% if user.is_authenticated %}
+                    <div class="photo" data-title="Детальный просмотр, просмотр списков комментарии">
+                        <a href="{% url 'detail_feedback' feedback.pk %}" style="text-decoration: none">
+                            №{{ feedback.id }}
+                            Автор: <b>{{ feedback.telegram_user_id.first_name }}</b> Телефон: <b>{{ feedback.telegram_user_id.phone_number }}</b>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="photo" data-title="Для просмотра списков комментарии необходимо авторизоваться">
+                        <a href="{% url 'detail_feedback' feedback.pk %}" style="text-decoration: none">
+                            №{{ feedback.id }}
+                            Автор: <b>{{ feedback.telegram_user_id.first_name }}</b> Телефон: <b>{{ feedback.telegram_user_id.phone_number }}</b>
+                        </a>
+                    </div>
+                {% endif %}
             </div>
             <div class="card-body">
                 <h5 class="card-title" style="display: flex">
@@ -67,17 +94,28 @@
 
             </div>
             <div class="card-footer text-muted">
-                {{ feedback.created_at }}
-                <a href="{% url 'detail_feedback' feedback.pk %}" style="text-decoration: none">
-                    <p class="card-text"><i>Количество предоставленных ответов:</i>
-                        <span style="color: red"><b>{{ feedback.feedback_average_amount }}</b></span></p>
-                </a>
+                {{ feedback.created_at }} <br>
+                {% if user.is_authenticated %}
+                    <div class="photo" data-title="Детальный просмотр, просмотр списков комментарии">
+                        <a href="{% url 'detail_feedback' feedback.pk %}" style="text-decoration: none">
+                            <p class="card-text"><i>Количество предоставленных ответов:</i>
+                                <span style="color: red"><b>{{ feedback.feedback_average_amount }}</b></span></p>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="photo" data-title="Для просмотра списков комментарии необходимо авторизоваться">
+                        <a href="{% url 'detail_feedback' feedback.pk %}" style="text-decoration: none">
+                            <p class="card-text"><i>Количество предоставленных ответов:</i>
+                                <span style="color: red"><b>{{ feedback.feedback_average_amount }}</b></span></p>
+                        </a>
+                    </div>
+                {% endif %}
             </div>
-
-
-            <div style="border-top: 1px solid #e0d6d6; padding: 20px">
-                {% include 'partial/comment/comment_form.html' with button_text='Отправить' %}
-            </div>
+            {% if user.is_authenticated %}
+                <div style="border-top: 1px solid #e0d6d6; padding: 20px">
+                    {% include 'partial/comment/comment_form.html' with button_text='Отправить' %}
+                </div>
+            {% endif %}
         </div>
 
     {% endfor %}

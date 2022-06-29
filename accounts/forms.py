@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from accounts.validators import validate_email
-from accounts.models import Profile
 from product.models import MerchantTelegramUser
 
 
@@ -36,17 +35,6 @@ class UserCreationForm(forms.ModelForm):
         fields = [
             'username', 'first_name', 'last_name', 'password', 'password_confirm', 'email'
         ]
-
-
-# class ProfileCreateForm(forms.ModelForm):
-#     avatar = forms.ImageField(required=False)
-#     about_profile = forms.CharField(required=False)
-#     phone = forms.CharField(required=False)
-#     gender = forms.CharField(required=False)
-#
-#     class Meta:
-#         model = Profile
-#         fields = ['avatar', 'about_profile', 'phone', 'gender']
 
 
 class UserChangeForm(forms.ModelForm):

@@ -1,4 +1,5 @@
 import telebot
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.generic import CreateView
@@ -11,7 +12,7 @@ from product.models import CustomerFeedback, Comments
 bot = telebot.TeleBot(client_key)
 
 
-class CommentListView(SearchView):
+class CommentListView(LoginRequiredMixin, SearchView):
     template_name = 'comment/list_comment_view.html'
     model = Comments
     ordering = ("-id",)
@@ -25,7 +26,7 @@ class CommentListView(SearchView):
     }
 
 
-class CommentCreateView(CreateView):
+class CommentCreateView(LoginRequiredMixin, CreateView):
     template_name = 'feedback/list_feedback_view.html'
     form_class = CommentForm
 
