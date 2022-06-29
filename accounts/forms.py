@@ -33,7 +33,8 @@ class UserCreationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = [
-            'username', 'first_name', 'last_name', 'password', 'password_confirm', 'email'
+            'username', 'first_name', 'last_name',
+            'password', 'password_confirm', 'email'
         ]
 
 
