@@ -393,6 +393,12 @@ class Comments(models.Model):
         auto_now_add=True, verbose_name="Время создания", blank=True)
     updated_at = models.DateTimeField(
         auto_now=True, verbose_name="Время изменения", blank=True)
+    author = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='comments',
+        verbose_name='Автор'
+    )
 
     def __str__(self):
         return f"{self.feedback}. {self.text}"

@@ -37,8 +37,8 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.feedback_id = product.pk
+            comment.author = self.request.user
             comment.save()
-            print(comment.text)
             print(product.telegram_user_id_id)
             if product.description is not None:
                 bot.send_message(

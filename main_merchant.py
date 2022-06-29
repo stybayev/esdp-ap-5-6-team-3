@@ -14,7 +14,7 @@ from config import merchant_key
 
 
 merchant_bot = telebot.TeleBot(merchant_key)
-
+url_crm = 'http://127.0.0.1:8000'
 print(time.ctime())
 time.sleep(3)
 
@@ -72,7 +72,7 @@ def bot_message(m):
             keyboard = types.InlineKeyboardMarkup(row_width=1)
             new_order = types.InlineKeyboardButton(
                 text=f'Заказ №{shop_cart.id}',
-                url=f"http://127.0.0.1:8000/order/{shop_cart.id}")
+                url=f"{url_crm}/order/{shop_cart.id}")
             keyboard.add(new_order)
             merchant_bot.send_message(
                 m.chat.id, f"Заказ *№{shop_cart.id}* "

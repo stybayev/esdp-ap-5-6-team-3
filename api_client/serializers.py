@@ -2,13 +2,6 @@ from rest_framework import serializers
 from product.models import Basket, Product, Category, Comments
 
 
-# class AuthorSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = get_user_model()
-#         read_only_fields = ['id']
-#         exclude = ['password', 'groups', 'user_permissions']
-
-
 class BasketSerializer(serializers.ModelSerializer):
 
     class Meta:
