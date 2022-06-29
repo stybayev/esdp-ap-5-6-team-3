@@ -7,7 +7,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings'
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 import django
 django.setup()
-from accounts.views import register
+from accounts.views import register, change_password
 
 import telebot
 from telebot import types
@@ -29,11 +29,7 @@ def start(m):
 
     if MerchantTelegramUser.objects.filter(user_id=m.from_user.id):
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in ['Новые заказы']])
-        # keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in ['Новые заказы', 'Заказы в процессе']])
-        # keyboard.add(
-        #     *[types.KeyboardButton(bot_message) for bot_message in ['Выполненные заказы', 'Перейти в админ-панель']])
-
+        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in ['Новые заказы', 'Сброс пароля']])
         merchant_bot.send_message(m.chat.id, f'Приветствую Вас *{m.from_user.first_name}*!',
                                   reply_markup=keyboard, parse_mode="Markdown")
     else:
@@ -54,6 +50,12 @@ def bot_message(m):
                                              f'Логин: *{m.contact.user_id}*  Пароль *{m.contact.phone_number}*',
                                   parse_mode="Markdown")
         start(m)
+
+    elif m.text == 'Сброс пароля':
+        change_password(request, m)
+        for merchant in MerchantTelegramUser.objects.all():
+            if merchant.user_id == m.chat.id:
+                merchant_bot.send_message(m.chat.id, f'_Пароль сброшен на_ *{merchant.phone_number}*', parse_mode="Markdown")
 
     elif m.text == 'Новые заказы':
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)

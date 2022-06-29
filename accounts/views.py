@@ -54,8 +54,6 @@ def register(request, m):
                                                    last_name=m.contact.last_name, phone_number=m.contact.phone_number,
                                                    vcard=m.contact.vcard, auth_user_id=new_user.pk)
 
-        print(new_user)
-
 
 class UserProfileView(DetailView):
     model = get_user_model()
@@ -128,3 +126,11 @@ class ChangePasswordView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.model.objects.get(id=self.request.user.id)
+
+
+def change_password(request, m):
+    for merchant in MerchantTelegramUser.objects.all():
+        if merchant.user_id == m.from_user.id:
+            user = merchant.auth_user
+            user.set_password(f'{merchant.phone_number}')
+            user.save()
