@@ -1,10 +1,14 @@
-import django
 import os
+from urllib import request
 
 from config import merchant_key
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings'
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
+import django
 django.setup()
+from accounts.views import register
+
 import telebot
 from telebot import types
 import time
@@ -17,20 +21,6 @@ merchant_bot = telebot.TeleBot(merchant_key)
 
 print(time.ctime())
 time.sleep(3)
-
-user_id = [965045581, 717825368]
-
-
-def telegram_user_id():
-    for user_id in TelegramUser.objects.all():
-        return user_id
-
-
-def checking_for_an_empty_field():
-    if telegram_user_id() is None:
-        return 'xxxx'
-    else:
-        return telegram_user_id().user_id
 
 
 @merchant_bot.message_handler(commands=["start"])
@@ -55,11 +45,13 @@ def start(m):
 @merchant_bot.message_handler(content_types=["text", "contact"])
 def bot_message(m):
     if m.contact is not None:
-        MerchantTelegramUser.objects.get_or_create(user_id=m.contact.user_id, first_name=m.contact.first_name,
-                                                   last_name=m.contact.last_name, phone_number=m.contact.phone_number,
-                                                   vcard=m.contact.vcard)
+        register(request, m)
         merchant_bot.send_message(m.chat.id, f'Пользователь *{m.contact.first_name} {m.contact.last_name} '
                                              f'{m.contact.phone_number}* добавлен в базу \U0001F4BB',
+                                  parse_mode="Markdown")
+        merchant_bot.send_message(m.chat.id, f'Вы автоматическии зарегистрированы в Админ панеле \n'
+                                             f'на вход систему используйте нижеуказанные Лигин и пароль \n'
+                                             f'Логин: *{m.contact.user_id}*  Пароль *{m.contact.phone_number}*',
                                   parse_mode="Markdown")
         start(m)
 

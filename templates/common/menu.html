@@ -43,15 +43,15 @@
                 </li>
                     {% else %}
                         <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}"><img style="width: 35px; height: 35px; padding-top: 7px; margin-left: 4px" src="{% static 'images_common/logout.png' %}" alt=""></a>
+                        <a class="nav-link" href="{% url 'logout' %}"><img style="width: 35px; height: 35px; padding-top: 7px; margin-left: 4px" src="{% static 'images_common/logout.png' %}"  alt=""></a>
                       </li>
                     {% endif %}
 
                     <li class="nav-item">
                     {% if user.is_authenticated %}
                         <a class="nav-link"
-                           href="{% url 'profile' request.user.pk %}"><img style="width: 35px; height: 35px" src="{% static 'images_common/user.png' %}" alt=""
-                                                                           class="d-inline-block align-text-top icons"></a>
+                           href="{% url 'profile' request.user.pk %}"><img style="width: 35px; height: 35px" src="{% static 'images_common/user.png' %}"  alt=""
+                                                                           class="d-inline-block align-text-top icons"><br>{{ request.user.first_name }}</a>
                     {% endif %}
                 </li>
               </ul>
