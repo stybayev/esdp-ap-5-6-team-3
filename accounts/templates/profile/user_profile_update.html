@@ -1,34 +1,24 @@
 {% extends 'base.html' %}
-
 {% block content %}
-    <div class="row row-cols-2">
-        <div class="col col-2">
-            <ul class="nav flex-column navbar-light bg-light">
-                <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/accounts/profile/update/' %} active {% endif %}"
-                           aria-current="page"
-                           href="{% url 'update_profile' %}">Редактировать профиль</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/accounts/profile/change_password/' %} active {% endif %}" href="{% url 'change_password' %}">Изменить пароль профиля</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/accounts/logout/' %} active {% endif %}"
-                       aria-current="page"
-                       href="{% url 'logout' %}">Выйти с аккаунта</a>
-                </li>
-            </ul>
+    <div class="card mb-3" style="width: 70%; margin-left: auto; margin-right: auto; border: none; margin-top: 1%">
+        <h2 style="text-align: center">Изменение информации профиля {{ request.user.first_name }}</h2>
+        <div class="row g-0">
+            <div class="col-md-2" style="text-align: center">
 
-        </div>
-        <div class="col col-6">
-            <h2>Поменять личные данные</h2>
-            <form style="width: 50%" action="{% url 'update_profile' %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {% include 'partial/user_form.html' %}
-                {% include 'partial/profile_form.html' %}
-
-                <input type="submit" value="Submit" class="btn btn-success">
-            </form>
+            </div>
+            <div class="col-md-8">
+                <div class="text-center" style="width: 90%">
+                    <form action="{% url 'update_profile' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% include 'partial/user_form.html' %}
+                        {% include 'partial/profile_form.html' %}
+                        <div style="margin-top: 3%; justify-content: space-between; display: flex; margin-left: 5%; margin-right: 5%">
+                            <input class="btn btn-danger " type="submit" value="Изменить">
+                            <a class="btn btn-success " href="{% url 'profile' request.user.pk %}">Вернуться на страницу {{ request.user.first_name }}</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 

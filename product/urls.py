@@ -5,17 +5,15 @@ from product.views.aboutus_view import (
     AboutusUpdateView, AboutusDetailView, AboutUsDeleteView
 )
 from product.views.basket_view import (
-    BasketProductListView, AddBasketView, SubtractBasketView, BasketListView
+    AddBasketView, SubtractBasketView,
+    BasketListView, BasketProductListView
 )
 from product.views.comment_view import CommentCreateView, CommentListView
-from product.views.feedback_view import CustomerFeedbackListView, CustomerFeedbackDetailView
+from product.views.feedback_view import CustomerFeedbackListView, \
+    CustomerFeedbackDetailView
 from product.views.order_view import (
     OrderListView, OrderDetailView, OrderChangeStatusView, CancelOrder
 )
-# from product.views.review_view import (
-#     ProductReviewCreateView, ProductReviewUpdateView, ProductReviewDeleteView
-# )
-
 from product.views.product_view import (
     ProductCreateView, ProductDetailView, ProductDeleteView,
     ProductUpdateView, ProductCategoryListView
@@ -43,15 +41,6 @@ product_urls = [
     path('product/<str:category>/', ProductCategoryListView.as_view(),
          name='list_category_product'),
 ]
-
-# review_urls = [
-#     path('product/<int:pk>/review', ProductReviewCreateView.as_view(),
-#          name='create_review'),
-#     path('product/review/<int:pk>/update', ProductReviewUpdateView.as_view(),
-#          name='update_review'),
-#     path('product/review/<int:pk>/delete', ProductReviewDeleteView.as_view(),
-#          name='delete_review')
-# ]
 
 category_urls = [
     path('category/add', CategoryCreateView.as_view(),
@@ -88,7 +77,6 @@ aboutus_urls = [
          name='update_aboutus')
 ]
 
-
 orders_urls = [
     path('orders/<str:status>/', OrderListView.as_view(),
          name='orders_view'),
@@ -101,26 +89,31 @@ orders_urls = [
 ]
 
 reserv_urls = [
-    path('reservations/<str:status>/', ReservationListView.as_view(), name='reserve_list'),
-    path('reservation/edit/<int:pk>/', ReservationTableEditView.as_view(), name='table_edit'),
-    path('reservation/delete/<int:pk>/', TableReservationDeleteView.as_view(), name='delete_reserve'),
-    path('reservation/update/<int:pk>/', ReservationTableUpdateView.as_view(), name='update_reserve')
+    path('reservations/<str:status>/', ReservationListView.as_view(),
+         name='reserve_list'),
+    path('reservation/edit/<int:pk>/', ReservationTableEditView.as_view(),
+         name='table_edit'),
+    path('reservation/delete/<int:pk>/', TableReservationDeleteView.as_view(),
+         name='delete_reserve'),
+    path('reservation/update/<int:pk>/', ReservationTableUpdateView.as_view(),
+         name='update_reserve')
 ]
 
-
 feedback_urls = [
-    path('feedbacks/', CustomerFeedbackListView.as_view(), name='feedback_list'),
-    path('feedback/<int:pk>/', CustomerFeedbackDetailView.as_view(), name='detail_feedback'),
+    path('feedbacks/', CustomerFeedbackListView.as_view(),
+         name='feedback_list'),
+    path('feedback/<int:pk>/', CustomerFeedbackDetailView.as_view(),
+         name='detail_feedback'),
 ]
 
 comment_urls = [
-    path('comment/<int:pk>/add', CommentCreateView.as_view(), name='create_comment'),
+    path('comment/<int:pk>/add', CommentCreateView.as_view(),
+         name='create_comment'),
     path('comments/', CommentListView.as_view(), name='comment_list'),
 ]
 
 
 urlpatterns += product_urls
-# urlpatterns += review_urls
 urlpatterns += category_urls
 urlpatterns += basket_urls
 urlpatterns += aboutus_urls

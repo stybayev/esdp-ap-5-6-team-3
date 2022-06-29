@@ -1,12 +1,10 @@
-<div class="form-group" style="text-align: left; color: gray">
-    <label for="avatar">Аватар</label>
-    {% if user_obj.profile.avatar %}
-        <img src="{{ profile_form.avatar.value.url }}" alt="avatar"
-             style="width: 70px; height: 70px">
-    {% endif %}
-    <input type="file" name='avatar' id="avatar" value="{{ profile_form.avatar.value|default:'' }}"
-           class="form-control {% if profile_form.avatar.errors %} is-invalid {% endif %}">
-    {% for error in profile_form.avatar.errors %}
+<div class="form-group">
+    <label for="phone_number" class="form-label col-5">Номер телефона</label>
+    <input type="tel" name='phone_number' id="phone_number"
+           value="{{ profile_form.phone_number.value|default:'' }}"
+           placeholder="Номер телефона"
+           class="form-control {% if profile_form.phone_number.errors %} is-invalid {% endif %}">
+    {% for error in profile_form.phone_number.errors %}
         <div class="alert alert-danger" role="alert">
             {{ error }}
         </div>
@@ -14,40 +12,14 @@
 </div>
 
 <div class="form-group">
-    <label for="about_profile" class="form-label col-5">О себе </label>
-    <input type="text" name='about_profile' id="about_profile"
-           value="{{ profile_form.about_profile.value|default:'' }}"
-           class="form-control {% if profile_form.about_profile.errors %} is-invalid {% endif %}">
-    {% for error in profile_form.about_profile.errors %}
+    <label for="vcard" class="form-label col-5">VCard </label>
+    <input type="text" name='vcard' id="vcard"
+           value="{{ profile_form.vcard.value|default:'' }}"
+           class="form-control {% if profile_form.vcard.errors %} is-invalid {% endif %}">
+    {% for error in profile_form.vcard.errors %}
         <div class="alert alert-danger" role="alert">
             {{ error }}
         </div>
     {% endfor %}
 </div>
-<div class="form-group">
-    <label for="phone" class="form-label col-5">Номер телефона</label>
-    <input type="tel" name='phone' id="phone"
-           value="{{ profile_form.phone.value|default:'' }}"
-           placeholder="Номер телефона"
-           class="form-control {% if profile_form.phone.errors %} is-invalid {% endif %}">
-    {% for error in profile_form.phone.errors %}
-        <div class="alert alert-danger" role="alert">
-            {{ error }}
-        </div>
-    {% endfor %}
-</div>
-<div class="form-group" style="text-align: left; color: gray">
-    <label for="gender">Пол</label>
-    <select name="gender" id="gender" class="form-control">
-        {% for gender in genders %}
-            <option value="{{ gender.0 }}" {% if gender.0 == profile_form.gender.value %}
-                    selected
-            {% endif %} >{{ gender.1 }} </option>
-        {% endfor %}
-    </select>
-    {% for error in profile_form.gender.errors %}
-        <div class="alert alert-danger" role="alert">
-            {{ error }}
-        </div>
-    {% endfor %}
-</div>
+

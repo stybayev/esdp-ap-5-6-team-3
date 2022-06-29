@@ -3,7 +3,7 @@
 {% for comment in comments %}
     <div class="card" style="margin-top: 2%">
         <div class="card-body">
-            <div><b>№{{ comment.id }}</b></div>
+            <div><b>№{{ comment.id }}</b>, Автор: <b>{{ comment.author.first_name }}</b></div>
             <i>Ответ:</i> <b>{{ comment.text }}</b>
             <div>Дата создание:<i>{{ comment.created_at }}</i> , Дата изменение: <i>{{ comment.updated_at }}</i></div>
         </div>

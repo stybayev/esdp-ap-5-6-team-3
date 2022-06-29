@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.views.generic import DetailView
 
@@ -24,12 +25,14 @@ class CustomerFeedbackListView(SearchView):
         sum_quiz_answer = self.model.objects.aggregate(Sum('quiz_answer'))
         avg_quiz_answer = self.model.objects.aggregate(Avg('quiz_answer'))
         kwargs['sum_quiz_answer'] = sum_quiz_answer['quiz_answer__sum']
-        kwargs['avg_quiz_answer'] = avg_quiz_answer['quiz_answer__avg']
-        kwargs['round_avg_quiz_answer'] = round(avg_quiz_answer['quiz_answer__avg'])
+        kwargs['avg_quiz_answer'] = round(
+            avg_quiz_answer['quiz_answer__avg'], 2)
+        kwargs['round_avg_quiz_answer'] = round(
+            avg_quiz_answer['quiz_answer__avg'])
         return super().get_context_data(**kwargs)
 
 
-class CustomerFeedbackDetailView(DetailView):
+class CustomerFeedbackDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'feedback'
     template_name = 'feedback/detail_feedback_view.html'
     model = CustomerFeedback
@@ -38,11 +41,11 @@ class CustomerFeedbackDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         comments = self.object.feedback_comments.order_by('-id')
-        paginator = Paginator(comments, self.paginate_related_by, orphans=self.paginate_related_orphans)
+        paginator = Paginator(comments, self.paginate_related_by,
+                              orphans=self.paginate_related_orphans)
         page_number = self.request.GET.get('page', 1)
         page = paginator.get_page(page_number)
         kwargs['page_obj'] = page
         kwargs['comments'] = page.object_list
         kwargs['is_paginated'] = page.has_other_pages()
         return super().get_context_data(**kwargs)
-

@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models.deletion import get_candidate_relations_to_delete
 
@@ -209,14 +210,6 @@ class StatusShoppingCartOrder(models.Model):
 
 
 class ShoppingCartOrder(models.Model):
-    # NEW = 'Новый'
-    # IN_PROGRESS = 'В процессе'
-    # DONE = 'Выполнено'
-    #
-    # STATUS = (
-    #     (NEW, NEW), (IN_PROGRESS, IN_PROGRESS), (DONE, DONE)
-    # )
-
     telegram_user_id = models.ForeignKey(
         'product.TelegramUser', on_delete=models.CASCADE,
         related_name='telegram_users',
@@ -296,26 +289,6 @@ class Order(models.Model):
                f"{self.telegram_user_id}. {self.status}. {self.payment_way}"
 
 
-# class Comment(models.Model):
-#     text = models.TextField(max_length=3000, verbose_name='Текст отзыва')
-#     feedback = models.ForeignKey(
-#         'product.CustomerFeedback', on_delete=models.CASCADE, related_name='feedback',
-#         verbose_name="Обратная связь"
-#     )
-#     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Время создания", blank=True)
-#     updated_at = models.DateTimeField(auto_now=True, verbose_name="Время изменения", blank=True)
-#
-#     def __str__(self):
-#         return f"{self.feedback}. {self.text}"
-
-    # def get_feedback(self):
-    #     return CustomerFeedback.objects.filter(
-    #         quiz_answer=self).values_list('quiz_answer', flat=True)
-    #
-    # def feedback_average_amount(self):
-    #     return sum(self.get_feedback()) + self.get_feedback().count()
-
-
 class TelegramUser(models.Model):
     user_id = models.PositiveSmallIntegerField(
         primary_key=True, unique=True, verbose_name="Telegram Id пользователя")
@@ -330,6 +303,9 @@ class TelegramUser(models.Model):
 
 
 class MerchantTelegramUser(models.Model):
+    auth_user = models.OneToOneField(
+        get_user_model(), related_name='auth_user_profile',
+        on_delete=models.CASCADE, verbose_name='Пользователь', default=1)
     user_id = models.PositiveSmallIntegerField(
         primary_key=True, unique=True, verbose_name="Telegram Id пользователя")
     first_name = models.CharField(
@@ -373,7 +349,8 @@ class TableReservation(models.Model):
     )
     table_number = models.CharField(
         max_length=20,
-        null=True, blank=True, choices=TABLE_NUMBERS, verbose_name="Номер столика"
+        null=True, blank=True, choices=TABLE_NUMBERS,
+        verbose_name="Номер столика"
     )
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name="Время создания", blank=True)
@@ -386,12 +363,16 @@ class TableReservation(models.Model):
 
 class CustomerFeedback(models.Model):
     telegram_user_id = models.ForeignKey(
-        'product.TelegramUser', on_delete=models.CASCADE, related_name='telegram_users_client',
+        'product.TelegramUser', on_delete=models.CASCADE,
+        related_name='telegram_users_client',
         verbose_name="Telegram Id пользователя"
     )
-    quiz_answer = models.PositiveSmallIntegerField(verbose_name="Оценка клиента")
-    description = models.CharField(max_length=5000, null=True, blank=True, verbose_name="Отзыв клиента")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Время создания", blank=True)
+    quiz_answer = models.PositiveSmallIntegerField(
+        verbose_name="Оценка клиента")
+    description = models.CharField(
+        max_length=5000, null=True, blank=True, verbose_name="Отзыв клиента")
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Время создания", blank=True)
 
     def get_feedback(self):
         return Comments.objects.filter(
@@ -403,21 +384,21 @@ class CustomerFeedback(models.Model):
 
 class Comments(models.Model):
     feedback = models.ForeignKey(
-        'product.CustomerFeedback', on_delete=models.CASCADE, related_name='feedback_comments',
+        'product.CustomerFeedback', on_delete=models.CASCADE,
+        related_name='feedback_comments',
         verbose_name="Обратная связь"
     )
     text = models.TextField(max_length=5000, verbose_name='Текст отзыва')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Время создания", blank=True)
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="Время изменения", blank=True)
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Время создания", blank=True)
+    updated_at = models.DateTimeField(
+        auto_now=True, verbose_name="Время изменения", blank=True)
+    author = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='comments',
+        verbose_name='Автор'
+    )
 
     def __str__(self):
         return f"{self.feedback}. {self.text}"
-
-    # def get_feedback(self):
-    #     return CustomerFeedback.objects.filter(
-    #         quiz_answer=self).values_list('quiz_answer', flat=True)
-    #
-    # def feedback_average_amount(self):
-    #     return sum(self.get_feedback()) + self.get_feedback().count()
-
-

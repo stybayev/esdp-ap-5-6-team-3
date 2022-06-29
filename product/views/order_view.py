@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from config import client_key
 from django.db.models import Q
 from product.forms import SearchForm
@@ -14,7 +16,7 @@ from telebot import types
 bot = telebot.TeleBot(client_key)
 
 
-class OrderListView(SearchView):
+class OrderListView(LoginRequiredMixin, SearchView):
     template_name = 'order/list_order_view.html'
     model = ShoppingCartOrder
     ordering = ("updated_at",)
@@ -34,7 +36,8 @@ class OrderListView(SearchView):
         return context
 
     def get_queryset(self):
-        queryset = self.model.objects.filter(status__status=self.kwargs.get('status'))
+        queryset = self.model.objects.filter(
+            status__status=self.kwargs.get('status'))
         if self.search_value:
             query = Q()
             query_list = [
@@ -47,18 +50,19 @@ class OrderListView(SearchView):
         return queryset
 
 
-class OrderDetailView(DetailView):
+class OrderDetailView(LoginRequiredMixin, DetailView):
     template_name = 'order/detail_order_view.html'
     model = ShoppingCartOrder
     context_object_name = 'order'
 
 
-class OrderChangeStatusView(TemplateView):
+class OrderChangeStatusView(LoginRequiredMixin, TemplateView):
     template_name = 'order/detail_order_view.html'
     order = None
 
     def get_success_url(self):
-        return reverse('orders_view', kwargs={'status': self.order.status.status})
+        return reverse('orders_view',
+                       kwargs={'status': self.order.status.status})
 
     def post(self, request, *args, **kwargs):
         current_status = request.POST.get('status')
@@ -93,7 +97,8 @@ class CancelOrder(TemplateView):
     order = None
 
     def get_success_url(self):
-        return reverse('orders_view', kwargs={'status': self.order.status.status})
+        return reverse('orders_view',
+                       kwargs={'status': self.order.status.status})
 
     def post(self, request, *args, **kwargs):
         order_pk = kwargs.get('pk')

@@ -47,4 +47,3 @@ class TableReservationForm(forms.ModelForm):
     class Meta:
         model = TableReservation
         fields = ['table_number', 'date', 'time', 'status']
-

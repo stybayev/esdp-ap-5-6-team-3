@@ -4,43 +4,33 @@
 
 {% block content %}
     <div class="container">
-        <div class="row g-0">
-            <div class="col-md-4">
-                {% if user_obj.profile.avatar %}
-                    <img class="avatar" src="{{ user_obj.profile.avatar.url }}" width="250" height="250"
-                         alt="user picture" style="border-radius: 100%">
-                {% else %}
-                    <img src="{% static 'images_common/empty.png' %}" alt="">
-                {% endif %}
-            </div>
-            <div class="col-md-6">
-                <div class="card-body">
 
-                    <h5>
-                        <div class="row py-3">
-                            <div class="col col-3">
-                                {{ user_obj.username }}
-                            </div>
-                            <div class="col col-5">
-                                {% if request.user.id == user_obj.id %}
-                                    <a href="{% url 'update_profile' %}" class="btn btn-outline-dark">Редактировать
-                                        профиль</a>
-                                    <a href="{% url 'logout' %}"><img src="{% static 'images_common/logout.png' %}" alt=""></a>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </h5>
+        <div class="card mb-3" style="max-width: 90%; margin-right: auto; margin-left: auto; margin-top: 2%; font-size: 110%; border: none">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <div style="display: flex; justify-content: space-between; margin-top: 5%;">
+                        {% if request.user.id == user_obj.id %}
+                            <a class="btn btn-primary" href="{% url 'update_profile' %}">Редактировать</a>
+                            <a  class="btn btn-danger" href="{% url 'change_password' %}">Изменить пароль</a>                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h4 class="card-title">Личная информация пользователя {{ user_obj.get_full_name|default:user.username }}</h4>
+                        <p class="card-text"><span style="font-weight: bold; margin-right: 12%">Логин:</span> {{ user_obj.username }}</p>
+                        <p class="card-text"><span style="font-weight: bold; margin-right: 15%">Имя:</span> {{ user_obj.first_name }}</p>
+                        <p class="card-text"><span style="font-weight: bold; margin-right: 8%">Фамилия:</span> {{ user_obj.last_name }}</p>
+                        <p class="card-text"><span style="font-weight: bold; margin-right: 9%">Телефон:</span> {{ user_obj.auth_user_profile.phone_number|default:'' }}</p>
+                        {% if user_obj.auth_user_profile.vcard %}
+                            <p class="card-text"><span style="font-weight: bold; margin-right: 11%">VCARD:</span> {{ user_obj.auth_user_profile.vcard|default:'' }}</p>
 
-                    <p class="card-text">Имя: {{ user_obj.first_name }}</p>
-                    <p class="card-text">Емейл: {{ user_obj.email }}</p>
-                    {% if user_obj.profile.about_profile %}
-                        <p class="card-text"> О себе: {{ user_obj.profile.about_profile|default:'' }}</p>
-                    {% endif %}
+                        {% endif %}
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    {% include 'partial/review/review_list.html' %}
+    </div>
 
 {% endblock %}
