@@ -43,16 +43,18 @@ def register(request, m):
                                   'first_name': f'{m.contact.first_name}',
                                   'last_name': f'{m.contact.last_name}',
                                   'password': f'{m.contact.phone_number[1:]}',
-                                  'password_confirm': f'{m.contact.phone_number[1:]}',
+                                  'password_confirm':
+                                      f'{m.contact.phone_number[1:]}',
                                   'email': ''})
     print(m.contact.phone_number[1:])
     if user_form.is_valid():
         new_user = user_form.save(commit=False)
         new_user.set_password(user_form.cleaned_data['password'])
         new_user.save()
-        MerchantTelegramUser.objects.get_or_create(user_id=m.contact.user_id, first_name=m.contact.first_name,
-                                                   last_name=m.contact.last_name, phone_number=m.contact.phone_number,
-                                                   vcard=m.contact.vcard, auth_user_id=new_user.pk)
+        MerchantTelegramUser.objects.get_or_create(
+            user_id=m.contact.user_id, first_name=m.contact.first_name,
+            last_name=m.contact.last_name, phone_number=m.contact.phone_number,
+            vcard=m.contact.vcard, auth_user_id=new_user.pk)
 
         print(new_user)
 
