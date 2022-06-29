@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.views.generic import CreateView, ListView, \
     UpdateView, DetailView, DeleteView
@@ -18,7 +19,7 @@ class AboutusDetailView(DetailView):
     model = Aboutus
 
 
-class AboutUsDeleteView(DeleteView):
+class AboutUsDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'aboutus/detail_aboutus_view.html'
     model = Aboutus
 
@@ -29,7 +30,7 @@ class AboutUsDeleteView(DeleteView):
         return reverse('aboutus_view')
 
 
-class AboutusCreateView(CreateView):
+class AboutusCreateView(LoginRequiredMixin, CreateView):
     template_name = 'aboutus/create_aboutus_view.html'
     form_class = AboutusForm
     object = None
@@ -49,7 +50,7 @@ class AboutusCreateView(CreateView):
                       })
 
 
-class AboutusUpdateView(UpdateView):
+class AboutusUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'aboutus/update_aboutus_view.html'
     form_class = AboutusForm
     model = Aboutus

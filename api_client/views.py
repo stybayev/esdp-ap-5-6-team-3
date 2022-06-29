@@ -1,5 +1,4 @@
 import telebot
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -16,7 +15,6 @@ bot = telebot.TeleBot(client_key)
 class ProductAPIView(APIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    # permission_classes = [IsAuthenticated, ]
 
     def get(self, request, *args, **kwargs):
         serializer = self.serializer_class(self.queryset.all(), many=True)
@@ -26,7 +24,6 @@ class ProductAPIView(APIView):
 class CategoryAPIView(APIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    # permission_classes = [IsAuthenticated, ]
 
     def get(self, request, *args, **kwargs):
         serializer = self.serializer_class(self.queryset.all(), many=True)
@@ -37,14 +34,12 @@ class BasketAPIView(APIView):
     queryset = Basket.objects.all()
     serializer_class = BasketSerializer
     model = Basket
-    # permission_classes = [IsAuthenticated, ]
 
     def get(self, request, *args, **kwargs):
         serializer = self.serializer_class(self.queryset.all(), many=True)
         return Response(data=serializer.data)
 
 
-# @csrf_exempt
 class CommentsAPIView(APIView):
     queryset = Comments.objects.all()
     serializer_class = CommentsSerializer

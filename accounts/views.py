@@ -6,8 +6,6 @@ from django.views.generic import DetailView, UpdateView
 from accounts.forms import (UserCreationForm, UserChangeForm,
                             ProfileChangeForm, PasswordChangeForm)
 from django.views import View
-
-from accounts.models import Profile
 from product.models import MerchantTelegramUser
 
 
@@ -98,6 +96,13 @@ class UserProfileUpdateView(UpdateView):
     def form_valid(self, form, profile_form):
         response = super().form_valid(form)
         profile_form.save()
+        first_name = self.request.POST.get('first_name')
+        last_name = self.request.POST.get('last_name')
+        for merchant in MerchantTelegramUser.objects.all():
+            if merchant.auth_user == self.request.user:
+                merchant.first_name = first_name
+                merchant.last_name = last_name
+                merchant.save()
         return response
 
     def form_invalid(self, form, profile_form):

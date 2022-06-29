@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, FormView
@@ -24,7 +25,7 @@ class CategoryListView(SearchView):
     }
 
 
-class CategoryCreateView(CreateView):
+class CategoryCreateView(LoginRequiredMixin, CreateView):
     template_name = 'category/create_category_view.html'
     form_class = CategoryForm
     redirect_url = 'list_category'
@@ -55,7 +56,7 @@ class CategoryCreateView(CreateView):
                       })
 
 
-class CategoryUpdateView(FormView):
+class CategoryUpdateView(LoginRequiredMixin, FormView):
     template_name = 'category/update_category_view.html'
     form_class = CategoryForm
     model = Category
@@ -106,6 +107,6 @@ class CategoryUpdateView(FormView):
         return reverse('list_category')
 
 
-class CategoryDeleteView(DeleteView):
+class CategoryDeleteView(LoginRequiredMixin, DeleteView):
     model = Category
     success_url = reverse_lazy('list_category')

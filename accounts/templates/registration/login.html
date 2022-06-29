@@ -3,8 +3,8 @@
 {% block content %}
     <div class="container form-auth">
         <div class="row row-cols-2">
-            <div class="col">
-                <h4 style="font-family: Calibri; text-align: center; font-size: 35px">Логиниться</h4>
+            <div class="col" style="margin-right: auto; margin-left: auto; margin-top: 3%">
+                <h4 style="text-align: center; font-size: 35px">Логиниться</h4>
                 <form action="{% url 'login' %}{% if next %}?next={{ next }}{% endif %}" method="post"
                       class="row align-items-center">
                     <div>
@@ -12,12 +12,14 @@
                         {% if has_error %}
                             <p class="form-error">Неверное имя пользователя или пароль.</p>
                         {% endif %}
-                        <input type="text" class="form-control" id="inputUsername3" name="username"
+                        <input style="text-align: center"
+                               type="text" class="form-control" id="inputUsername3" name="username"
                                placeholder="Введите имя пользователя или эл. адрес">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Пароль">
-                        <button type="submit" class="btn btn-primary form-control">Войти</button>
+                        <input style="text-align: center; margin-top: 3%"
+                               type="password" class="form-control" id="password" name="password" placeholder="Пароль">
+                        <button style=" margin-top: 3%"
+                                type="submit" class="btn btn-primary form-control">Войти</button>
                     </div>
-
 
                 </form>
             </div>

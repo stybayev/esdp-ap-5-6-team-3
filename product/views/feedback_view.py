@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.views.generic import DetailView
 
@@ -24,13 +25,13 @@ class CustomerFeedbackListView(SearchView):
         sum_quiz_answer = self.model.objects.aggregate(Sum('quiz_answer'))
         avg_quiz_answer = self.model.objects.aggregate(Avg('quiz_answer'))
         kwargs['sum_quiz_answer'] = sum_quiz_answer['quiz_answer__sum']
-        kwargs['avg_quiz_answer'] = avg_quiz_answer['quiz_answer__avg']
+        kwargs['avg_quiz_answer'] = round(avg_quiz_answer['quiz_answer__avg'], 2)
         kwargs['round_avg_quiz_answer'] = round(
             avg_quiz_answer['quiz_answer__avg'])
         return super().get_context_data(**kwargs)
 
 
-class CustomerFeedbackDetailView(DetailView):
+class CustomerFeedbackDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'feedback'
     template_name = 'feedback/detail_feedback_view.html'
     model = CustomerFeedback

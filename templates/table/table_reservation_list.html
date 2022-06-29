@@ -1,6 +1,24 @@
 {% extends 'base.html' %}
 
 {% load static %}
+<style>
+    .photo {
+        display: inline-block; /* Строчно-блочный элемент */
+        position: relative; /* Относительное позиционирование */
+    }
+    .photo:hover::after {
+        content: attr(data-title); /* Выводим текст */
+        position: absolute; /* Абсолютное позиционирование */
+        right: 0; top: 50%; /* Положение подсказки */
+        z-index: 1; /* Отображаем подсказку поверх других элементов */
+    {#background: rgba(255,255,230,0.9); /* Полупрозрачный цвет фона */#}
+        font-family: Arial, sans-serif; /* Гарнитура шрифта */
+        font-size: 15px; /* Размер текста подсказки */
+        padding: 5px 10px; /* Поля */
+        fon
+    {#border: 1px solid #333; /* Параметры рамки */#}
+    }
+</style>
 {% block content %}
     <ul class="tabs" style="margin-top: 20px;">
         <li><a href="{% url 'reserve_list' status='Новый' %}"
@@ -72,13 +90,24 @@
                             <td data-label="Действие">
                                 {% if status == 'Новый' %}
                                     {% load static %}
-                                    <div style="display: flex">
-                                        <button class="btn" form="table{{ reserv.id }}"><img style="width: 30px; height: 25px" src="{% static 'images_common/reserve.png' %}" alt=""></button>
-                                        <a class="btn" href="{% url 'delete_reserve' reserv.id %}"><img style="width: 30px; height: 25px" src="{% static 'images_common/cancel.png' %}" alt=""></a>
-                                        <a href="{% url 'update_reserve' reserv.id %}" class="btn"><img style="width: 30px; height: 25px" src="{% static 'images_common/edit.png' %}" alt=""></a>
+                                    <div style="display: flex; color: red">
+                                        <div class="photo" data-title="Поставить бронь {{ reserv.telegram_user_id.first_name }}">
+                                            <button class="btn" form="table{{ reserv.id }}"><img style="width: 30px; height: 25px" src="{% static 'images_common/reserve.png' %}" alt=""></button>
+
+                                        </div>
+                                        <div class="photo" data-title="Отменить бронь {{ reserv.telegram_user_id.first_name }}">
+                                            <a class="btn" href="{% url 'delete_reserve' reserv.id %}"><img style="width: 30px; height: 25px" src="{% static 'images_common/cancel.png' %}" alt=""></a>
+
+                                        </div>
+                                        <div class="photo" data-title="Редактировать бронь {{ reserv.telegram_user_id.first_name }}">
+                                            <a href="{% url 'update_reserve' reserv.id %}" class="btn"><img style="width: 30px; height: 25px" src="{% static 'images_common/edit.png' %}" alt=""></a>
+
+                                        </div>
                                     </div>
                                 {% else %}
-                                    <a href="{% url 'update_reserve' reserv.id %}" class="btn"><img style="width: 30px; height: 25px" src="{% static 'images_common/edit.png' %}" alt=""></a>
+                                    <div style="display: flex; color: red" class="photo" data-title="Редактировать бронь {{ reserv.telegram_user_id.first_name }}">
+                                        <a href="{% url 'update_reserve' reserv.id %}" class="btn"><img style="width: 30px; height: 25px" src="{% static 'images_common/edit.png' %}" alt=""></a>
+                                    </div>
                                 {% endif %}
                             </td>
                         </tr>

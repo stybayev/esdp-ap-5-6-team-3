@@ -2,7 +2,7 @@
 {% block content %}
     {% load static %}
     <div style="margin-top: 30px">
-    <a class="btn" style="margin-right: 5%" href="{% url 'list_category_product' product.category %}"><img style="width: 45px; height: 34px" src="{% static 'images_common/backward.png' %}" alt=""></a>
+        <a class="btn" style="margin-right: 5%" href="{% url 'list_category_product' product.category %}"><img style="width: 45px; height: 34px" src="{% static 'images_common/backward.png' %}" alt=""></a>
     </div>
     <div style="margin-top: 3%">
         <div class="box">
@@ -20,10 +20,12 @@
                 <p class="card-subtitle mb-2 text-muted">Категория: <b>{{ product.category }}</b></p>
                 <p class="card-subtitle mb-2 text-muted">Описание: <b>{{ product.description }}</b></p>
                 <h6 class="card-subtitle mb-2 text-muted" style="margin-top: 10px;">Средняя оценка: {{ product_avg_evaluation.evaluation__avg|default:0 }}</h6>
-                <div style="display: flex; justify-content: space-between; margin-top: 5%">
-                    <a class="btn btn-outline-primary" href="{% url 'update_product' product.pk %}">Изменить</a>
-                    <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-outline-danger" style="margin-right: 30%">Удалить</button>
-                </div>
+                {% if user.is_authenticated %}
+                    <div style="display: flex; justify-content: space-between; margin-top: 5%">
+                        <a class="btn btn-outline-primary" href="{% url 'update_product' product.pk %}">Изменить</a>
+                        <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-outline-danger" style="margin-right: 30%">Удалить</button>
+                    </div>
+                {% endif %}
             </div>
         </div>
         {% include 'common/delete_modal.html' with deleted_object=product view='delete_product' %}
