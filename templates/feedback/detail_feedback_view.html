@@ -24,13 +24,14 @@
     </style>
 
     {% load static %}
-    <div class="card" style="margin-top: 3%">
-        <div class="card-header"> №{{ feedback.id }}
-            Телеграмм пользователь: <b>{{ feedback.telegram_user_id.first_name }}</b> Телефон: <b>{{ feedback.telegram_user_id.phone_number }}</b>
+    <div class="card" style="margin-top: 3%; overflow-x: auto;
+box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+border-radius: 10px;">
+        <div class="card-header">№{{ feedback.id }}⠀Телеграмм пользователь: <b>{{ feedback.telegram_user_id.first_name }}</b>⠀Телефон: <b>{{ feedback.telegram_user_id.phone_number }}</b>
         </div>
         <div class="card-body">
             <h5 class="card-title" style="display: flex">
-                <i>Оценка клиента: </i> {{ feedback.quiz_answer }}
+                <i>Оценка клиента:⠀</i> {{ feedback.quiz_answer }}
                 <div class="rating-result">
                     <span {% if feedback.quiz_answer >= 1 %} class="active" {% endif %}></span>
                     <span {% if feedback.quiz_answer >= 2  %} class="active" {% endif %}></span>
@@ -54,9 +55,9 @@
             <form id="createForm" enctype="multipart/form-data" >
                 <div style="display: flex; justify-content: space-between">
                     <input type="hidden" id="feedback" name="feedback" value="{{ feedback.id }}">
-                    <textarea cols="100" rows="3" class="form-control" id="text" style="border: none;"
+                    <textarea rows="2" class="form-control" id="text" style="border: none;"
                               name="text" placeholder="Добавьте комментарий..."></textarea>
-                    <input style="margin-left: 3%" type="submit" class="create-resp btn btn-danger" value="Отправить">
+                    <input type="submit" class="create-resp btn btn-danger" value="Отправить">
 
                 </div>
             </form>
