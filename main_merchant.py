@@ -26,8 +26,9 @@ def start(m):
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
         keyboard.add(*[types.KeyboardButton(bot_message) for
                        bot_message in ['Новые заказы', 'Сброс пароля']])
-        merchant_bot.send_message(m.chat.id, f'Приветствую Вас *{m.from_user.first_name}*!',
-                                  reply_markup=keyboard, parse_mode="Markdown")
+        merchant_bot.send_message(
+            m.chat.id, f'Приветствую Вас *{m.from_user.first_name}*!',
+            reply_markup=keyboard, parse_mode="Markdown")
     else:
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
         keyboard.add(types.KeyboardButton(
@@ -57,7 +58,10 @@ def bot_message(m):
         change_password(request, m)
         for merchant in MerchantTelegramUser.objects.all():
             if merchant.user_id == m.chat.id:
-                merchant_bot.send_message(m.chat.id, f'_Пароль сброшен на_ *{merchant.phone_number}*', parse_mode="Markdown")
+                merchant_bot.send_message(
+                    m.chat.id,
+                    f'_Пароль сброшен на_ *{merchant.phone_number}*',
+                    parse_mode="Markdown")
 
     elif m.text == 'Новые заказы':
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -76,11 +80,10 @@ def bot_message(m):
             keyboard.add(new_order)
             merchant_bot.send_message(
                 m.chat.id, f"Заказ *№{shop_cart.id}* "
-                f"*{shop_cart.telegram_user_id.first_name}* "
+                f"*{shop_cart.telegram_user_id.first_name}*"
                 f"*{shop_cart.sum_product_total_price()}*+"
                 f"*{shop_cart.service_price()}%* = "
-                f"итого *{shop_cart.total_sum()}* тенге"
-                ,
+                f"итого *{shop_cart.total_sum()}* тенге",
                 reply_markup=keyboard, parse_mode="Markdown")
 
     elif m.text == 'В начало':
@@ -106,7 +109,8 @@ def callback_inline(call):
             chat_id=call.message.chat.id, message_id=call.message.message_id,
             text=f"Клиент: "
                  f"{call.from_user.first_name, call.from_user.last_name} "
-                 f"\n Номер Заказа: 3 \n Блюда: \n  Гамбургер говяжий двойной ",
+                 f"\n Номер Заказа: 3 \n Блюда: "
+                 f"\n  Гамбургер говяжий двойной ",
             reply_markup=keyboard)
 
 
