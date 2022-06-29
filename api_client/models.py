@@ -47,7 +47,7 @@ class UserManager(BaseUserManager):
 
         email = self.normalize_email(email)
 
-        GlobalUserModel = apps.get_model(
+        apps.get_model(
             self.model._meta.app_label, self.model._meta.object_name
         )
         user = self.model(email=email, **extra_fields)
@@ -102,9 +102,6 @@ class UserManager(BaseUserManager):
 
 
 class Client(AbstractBaseUser):
-    # username = models.CharField(max_length=255, db_index=True,
-    # blank=True, null=True)
-
     email = models.EmailField(max_length=255, unique=True, db_index=True)
     email_verified = models.BooleanField(default=False)
     email_verification_code = models.CharField(
@@ -168,27 +165,6 @@ class Client(AbstractBaseUser):
         else:
             name = self.email
         return name
-
-    # @property
-    # def tokens(self):
-    #
-    #     return self._generate_jwt_token()
-    #
-    # def get_short_name(self):
-    #
-    #     return self.last_name_latin
-
-    # def _generate_jwt_token(self):
-    #     """
-    #     Создает веб-токен JSON, в котором хранится идентификатор
-    #     этого пользователя.
-    #     """
-    #     refresh = RefreshToken.for_user(self)
-    #     token = {
-    #         'refresh': str(refresh),
-    #         'access': str(refresh.access_token)
-    #     }
-    #     return token
 
     class Meta:
         verbose_name = "Пользователь"

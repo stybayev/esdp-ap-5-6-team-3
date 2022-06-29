@@ -1,6 +1,9 @@
-import datetime
-import django
 import os
+os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings'
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
+import django
+django.setup()
+import datetime
 from django.shortcuts import get_object_or_404
 from config import client_key, merchant_key
 import telebot
@@ -15,8 +18,6 @@ from product.models import TelegramUser, Basket, Aboutus, BasketToOrder, \
     ShoppingCartOrder, StatusShoppingCartOrder, MerchantTelegramUser, \
     TableReservation, CustomerFeedback
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings'
-django.setup()
 
 logger = telebot.logger
 bot = telebot.TeleBot(client_key)
@@ -31,6 +32,7 @@ time.sleep(3)
 # # Для виртуального окружения
 url_menu = 'http://localhost:8000/api/v1/menu/'
 url_category = 'http://localhost:8000/api/v1/category/'
+url_crm = 'http://127.0.0.1:8000'
 
 base_url = f"https://api.telegram.org/bot{client_key}/sendPoll"
 print(base_url)
@@ -204,7 +206,7 @@ def bot_message(m):
             keyboard.add(
                 types.InlineKeyboardButton(
                     text=f"Перейти в бронь столиков",
-                    url=f"http://127.0.0.1:8000/reservations/"))
+                    url=f"{url_crm}/reservations/Новый/"))
 
             merchant_bot.send_message(
                 users.user_id,
@@ -463,7 +465,7 @@ def callback_inline(call: CallbackQuery):
 
 
 @bot.callback_query_handler(func=lambda call: True)
-def callback_inline(call):
+def callback_inline2(call):
     if call.data in order(call):
         order_pk = call.data[13:]
         total_sum = 0
@@ -535,7 +537,7 @@ def callback_inline(call):
                 if Basket.objects.filter(
                         product_id=menu['id'],
                         telegram_user_id_id=call.from_user.id):
-                    basket_to_orders = BasketToOrder.objects.create(
+                    BasketToOrder.objects.create(
                         product=basket.product,
                         telegram_user_id=basket.telegram_user_id,
                         amount=basket.amount,
@@ -545,10 +547,6 @@ def callback_inline(call):
                     )
                     basket.delete()
                     total_sum += basket.product_total_price
-
-                    # ShoppingCartOrderBasketToOrder.objects.create(
-                    # shopping_cart_order_id=shopping_cart_orders.pk,
-                    # baske_to_order_id=basket_to_orders.pk)
 
         bot.send_message(
             call.message.chat.id,
@@ -562,7 +560,7 @@ def callback_inline(call):
             keyboard.add(
                 types.InlineKeyboardButton(
                     text=f"Перейти к заказу №{shopping_cart_orders.id}",
-                    url=f"http://127.0.0.1:8000/order/"
+                    url=f"{url_crm}/order/"
                         f"{shopping_cart_orders.id}"))
 
             merchant_bot.send_message(
@@ -615,11 +613,8 @@ def callback_inline(call):
 
     if call.data != '\U0001F4D6\U0001F372\U0001F354Меню':
         for menu in response_menu:
-
             if call.data == menu['category']:
                 for response_category in response_categories:
-                    # if Product.objects.filter(
-                    # available='Есть', category_id=response_category['id']):
                     if menu['category'] == response_category['category_name'] \
                             and menu['available'] == 'Есть':
                         keyboard = types.InlineKeyboardMarkup(row_width=2)
