@@ -1,18 +1,17 @@
 import os
+os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings'
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
+import django
+django.setup()
 from urllib import request
-from accounts.views import register
-
+from accounts.views import register, change_password
 import telebot
 from telebot import types
 import time
 from product.models import (MerchantTelegramUser,
                             ShoppingCartOrder)
 from config import merchant_key
-import django
-django.setup()
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings'
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 
 merchant_bot = telebot.TeleBot(merchant_key)
 
@@ -23,21 +22,12 @@ time.sleep(3)
 @merchant_bot.message_handler(commands=["start"])
 def start(m):
     print(type(m.from_user.id))
-
     if MerchantTelegramUser.objects.filter(user_id=m.from_user.id):
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
         keyboard.add(*[types.KeyboardButton(bot_message) for
-                       bot_message in ['Новые заказы']])
-        # keyboard.add(*[types.KeyboardButton(bot_message)
-        # for bot_message in ['Новые заказы', 'Заказы в процессе']])
-        # keyboard.add(
-        #     *[types.KeyboardButton(bot_message)
-        #     for bot_message in ['Выполненные заказы',
-        #     'Перейти в админ-панель']])
-
-        merchant_bot.send_message(
-            m.chat.id, f'Приветствую Вас *{m.from_user.first_name}*!',
-            reply_markup=keyboard, parse_mode="Markdown")
+                       bot_message in ['Новые заказы', 'Сброс пароля']])
+        merchant_bot.send_message(m.chat.id, f'Приветствую Вас *{m.from_user.first_name}*!',
+                                  reply_markup=keyboard, parse_mode="Markdown")
     else:
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
         keyboard.add(types.KeyboardButton(
@@ -62,6 +52,12 @@ def bot_message(m):
             f'Логин: *{m.contact.user_id}*  Пароль *{m.contact.phone_number}*',
             parse_mode="Markdown")
         start(m)
+
+    elif m.text == 'Сброс пароля':
+        change_password(request, m)
+        for merchant in MerchantTelegramUser.objects.all():
+            if merchant.user_id == m.chat.id:
+                merchant_bot.send_message(m.chat.id, f'_Пароль сброшен на_ *{merchant.phone_number}*', parse_mode="Markdown")
 
     elif m.text == 'Новые заказы':
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -88,11 +84,10 @@ def bot_message(m):
                 reply_markup=keyboard, parse_mode="Markdown")
 
     elif m.text == 'В начало':
-        print(m.from_user.first_name, m.from_user.last_name)
         keyboard = types.ReplyKeyboardMarkup(
             resize_keyboard=True)
         keyboard.add(*[types.KeyboardButton(bot_message) for
-                       bot_message in ['Новые заказы', ]])
+                       bot_message in ['Новые заказы', 'Сброс пароля']])
         merchant_bot.send_message(
             m.chat.id, 'В начало, Выберите в меню операции!',
             reply_markup=keyboard)
@@ -100,10 +95,7 @@ def bot_message(m):
 
 @merchant_bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
-    if call.data == "new_order_1" or call.data == "new_order_2" \
-            or call.data == "new_order_3" or call.data == "new_order_4" \
-            or call.data == "new_order_5" or call.data == "new_order_6" \
-            or call.data == "new_order_7" or call.data == "new_order_8":
+    if call.data == "new_order_1" or call.data == "new_order_2":
         keyboard = types.InlineKeyboardMarkup(row_width=2)
         call_the_client = types.InlineKeyboardButton(
             text="Созвониться с клиентом", callback_data="call_the_client")
@@ -114,72 +106,8 @@ def callback_inline(call):
             chat_id=call.message.chat.id, message_id=call.message.message_id,
             text=f"Клиент: "
                  f"{call.from_user.first_name, call.from_user.last_name} "
-                 f"\n Номер Заказа: 3 \n Блюда: \n  Гамбургер говяжий двойной "
-                 f"\n 1шт. х 1200т. = 1200 тг. \n Соус горчичный: "
-                 f"\n 2шт. х 100 тг. = 100 тг.",
+                 f"\n Номер Заказа: 3 \n Блюда: \n  Гамбургер говяжий двойной ",
             reply_markup=keyboard)
-    elif call.data == "call_the_client":
-        keyboard = types.InlineKeyboardMarkup(row_width=1)
-        merchant_bot.edit_message_text(
-            chat_id=call.message.chat.id, message_id=call.message.message_id,
-            text=f"Клиент: "
-                 f"{call.from_user.first_name, call.from_user.last_name} "
-                 f"\n Телефон номер: {user_phone[0]}",
-            reply_markup=keyboard)
-    elif call.data == "accept_order":
-        keyboard = types.InlineKeyboardMarkup(row_width=1)
-        merchant_bot.edit_message_text(
-            chat_id=call.message.chat.id, message_id=call.message.message_id,
-            text=f"Клиенту: "
-                 f"{call.from_user.first_name, call.from_user.last_name} "
-                 f"отправлено уведомление",
-            reply_markup=keyboard)
-
-    elif call.data == 'orders_in_progress_1' \
-            or call.data == 'orders_in_progress_2' \
-            or call.data == 'orders_in_progress_3' \
-            or call.data == 'orders_in_progress_4' \
-            or call.data == 'orders_in_progress_5' \
-            or call.data == 'orders_in_progress_6' \
-            or call.data == 'orders_in_progress_7' \
-            or call.data == 'orders_in_progress_8':
-        merchant_bot.edit_message_text(
-            chat_id=call.message.chat.id, message_id=call.message.message_id,
-            text=f"Клиент: "
-                 f"{call.from_user.first_name, call.from_user.last_name} "
-                 f"\n Номер Заказа: 3 \n Блюда: \n  Гамбургер говяжий двойной "
-                 f"\n 1шт. х 1200т. = 1200 тг. \n Соус горчичный: "
-                 f"\n 2шт. х 100 тг. = 100 тг. \n\n\n Заказ завершен")
-
-    elif call.data == "completed_orders_1" \
-            or call.data == "completed_orders_2" \
-            or call.data == "completed_orders_3" \
-            or call.data == "completed_orders_4" \
-            or call.data == "completed_orders_5" \
-            or call.data == "completed_orders_6" \
-            or call.data == "completed_orders_7" \
-            or call.data == "completed_orders_8":
-        keyboard = types.InlineKeyboardMarkup(row_width=1)
-        customer_feedback = types.InlineKeyboardButton(
-            text="Отзыв клиента", callback_data="customer_feedback")
-        keyboard.add(customer_feedback)
-        merchant_bot.edit_message_text(
-            chat_id=call.message.chat.id, message_id=call.message.message_id,
-            text=f"Клиент: "
-                 f"{call.from_user.first_name, call.from_user.last_name} "
-                 f"\n Номер Заказа: 3 \n Блюда: \n  Гамбургер говяжий двойной "
-                 f"\n 1шт. х 1200т. = 1200 тг. \n Соус горчичный: "
-                 f"\n 2шт. х 100 тг. = 100 тг.",
-            reply_markup=keyboard)
-
-    elif call.data == "customer_feedback":
-        merchant_bot.edit_message_text(
-            chat_id=call.message.chat.id, message_id=call.message.message_id,
-            text=f"Блюда: \n\n  Гамбургер говяжий двойной "
-                 f"\n 1шт. х 1200т. = 1200 тг. "
-                 f"\n\n Соус горчичный: \n\n 2шт. х 100 тг. = 100 тг. "
-                 f"\n\n\n Отзыв: \n Очень вкусно, "
-                 f"но слишком долго выполняется заказ")
 
 
 merchant_bot.polling(none_stop=True, interval=0)
