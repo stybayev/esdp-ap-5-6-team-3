@@ -16,6 +16,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='merchanttelegramuser',
             name='auth_user',
-            field=models.OneToOneField(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='auth_user_profile', to=settings.AUTH_USER_MODEL, verbose_name='Пользователь'),
+            field=models.OneToOneField(
+                default=1, on_delete=django.db.models.deletion.CASCADE,
+                related_name='auth_user_profile', to=settings.AUTH_USER_MODEL,
+                verbose_name='Пользователь'),
         ),
     ]

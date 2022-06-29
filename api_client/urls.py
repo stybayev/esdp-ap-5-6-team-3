@@ -1,7 +1,8 @@
 from django.urls import path
 
 
-from api_client.views import ProductAPIView, BasketAPIView, CategoryAPIView, CommentsAPIView
+from api_client.views import ProductAPIView, BasketAPIView, \
+    CategoryAPIView, CommentsAPIView
 
 urlpatterns = [
     path('menu/', ProductAPIView.as_view(), name='menu_product'),

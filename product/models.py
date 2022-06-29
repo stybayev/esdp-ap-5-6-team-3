@@ -303,8 +303,9 @@ class TelegramUser(models.Model):
 
 
 class MerchantTelegramUser(models.Model):
-    auth_user = models.OneToOneField(get_user_model(), related_name='auth_user_profile', on_delete=models.CASCADE,
-                                verbose_name='Пользователь', default=1)
+    auth_user = models.OneToOneField(
+        get_user_model(), related_name='auth_user_profile',
+        on_delete=models.CASCADE, verbose_name='Пользователь', default=1)
     user_id = models.PositiveSmallIntegerField(
         primary_key=True, unique=True, verbose_name="Telegram Id пользователя")
     first_name = models.CharField(
@@ -395,4 +396,3 @@ class Comments(models.Model):
 
     def __str__(self):
         return f"{self.feedback}. {self.text}"
-
