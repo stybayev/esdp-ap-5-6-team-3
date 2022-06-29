@@ -59,6 +59,6 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
             request,
             self.template_name,
             context={
-                 'form': form
+                'form': form
             }
         )
