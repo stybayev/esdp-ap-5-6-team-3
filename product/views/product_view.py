@@ -10,6 +10,7 @@ from product.models import Product, Category
 from googletrans import Translator
 from transliterate import get_translit_function
 
+from product.services import product_create
 
 translator = Translator()
 
@@ -61,14 +62,14 @@ class ProductCategoryListView(SearchView):
             return super().get(request, *args, **kwargs)
         search_param = request.GET.get('search')
         result = self.model.objects.filter(
-            Q(product_name__icontains=search_param) |
-            Q(description__icontains=search_param) |
-            Q(category__category_name__icontains=search_param) |
-            Q(price__icontains=search_param) |
-            Q(translit_product_name__icontains=search_param) |
-            Q(translit_description__icontains=search_param) |
-            Q(product_name_translation__icontains=search_param) |
-            Q(description_translation__icontains=search_param),
+            Q(product_name__icontains=search_param) | Q(
+                description__icontains=search_param) | Q(
+                category__category_name__icontains=search_param) | Q(
+                price__icontains=search_param) | Q(
+                translit_product_name__icontains=search_param) | Q(
+                translit_description__icontains=search_param) | Q(
+                product_name_translation__icontains=search_param) | Q(
+                description_translation__icontains=search_param),
         )
         return render(request, self.template_name,
                       {self.context_object_name: result})
@@ -85,37 +86,11 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return reverse('list_category_product',
                        kwargs={'category': category.category_name})
 
-    def cyrillic_check(self, text):
-        lower = set('абвгдеёжзийклмнопрстуфхцчшщъыьэюя')
-        return lower.intersection(text.lower()) != set()
-
     def post(self, request, *args, **kwargs):
-        translit_ru = get_translit_function('ru')
         form = self.form_class(data=request.POST, files=self.request.FILES)
+        category = Category.objects.get(pk=request.POST.get('category'))
         if form.is_valid():
-            self.object = form.save(commit=False)
-            product = self.object
-            if self.cyrillic_check(product.product_name) is True:
-                product.translit_product_name = translit_ru(
-                    product.product_name, reversed=True)
-                product.product_name_translation = translator.translate(
-                    product.product_name, src='ru', dest='en').text
-            elif self.cyrillic_check(product.product_name) is False:
-                product.translit_product_name = translit_ru(
-                    product.product_name)
-                product.product_name_translation = translator.translate(
-                    product.product_name, src='en', dest='ru').text
-            if self.cyrillic_check(product.description) is True:
-                product.translit_description = translit_ru(
-                    product.description, reversed=True)
-                product.description_translation = translator.translate(
-                    product.description, src='ru', dest='en').text
-            elif self.cyrillic_check(product.description) is False:
-                product.translit_description = translit_ru(product.description)
-                if product.description:
-                    product.description_translation = translator.translate(
-                        product.description, src='en', dest='ru').text
-            product.save()
+            self.object = product_create(request.POST, self.request.FILES, category)
             return redirect(self.get_success_url())
         return render(request, self.template_name,
                       context={

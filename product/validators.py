@@ -8,4 +8,4 @@ class CoolModelBro(Model):
             MaxValueValidator(5),
             MinValueValidator(1)
         ]
-     )
+    )

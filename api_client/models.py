@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import (
-    AbstractBaseUser, BaseUserManager, PermissionsMixin)
+    AbstractBaseUser, BaseUserManager)
 # from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib import auth
 from django.apps import apps

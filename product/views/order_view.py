@@ -12,6 +12,7 @@ from django.urls import reverse
 import telebot
 from telebot import types
 
+from product.services import order_change_status, cancel_order
 
 bot = telebot.TeleBot(client_key)
 
@@ -65,31 +66,8 @@ class OrderChangeStatusView(LoginRequiredMixin, TemplateView):
                        kwargs={'status': self.order.status.status})
 
     def post(self, request, *args, **kwargs):
-        current_status = request.POST.get('status')
-        telegram_user_id = request.POST.get('telegram_user_id')
-        order_pk = kwargs.get('pk')
-        self.order = get_object_or_404(ShoppingCartOrder, pk=order_pk)
-        statuses = StatusShoppingCartOrder.objects.all()
-        for status in statuses:
-            if status.status == current_status:
-                self.order.status = status
-                self.order.save()
-                keyboard = types.InlineKeyboardMarkup(row_width=1)
-                detail_view_order = types.InlineKeyboardButton(
-                    text=f"Детальный просмотр заказа №{order_pk} \n",
-                    callback_data=f'order_detail_{order_pk}')
-                keyboard.add(detail_view_order)
-                if self.order.status_id == 2:
-                    bot.send_message(telegram_user_id,
-                                     f"Заказ *№{order_pk}* "
-                                     f"принята мерчантом в обработку \n ",
-                                     reply_markup=keyboard,
-                                     parse_mode='Markdown')
-                elif self.order.status_id == 3:
-                    bot.send_message(telegram_user_id,
-                                     f"Заказ *№{order_pk}* заверщен \n"
-                                     f"Заказ перенесен в *Истории заказов*",
-                                     parse_mode='Markdown')
+        order_object = get_object_or_404(ShoppingCartOrder, pk=kwargs.get('pk'))
+        self.order = order_change_status(request.POST, order_object)
         return redirect(self.get_success_url())
 
 
@@ -98,31 +76,9 @@ class CancelOrder(TemplateView):
 
     def get_success_url(self):
         return reverse('orders_view',
-                       kwargs={'status': self.order.status.status})
+                       kwargs={'status': 'Новый'})
 
     def post(self, request, *args, **kwargs):
-        order_pk = kwargs.get('pk')
-        self.order = get_object_or_404(ShoppingCartOrder, pk=order_pk)
-        telegram_user_id = request.POST.get('telegram_user_id')
-        for ord_bask in self.order.basket_order.all():
-            basket = Basket.objects.create(
-                product=ord_bask.product,
-                telegram_user_id=ord_bask.telegram_user_id,
-                amount=ord_bask.amount,
-                product_total_price=ord_bask.product_total_price,
-            )
-            if basket.product.available == 'Нет':
-                bot.send_message(telegram_user_id,
-                                 f"Заказ *№{order_pk}* "
-                                 f"возвращен в *Корзину* \n"
-                                 f"закончился *{basket.product.product_name}*",
-                                 parse_mode='Markdown')
-            else:
-                bot.send_message(telegram_user_id,
-                                 f"Заказ *№{order_pk}* "
-                                 f"возвращен в *Корзину* \n"
-                                 f"для уточнение просим обратиться к Мерчанту",
-                                 parse_mode='Markdown')
-        self.order.delete()
-
+        order_object = get_object_or_404(ShoppingCartOrder, pk=kwargs.get('pk'))
+        self.order = cancel_order(request.POST, order_object)
         return redirect(self.get_success_url())
