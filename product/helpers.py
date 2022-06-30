@@ -7,6 +7,9 @@ from django.views.generic import ListView
 
 
 class SearchView(ListView):
+    """
+        Базовый View для поиска записей
+    """
     queryset = None
     template_name = None
     model = None
@@ -54,6 +57,9 @@ class SearchView(ListView):
 
 
 class DeleteView(View):
+    """
+        Базовый View для удаления записи
+    """
     template_name = None
     confirm_deletion = True
     model = None

@@ -18,6 +18,9 @@ bot = telebot.TeleBot(client_key)
 
 
 class OrderListView(LoginRequiredMixin, SearchView):
+    """
+        View для просмотра списка 'Заказов'
+    """
     template_name = 'order/list_order_view.html'
     model = ShoppingCartOrder
     ordering = ("updated_at",)
@@ -52,12 +55,18 @@ class OrderListView(LoginRequiredMixin, SearchView):
 
 
 class OrderDetailView(LoginRequiredMixin, DetailView):
+    """
+        View для детального просмотра записи 'Заказа'
+    """
     template_name = 'order/detail_order_view.html'
     model = ShoppingCartOrder
     context_object_name = 'order'
 
 
 class OrderChangeStatusView(LoginRequiredMixin, TemplateView):
+    """
+        View для изменения статуса 'Заказа' через кнопки
+    """
     template_name = 'order/detail_order_view.html'
     order = None
 
@@ -72,6 +81,9 @@ class OrderChangeStatusView(LoginRequiredMixin, TemplateView):
 
 
 class CancelOrder(TemplateView):
+    """
+        View для возврата 'Заказа'
+    """
     order = None
 
     def get_success_url(self):
