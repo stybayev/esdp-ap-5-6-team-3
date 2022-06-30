@@ -12,6 +12,7 @@ from django.urls import reverse
 import telebot
 from telebot import types
 
+from product.services import order_change_status
 
 bot = telebot.TeleBot(client_key)
 
@@ -55,6 +56,8 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
     model = ShoppingCartOrder
     context_object_name = 'order'
 
+    print(111111, StatusShoppingCartOrder.objects.get(status=StatusShoppingCartOrder.NEW))
+
 
 class OrderChangeStatusView(LoginRequiredMixin, TemplateView):
     template_name = 'order/detail_order_view.html'
@@ -65,31 +68,8 @@ class OrderChangeStatusView(LoginRequiredMixin, TemplateView):
                        kwargs={'status': self.order.status.status})
 
     def post(self, request, *args, **kwargs):
-        current_status = request.POST.get('status')
-        telegram_user_id = request.POST.get('telegram_user_id')
-        order_pk = kwargs.get('pk')
-        self.order = get_object_or_404(ShoppingCartOrder, pk=order_pk)
-        statuses = StatusShoppingCartOrder.objects.all()
-        for status in statuses:
-            if status.status == current_status:
-                self.order.status = status
-                self.order.save()
-                keyboard = types.InlineKeyboardMarkup(row_width=1)
-                detail_view_order = types.InlineKeyboardButton(
-                    text=f"Детальный просмотр заказа №{order_pk} \n",
-                    callback_data=f'order_detail_{order_pk}')
-                keyboard.add(detail_view_order)
-                if self.order.status_id == 2:
-                    bot.send_message(telegram_user_id,
-                                     f"Заказ *№{order_pk}* "
-                                     f"принята мерчантом в обработку \n ",
-                                     reply_markup=keyboard,
-                                     parse_mode='Markdown')
-                elif self.order.status_id == 3:
-                    bot.send_message(telegram_user_id,
-                                     f"Заказ *№{order_pk}* заверщен \n"
-                                     f"Заказ перенесен в *Истории заказов*",
-                                     parse_mode='Markdown')
+        order_object = get_object_or_404(ShoppingCartOrder, pk=kwargs.get('pk'))
+        self.order = order_change_status(request.POST, order_object)
         return redirect(self.get_success_url())
 
 
