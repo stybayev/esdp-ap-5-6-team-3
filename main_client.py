@@ -1,7 +1,9 @@
 import os
+
 os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings'
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 import django
+
 django.setup()
 import datetime
 from django.shortcuts import get_object_or_404
@@ -17,6 +19,7 @@ import time
 from product.models import TelegramUser, Basket, Aboutus, BasketToOrder, \
     ShoppingCartOrder, StatusShoppingCartOrder, MerchantTelegramUser, \
     TableReservation, CustomerFeedback
+from fpdf import FPDF, HTMLMixin
 
 
 logger = telebot.logger
@@ -353,6 +356,19 @@ def bot_message(m):
             bot.send_message(m.chat.id, 'Оценка отменен!',
                              reply_markup=keyboard)
 
+    elif m.text == '\U0001F51AВыполненные заказы':
+        keyboard = types.InlineKeyboardMarkup(row_width=1)
+        for orders in ShoppingCartOrder.objects.filter(telegram_user_id_id=m.from_user.id):
+            detail_view_order = types.InlineKeyboardButton(
+                text=f"Заказ №{orders.pk} на сумму {orders.sum_product_total_price()} "
+                     f"тенге, дата {orders.updated_at}",
+                callback_data=f'completed_orders{orders.pk}')
+            keyboard.add(detail_view_order)
+
+        bot.send_message(
+            m.chat.id, f"История заказов",
+            reply_markup=keyboard, parse_mode='Markdown')
+
     elif m.text == '\U0001F4DDОставить оценку':
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
         keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
@@ -386,7 +402,6 @@ def bot_message(m):
             customer_feedback.pop(m.from_user.id)
 
     else:
-        print(m.text)
         for user_id in customer_feedback.keys():
             if user_id == m.from_user.id:
                 customer_feedback[m.from_user.id].update(
@@ -414,10 +429,10 @@ def handle_poll_answer(quiz_answer: types.PollAnswer):
                                'quiz_answer': quiz_answer.option_ids[0] + 1,
                                'text_client': None}})
 
-    print(customer_feedback)
-    print(customer_feedback.keys())
-    for qwe in customer_feedback.keys():
-        print(qwe)
+    # print(customer_feedback)
+    # print(customer_feedback.keys())
+    # for qwe in customer_feedback.keys():
+    #     print(qwe)
 
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
@@ -610,6 +625,46 @@ def callback_inline2(call):
                 f"_10% за обслуживание:_ *{(total_sum * 10) / 100}* \n\n"
                 f"Итого общая сумма: *{((total_sum * 10) / 100) + total_sum}*",
                 reply_markup=keyboard, parse_mode='Markdown')
+    # for orders in ShoppingCartOrder.objects.filter(telegram_user_id_id=call.from_user.id):
+    if call.data[:16] == f'completed_orders':
+        if BasketToOrder.objects.filter(telegram_user_id_id=call.from_user.id, order_id=int(call.data[16:])):
+            pdf = FPDF(orientation='P', unit='mm', format='A5')
+            pdf.add_page()
+            pdf.add_font('DejaVu', '', fname='font/DejaVuSansCondensed.ttf', uni=True)
+            pdf.set_font('DejaVu', '', 20)
+            # pdf.set_text_color(255, 0, 0)
+            pdf.cell(120, 10,
+                     txt=f'Заказ №{call.data[16:]}',
+                     ln=1, align="C")
+            pdf.ln(6)
+            pdf.set_line_width(0.4)
+            pdf.set_draw_color(255, 0, 0)
+            pdf.line(20, 20, 130, 20)
+            total_sum = 0
+            for baskets in BasketToOrder.objects.filter(
+                    telegram_user_id_id=call.from_user.id, order_id=int(call.data[16:])
+            ):
+                total_sum += baskets.product_total_price
+                pdf.set_font('DejaVu', '', 12)
+                pdf.set_text_color(0, 0, 255)
+                pdf.cell(110, 10,
+                         txt=f'{baskets.product.product_name}: {baskets.product.price} тг. x '
+                             f'{baskets.amount} шт. = {baskets.product_total_price} тенге',
+                         ln=1, align="C")
+                print(f'{baskets.product.product_name}: {baskets.product.price} тг. x '
+                      f'{baskets.amount} шт. = {baskets.product_total_price} тенге')
+
+            pdf.set_font('DejaVu', '', 13)
+            pdf.ln(6)
+            pdf.cell(110, 10, txt=f'Сумма {total_sum} тенге', ln=1, align="C")
+            pdf.cell(110, 10, txt=f'10% за обслуживание {(total_sum * 10) / 100} тенге', ln=1, align="C")
+            pdf.cell(110, 10, txt=f'Итоговая сумма {total_sum + (total_sum * 10) / 100} тенге', ln=1, align="C")
+
+            pdf.output(f"PDF/{call.data[16:]}-{call.from_user.id}.pdf")
+
+        doc = open(f"PDF/{call.data[16:]}-{call.from_user.id}.pdf", 'rb')
+        bot.send_document(call.message.chat.id, doc)
+        os.remove(f"PDF/{call.data[16:]}-{call.from_user.id}.pdf")
 
     if call.data != '\U0001F4D6\U0001F372\U0001F354Меню':
         for menu in response_menu:
@@ -858,7 +913,6 @@ def callback_inline2(call):
                 if Basket.objects.filter(
                         product_id=menu['id'],
                         telegram_user_id_id=call.from_user.id):
-                    # call.from_user.id == basket.telegram_user_id_id:
                     keyboard = types.InlineKeyboardMarkup(row_width=2)
                     basket = get_object_or_404(
                         Basket, product_id=menu['id'],
@@ -873,10 +927,6 @@ def callback_inline2(call):
                         call.message.chat.id, photo,
                         caption=text_basket(basket),
                         reply_markup=keyboard, parse_mode="Markdown")
-                    # bot.export_chat_invite_link(m.chat.id)
-                    # print(bot.export_chat_invite_link(m.chat.id))
-                    # bot.forward_message(chat_id=m.chat.id,
-                    # from_chat_id=m.chat.id, message_id=m.message_id)
 
                 if not Basket.objects.filter(
                         telegram_user_id_id=call.from_user.id):
