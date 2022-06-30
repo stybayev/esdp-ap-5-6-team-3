@@ -103,10 +103,6 @@ def button_menu(keyboard, basket):
     keyboard.add(add_menu, subtract_menu)
 
 
-class HTML2PDF(FPDF, HTMLMixin):
-    pass
-
-
 def order(call):
     value = []
     for orders in ShoppingCartOrder.objects.filter(
