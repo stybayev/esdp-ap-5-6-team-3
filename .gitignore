@@ -4,4 +4,4 @@ venv
 db.sqlite3
 product/migrations/__pycache__
 __pycache__
-upload
+uploads
