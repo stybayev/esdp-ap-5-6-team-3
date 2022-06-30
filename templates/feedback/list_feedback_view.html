@@ -3,7 +3,8 @@
 {% block content %}
     <style>
         .rating-result {
-            margin: 0 15px;
+            margin-top: 30px;
+            color: #444;
         }
         .rating-result span {
             padding: 0;
@@ -39,11 +40,10 @@
         }
 
     </style>
-    <h1 style="text-align: center">Список отзывов</h1>
 
 
     <div class="rating-result">
-        <b style="font-size: 25px"><i>Общая средняя оценка:</i> {{ avg_quiz_answer }}</b>
+        <b style="font-size: 25px"><i>Общая средняя оценка: </i> {{ avg_quiz_answer }}</b>
         <span style="font-size: 50px" {% if round_avg_quiz_answer >= 1 %} class="active" {% endif %}></span>
         <span style="font-size: 50px" {% if round_avg_quiz_answer >= 2  %} class="active" {% endif %}></span>
         <span style="font-size: 50px" {% if round_avg_quiz_answer >= 3  %} class="active" {% endif %}></span>
@@ -56,13 +56,12 @@
     {% csrf_token %}
     {% for feedback in feedbacks %}
 
-        <div class="card" style="margin-top: 3%">
-            <div class="card-header">
+        <div class="card" style="overflow-x: auto; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); margin-top: 30px; border-radius: 10px;">
+            <div class="card-header" style="background-color: #2EC4B6;">
                 {% if user.is_authenticated %}
-                    <div class="photo" data-title="Детальный просмотр, просмотр списков комментарии">
-                        <a href="{% url 'detail_feedback' feedback.pk %}" style="text-decoration: none">
-                            №{{ feedback.id }}
-                            Автор: <b>{{ feedback.telegram_user_id.first_name }}</b> Телефон: <b>{{ feedback.telegram_user_id.phone_number }}</b>
+                    <div class="photo" data-title="Просмотр ответов на отзыв">
+                        <a href="{% url 'detail_feedback' feedback.pk %}" style="text-decoration: none; color: white;">
+                            №{{ feedback.id }}⠀Автор: <b>{{ feedback.telegram_user_id.first_name }}</b>⠀Телефон: <b>{{ feedback.telegram_user_id.phone_number }}</b>
                         </a>
                     </div>
                 {% else %}
@@ -74,10 +73,10 @@
                     </div>
                 {% endif %}
             </div>
-            <div class="card-body">
+            <div class="card-body" style="color: #444;">
                 <h5 class="card-title" style="display: flex">
-                    <i>Оценка клиента: </i> {{ feedback.quiz_answer }}
-                    <div class="rating-result">
+                    <i>Оценка клиента:⠀</i>{{ feedback.quiz_answer }}
+                    <div class="rating-result" style="margin: 0 15px;">
                         <span {% if feedback.quiz_answer >= 1 %} class="active" {% endif %}></span>
                         <span {% if feedback.quiz_answer >= 2  %} class="active" {% endif %}></span>
                         <span {% if feedback.quiz_answer >= 3  %} class="active" {% endif %}></span>
@@ -96,14 +95,14 @@
             <div class="card-footer text-muted">
                 {{ feedback.created_at }} <br>
                 {% if user.is_authenticated %}
-                    <div class="photo" data-title="Детальный просмотр, просмотр списков комментарии">
+                    <div class="photo" style="margin-top: 5px;" data-title="Просмотр ответов на отзыв">
                         <a href="{% url 'detail_feedback' feedback.pk %}" style="text-decoration: none">
-                            <p class="card-text"><i>Количество предоставленных ответов:</i>
+                            <p class="card-text"><i style="color: #444;">Количество предоставленных ответов:</i>
                                 <span style="color: red"><b>{{ feedback.feedback_average_amount }}</b></span></p>
                         </a>
                     </div>
                 {% else %}
-                    <div class="photo" data-title="Для просмотра списков комментарии необходимо авторизоваться">
+                    <div class="photo" style="margin-top: 5px;" data-title="Для просмотра списков комментарии необходимо авторизоваться">
                         <a href="{% url 'detail_feedback' feedback.pk %}" style="text-decoration: none">
                             <p class="card-text"><i>Количество предоставленных ответов:</i>
                                 <span style="color: red"><b>{{ feedback.feedback_average_amount }}</b></span></p>

@@ -1,11 +1,11 @@
-<h1 style="text-align: center">Список комментариев</h1>
+<h1 style="text-align: center; color: #444;">Список ответов</h1>
 
 {% for comment in comments %}
     <div class="card" style="margin-top: 2%">
         <div class="card-body">
-            <div><b>№{{ comment.id }}</b>, Автор: <b>{{ comment.author.first_name }}</b></div>
-            <i>Ответ:</i> <b>{{ comment.text }}</b>
-            <div>Дата создание:<i>{{ comment.created_at }}</i> , Дата изменение: <i>{{ comment.updated_at }}</i></div>
+            <div><b>№{{ comment.id }}</b>, Автор:⠀<b>{{ comment.author.first_name }}</b></div>
+            <i>Ответ:</i> <b> {{ comment.text }}</b>
+            <div>Дата создания: <i>{{ comment.created_at }}</i>;⠀Дата редактирования: <i>{{ comment.updated_at }}</i>;</div>
         </div>
     </div>
 
