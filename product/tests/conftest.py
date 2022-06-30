@@ -1,6 +1,6 @@
 from pytest import fixture
 
-from product.models import Category, ShoppingCartOrder, StatusShoppingCartOrder
+from product.models import Category, ShoppingCartOrder, StatusShoppingCartOrder, TelegramUser
 
 
 @fixture
@@ -18,8 +18,17 @@ def order_status() -> StatusShoppingCartOrder:
 
 
 @fixture
-def order() -> ShoppingCartOrder:
+def telegram_user_id() -> TelegramUser:
+    return TelegramUser.objects.create(
+        user_id='965045582',
+        first_name='just',
+        last_name='r',
+        phone_number='87770918657'
+    )
+
+@fixture
+def order(order_status, telegram_user_id) -> ShoppingCartOrder:
     return ShoppingCartOrder.objects.create(
-        telegram_user_id_id='965045582',
+        telegram_user_id=telegram_user_id,
         status=order_status
     )

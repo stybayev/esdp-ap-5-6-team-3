@@ -56,8 +56,6 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
     model = ShoppingCartOrder
     context_object_name = 'order'
 
-    print(111111, StatusShoppingCartOrder.objects.get(status=StatusShoppingCartOrder.NEW))
-
 
 class OrderChangeStatusView(LoginRequiredMixin, TemplateView):
     template_name = 'order/detail_order_view.html'
