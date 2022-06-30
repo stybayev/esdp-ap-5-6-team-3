@@ -5,6 +5,7 @@ from django.views.generic import CreateView, ListView, \
 from product.forms import AboutusForm
 from django.urls import reverse
 from product.models import Aboutus
+from product.services import aboutus_create
 
 
 class AboutusView(ListView):
@@ -41,8 +42,7 @@ class AboutusCreateView(LoginRequiredMixin, CreateView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST)
         if form.is_valid():
-            self.object = form.save(commit=False)
-            self.object.save()
+            self.object = aboutus_create(request.POST)
             return redirect(self.get_success_url())
         return render(request, self.template_name,
                       context={

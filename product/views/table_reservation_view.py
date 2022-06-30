@@ -7,6 +7,7 @@ from product.forms import TableReservationForm, SearchForm
 from product.helpers import SearchView
 from product.models import TableReservation
 import telebot
+from product.services import table_reservation_accept
 
 bot = telebot.TeleBot(client_key)
 
@@ -55,14 +56,8 @@ class ReservationTableEditView(LoginRequiredMixin, UpdateView):
     model = TableReservation
 
     def post(self, request, *args, **kwargs):
-        self.object = get_object_or_404(self.model, pk=kwargs.get('pk'))
-        self.object.status = 'Выполнено'
-        self.object.table_number = request.POST.get('table_number')
-        bot.send_message(self.object.telegram_user_id_id,
-                         f'Ваша бронь: Стол №{self.object.table_number}, '
-                         f'дата: {self.object.date}, время:{self.object.time}',
-                         parse_mode='Markdown')
-        self.object.save()
+        reservation = get_object_or_404(self.model, pk=kwargs.get('pk'))
+        table_reservation_accept(request.POST, reservation)
         return redirect('reserve_list', status='Новый')
 
 
