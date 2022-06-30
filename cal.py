@@ -62,17 +62,17 @@ PERSONS = ['1-5', '6-10', '11-15', '16-20']
 
 def get_time(keyboard):
     keyboard.add(*[
-                InlineKeyboardButton(time, callback_data=time)
-                for time in TIME
-            ])
+        InlineKeyboardButton(time, callback_data=time)
+        for time in TIME
+    ])
     return keyboard
 
 
 def get_persons(keyboard):
     keyboard.add(*[
-                InlineKeyboardButton(person, callback_data=person)
-                for person in PERSONS
-            ])
+        InlineKeyboardButton(person, callback_data=person)
+        for person in PERSONS
+    ])
     return keyboard
 
 
@@ -137,8 +137,8 @@ class Calendar:
                     row.append(InlineKeyboardButton(
                         " ", callback_data=data_ignore))
                 elif (
-                    f"{now_day.day}.{now_day.month}.{now_day.year}"
-                    == f"{day}.{month}.{year}"
+                    f"{now_day.day}.{now_day.month}."
+                    f"{now_day.year}" == f"{day}.{month}.{year}"
                 ):
                     row.append(
                         InlineKeyboardButton(

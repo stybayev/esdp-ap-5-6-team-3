@@ -196,17 +196,9 @@ class BasketToOrder(models.Model):
 
 
 class StatusShoppingCartOrder(models.Model):
-    NEW = 'Новый'
-    IN_PROGRESS = 'В процессе'
-    DONE = 'Выполнено'
-
-    STATUS = (
-        (NEW, NEW), (IN_PROGRESS, IN_PROGRESS), (DONE, DONE)
-    )
-
     status = models.CharField(
-        max_length=20, choices=STATUS, null=False,
-        blank=False, default=NEW, verbose_name="Статус")
+        max_length=20, null=False,
+        blank=False, default='Новый', verbose_name="Статус")
 
 
 class ShoppingCartOrder(models.Model):
@@ -217,7 +209,7 @@ class ShoppingCartOrder(models.Model):
     )
 
     status = models.ForeignKey(
-        'product.StatusShoppingCartOrder', on_delete=models.PROTECT,
+        'product.StatusShoppingCartOrder', on_delete=models.DO_NOTHING,
         null=False, blank=False)
 
     updated_at = models.DateTimeField(
