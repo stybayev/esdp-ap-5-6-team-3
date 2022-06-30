@@ -1,6 +1,6 @@
 from pytest import fixture
 
-from product.models import Category, ShoppingCartOrder, StatusShoppingCartOrder, TelegramUser
+from product.models import Category, ShoppingCartOrder, StatusShoppingCartOrder, TelegramUser, TableReservation
 
 
 @fixture
@@ -31,4 +31,14 @@ def order(order_status, telegram_user_id) -> ShoppingCartOrder:
     return ShoppingCartOrder.objects.create(
         telegram_user_id=telegram_user_id,
         status=order_status
+    )
+
+@fixture
+def table_reservation(telegram_user_id) -> TableReservation:
+    return TableReservation.objects.create(
+        telegram_user_id=telegram_user_id,
+        date='2022-06-21',
+        time='22:00:00',
+        status='Новый',
+        persons_number='6-10',
     )

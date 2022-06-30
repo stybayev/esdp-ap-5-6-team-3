@@ -1,7 +1,7 @@
 import pytest
 
-from product.models import StatusShoppingCartOrder
-from product.services import category_create, aboutus_create, product_create, order_change_status
+from product.services import category_create, aboutus_create, product_create, order_change_status, \
+    table_reservation_accept, cancel_order
 
 
 @pytest.mark.django_db
@@ -39,9 +39,24 @@ def test_product_create(category):
 
 @pytest.mark.django_db
 def test_order_change_status(order, order_status):
-    order_record_1 = {
+    order_record = {
         'status': order_status,
         'telegram_user_id': '965045582'
     }
-    assert order_change_status(order_record_1, order)
+    assert order_change_status(order_record, order)
 
+
+@pytest.mark.django_db
+def test_order_cancel_status(order):
+    order_record = {
+        'telegram_user_id': '965045582'
+    }
+    assert cancel_order(order_record, order)
+
+
+@pytest.mark.django_db
+def test_table_reservation_accept(table_reservation):
+    table_reservation_record = {
+        'table_number': '1'
+    }
+    assert table_reservation_accept(table_reservation_record, table_reservation)

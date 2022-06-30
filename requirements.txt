@@ -1,5 +1,6 @@
 APScheduler==3.6.3
 asgiref==3.5.0
+attrs==21.4.0
 backports.zoneinfo==0.2.1
 cachetools==4.2.2
 certifi==2022.5.18.1
@@ -26,6 +27,7 @@ httpx==0.13.3
 hyperframe==5.2.0
 idna==2.10
 inflection==0.5.1
+iniconfig==1.1.1
 itypes==1.2.0
 Jinja2==3.1.2
 libretranslatepy==2.1.1
@@ -35,9 +37,13 @@ packaging==21.3
 phonenumberslite==8.12.44
 pilkit==2.0
 Pillow==9.0.1
+pluggy==1.0.0
 psycopg2-binary==2.9.3
+py==1.11.0
 pyparsing==3.0.9
 pyTelegramBotAPI==4.4.1
+pytest==7.1.2
+pytest-django==4.5.2
 python-telegram-bot==13.11
 pytz==2022.1
 pytz-deprecation-shim==0.1.0.post0
@@ -48,6 +54,7 @@ ruamel.yaml.clib==0.2.6
 six==1.16.0
 sniffio==1.2.0
 sqlparse==0.4.2
+tomli==2.0.1
 tornado==6.1
 transliterate==1.10.2
 tzdata==2022.1
