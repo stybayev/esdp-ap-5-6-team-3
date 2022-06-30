@@ -10,14 +10,13 @@ footer {
 .pagination a,
 .pagination .page-disabled {
   display: inline-block;
-  border: solid 1px #6a7ddd;
-  border-radius: 3px;
+  border-radius: 15px;
   padding: 5px;
   margin: 3px;
 }
 
 .pagination a {
-  background: #6a7ddd;
+  background: #2ec4b6;
   color: white;
   text-decoration: none;
 }
@@ -28,7 +27,7 @@ footer {
 }
 
 .pagination .page-disabled {
-  background: #6a7dcc;
+  background: #2ec4b6;
   color: #dddddd;
 }
 

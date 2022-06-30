@@ -1,0 +1,119 @@
+@import url("https://fonts.googleapis.com/css2?family=Hahmlet:wght@400;500;600;700&family=Roboto+Slab:wght@300;400;500;600&display=swap");
+body {
+  font-family: "Roboto Slab", serif;
+  background-color: #c1bdba;
+}
+.container-my {
+  max-width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+.card-form {
+  max-width: 600px;
+  margin: auto;
+  padding: 0;
+  background-color: #55847d;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px;
+}
+.btn-group {
+  margin-top: 40px;
+  width: 100%;
+}
+.btn-danger {
+  padding: 10px 0;
+  border: 1px solid #55847d;
+  color: white;
+  background: #7c9f9f;
+  border-radius: 0;
+  font-size: 20px;
+}
+.btn-danger:hover {
+  background: #cf2355;
+}
+.btn-danger:focus {
+  background: #cf2355;
+}
+h3 {
+  font-size: 32px;
+  font-weight: normal;
+  color: white;
+  padding: 40px 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+input {
+  background: #55847d;
+  border: 1px solid #fdfefe;
+  border-radius: 2px;
+  color: white;
+  font-size: 22px;
+  padding: 5px 10px;
+  margin-top: 40px;
+}
+::placeholder {
+  color: #c0c0c0;
+}
+.login {
+  display: flex;
+  justify-content: space-between;
+}
+input[type="text"] {
+    width: 100%;
+    height: 45px;
+}
+textarea {
+  background: #55847d;
+  border: 1px solid #fdfefe;
+  border-radius: 2px;
+  color: white;
+  font-size: 22px;
+  padding: 0 10px;
+  margin-top: 40px;
+  height: 100px;
+}
+input[type="submit"] {
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: bold;
+  background: #cf2355;
+  border: 1px solid #55847d;
+  height: 60px;
+}
+input:focus {
+  outline: none;
+  border: 2px solid #fdfefe;
+}
+textarea:focus {
+  outline: none;
+  border: 2px solid #fdfefe;
+}
+input[type="submit"]:focus {
+  border: 2px solid #921237;
+}
+.form-error {
+	text-align: center;
+	color: white;
+	margin-top: 20px;
+}
+.register {
+	text-align: center;
+	font-size: 25px;
+	color: cornsilk;
+	text-decoration: none;
+	margin-bottom: 20px;
+}
+.errorlist {
+  color: red;
+}
