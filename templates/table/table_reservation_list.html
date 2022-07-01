@@ -76,7 +76,9 @@
                                 {{ reserv.telegram_user_id.first_name }}
                             </td>
                             <td data-label="Номер клиента">
-                                +{{ reserv.telegram_user_id.phone_number }}
+                                <a href="tel:++{{ reserv.telegram_user_id.phone_number }}">
+                                    +{{ reserv.telegram_user_id.phone_number }}
+                                </a>
                             </td>
                             <td data-label="Дата брони">
                                 {{ reserv.date|date:'d F Y' }}
