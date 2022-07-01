@@ -9,18 +9,27 @@ from product.services import aboutus_create
 
 
 class AboutusView(ListView):
+    """
+        View для просмотра списка записей 'О нас'
+    """
     context_object_name = 'aboutus'
     template_name = 'aboutus/aboutus_view.html'
     model = Aboutus
 
 
 class AboutusDetailView(DetailView):
+    """
+        View для просмотра детального просмотра записи 'О нас'
+    """
     context_object_name = 'aboutus'
     template_name = 'aboutus/detail_aboutus_view.html'
     model = Aboutus
 
 
 class AboutUsDeleteView(LoginRequiredMixin, DeleteView):
+    """
+        View для удаления записи 'О нас'
+    """
     template_name = 'aboutus/detail_aboutus_view.html'
     model = Aboutus
 
@@ -32,6 +41,9 @@ class AboutUsDeleteView(LoginRequiredMixin, DeleteView):
 
 
 class AboutusCreateView(LoginRequiredMixin, CreateView):
+    """
+        View для создания записи 'О нас'
+    """
     template_name = 'aboutus/create_aboutus_view.html'
     form_class = AboutusForm
     object = None
@@ -51,6 +63,9 @@ class AboutusCreateView(LoginRequiredMixin, CreateView):
 
 
 class AboutusUpdateView(LoginRequiredMixin, UpdateView):
+    """
+        View для изменения записи 'О нас'
+    """
     template_name = 'aboutus/update_aboutus_view.html'
     form_class = AboutusForm
     model = Aboutus

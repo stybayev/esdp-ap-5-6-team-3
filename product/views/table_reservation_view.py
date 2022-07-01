@@ -13,6 +13,9 @@ bot = telebot.TeleBot(client_key)
 
 
 class ReservationListView(LoginRequiredMixin, SearchView):
+    """
+        View для просмотра списка записей 'Бронирования столиков'
+    """
     template_name = 'table/table_reservation_list.html'
     model = TableReservation
     context_object_name = 'reservations'
@@ -52,6 +55,9 @@ class ReservationListView(LoginRequiredMixin, SearchView):
 
 
 class ReservationTableEditView(LoginRequiredMixin, UpdateView):
+    """
+        View для потверждения 'Бронирования столиков'
+    """
     template_name = 'table/table_reservation_list.html'
     model = TableReservation
 
@@ -62,6 +68,9 @@ class ReservationTableEditView(LoginRequiredMixin, UpdateView):
 
 
 class TableReservationDeleteView(LoginRequiredMixin, DeleteView):
+    """
+        View для отмены 'Бронирования столиков'
+    """
     model = TableReservation
 
     def get(self, request, *args, **kwargs):
@@ -78,6 +87,9 @@ class TableReservationDeleteView(LoginRequiredMixin, DeleteView):
 
 
 class ReservationTableUpdateView(LoginRequiredMixin, UpdateView):
+    """
+        View для изменения записи 'Бронирования столиков'
+    """
     template_name = 'table/table_update.html'
     model = TableReservation
     form_class = TableReservationForm

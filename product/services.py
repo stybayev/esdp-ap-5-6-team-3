@@ -14,11 +14,17 @@ bot = telebot.TeleBot(client_key)
 
 
 def cyrillic_check(text):
+    """
+        Функция для проверки текста на кириллица. Возвращает булевое значение.
+    """
     lower = set('абвгдеёжзийклмнопрстуфхцчшщъыьэюя')
     return lower.intersection(text.lower()) != set()
 
 
 def category_create(data: dict) -> Category:
+    """
+        Функция для создания записи 'Категории'. Возвращает запись созданной категории.
+    """
     category = Category.objects.create(category_name=data.get('category_name'))
     if cyrillic_check(category.category_name) is True:
         category.translit_category_name = translit(
@@ -35,6 +41,9 @@ def category_create(data: dict) -> Category:
 
 
 def aboutus_create(data: dict) -> Aboutus:
+    """
+        Функция для создания записи 'О нас'
+    """
     return Aboutus.objects.create(
         description=data.get('description'),
         telephone_number=data.get('telephone_number')
@@ -42,6 +51,9 @@ def aboutus_create(data: dict) -> Aboutus:
 
 
 def product_create(data: dict, files: dict, category: Category) -> Product:
+    """
+        Функция для создания записи 'Продукта'. Возвращает запись созданного продукта.
+    """
     translit_ru = get_translit_function('ru')
     product = Product.objects.create(
         product_name=data.get('product_name'),
@@ -76,6 +88,9 @@ def product_create(data: dict, files: dict, category: Category) -> Product:
 
 
 def order_change_status(data_1: dict, order: ShoppingCartOrder) -> ShoppingCartOrder:
+    """
+        Функция для изменения статуса 'Заказа'. Возвращает запись заказа с измененным статусом.
+    """
     current_status = data_1.get('status')
     telegram_user_id = data_1.get('telegram_user_id')
     statuses = StatusShoppingCartOrder.objects.all()
@@ -103,6 +118,9 @@ def order_change_status(data_1: dict, order: ShoppingCartOrder) -> ShoppingCartO
 
 
 def cancel_order(data_1: dict, order: ShoppingCartOrder) -> ShoppingCartOrder:
+    """
+        Функция для возврата 'Заказа'. Делает возврат удаления записи заказа.
+    """
     telegram_user_id = data_1.get('telegram_user_id')
     for ord_bask in order.basket_order.all():
         basket = Basket.objects.create(
@@ -127,6 +145,9 @@ def cancel_order(data_1: dict, order: ShoppingCartOrder) -> ShoppingCartOrder:
 
 
 def table_reservation_accept(data_1: dict, reservation: TableReservation) -> TableReservation:
+    """
+        Функция для потверждения 'Брони столика'. Возвращает запись брони столика с измененным статусом.
+    """
     reservation.status = 'Выполнено'
     reservation.table_number = data_1.get('table_number')
     bot.send_message(reservation.telegram_user_id_id,
@@ -137,7 +158,7 @@ def table_reservation_accept(data_1: dict, reservation: TableReservation) -> Tab
     return reservation
 
 
-#Пока не работает
+#Пока не работает. Описывать документацию к ней - не надо
 def comment_create(data: dict, product: CustomerFeedback, user: User) -> CustomerFeedback:
     comment = Comments.objects.create(text=data.get('text'))
     comment.feedback_id = product.pk

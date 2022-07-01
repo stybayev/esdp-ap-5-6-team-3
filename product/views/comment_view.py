@@ -14,6 +14,9 @@ bot = telebot.TeleBot(client_key)
 
 
 class CommentListView(LoginRequiredMixin, SearchView):
+    """
+        View для просмотра списка записей 'Комментариев'
+    """
     template_name = 'comment/list_comment_view.html'
     model = Comments
     ordering = ("-id",)
@@ -28,6 +31,9 @@ class CommentListView(LoginRequiredMixin, SearchView):
 
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
+    """
+        View для создания записи 'Комментария'
+    """
     template_name = 'feedback/list_feedback_view.html'
     form_class = CommentForm
 

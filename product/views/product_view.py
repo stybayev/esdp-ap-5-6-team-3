@@ -16,12 +16,18 @@ translator = Translator()
 
 
 class ProductDetailView(DetailView):
+    """
+        View для детального просмотра записи 'Продукта'
+    """
     context_object_name = 'product'
     template_name = 'product/detail_product_view.html'
     model = Product
 
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
+    """
+        View для удаления записи 'Продукта'
+    """
     model = Product
 
     def get_success_url(self):
@@ -33,6 +39,9 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
 
 
 class ProductCategoryListView(SearchView):
+    """
+        View для просмотра списка записей 'Продуктов'
+    """
     template_name = 'product/list_product_view.html'
     model = Product
     ordering = ("created_at",)
@@ -76,6 +85,9 @@ class ProductCategoryListView(SearchView):
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
+    """
+        View для создания записи 'Продукта'
+    """
     template_name = 'product/create_product_view.html'
     form_class = ProductForm
     object = None
@@ -99,6 +111,9 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
 
 class ProductUpdateView(LoginRequiredMixin, FormView):
+    """
+        View для изменения записи 'Продукта'
+    """
     template_name = 'product/update_product_view.html'
     form_class = ProductForm
     model = Product
