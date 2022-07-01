@@ -14,6 +14,9 @@ translator = Translator()
 
 
 class CategoryListView(SearchView):
+    """
+        View для просмотра списка всех записей по 'Категориям' продуктов
+    """
     template_name = 'category/list_category_view.html'
     model = Category
     ordering = ("id",)
@@ -27,6 +30,9 @@ class CategoryListView(SearchView):
 
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):
+    """
+        View для создания записи 'Категории' продукта
+    """
     template_name = 'category/create_category_view.html'
     form_class = CategoryForm
     redirect_url = 'list_category'
@@ -43,6 +49,9 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
 
 
 class CategoryUpdateView(LoginRequiredMixin, FormView):
+    """
+        View для изменения записи 'Категории' продукта
+    """
     template_name = 'category/update_category_view.html'
     form_class = CategoryForm
     model = Category
@@ -94,5 +103,8 @@ class CategoryUpdateView(LoginRequiredMixin, FormView):
 
 
 class CategoryDeleteView(LoginRequiredMixin, DeleteView):
+    """
+        View для удаления записи 'Категории' продукта
+    """
     model = Category
     success_url = reverse_lazy('list_category')

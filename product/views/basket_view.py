@@ -55,6 +55,9 @@ class BasketListView(LoginRequiredMixin, SearchView):
 
 
 class AddBasketView(LoginRequiredMixin, CreateView):
+    """
+        View для изменения количества продукта в таблице нового заказа
+    """
     model = BasketToOrder
 
     def telegram_user(self):

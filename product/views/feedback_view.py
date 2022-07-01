@@ -9,6 +9,9 @@ from django.db.models import Sum, Avg
 
 
 class CustomerFeedbackListView(SearchView):
+    """
+        View для просмотра списка записей 'Отзывов'
+    """
     template_name = 'feedback/list_feedback_view.html'
     model = CustomerFeedback
     ordering = ("-id",)
@@ -33,6 +36,9 @@ class CustomerFeedbackListView(SearchView):
 
 
 class CustomerFeedbackDetailView(LoginRequiredMixin, DetailView):
+    """
+        View для детального просмотра записи 'Отзыва'
+    """
     context_object_name = 'feedback'
     template_name = 'feedback/detail_feedback_view.html'
     model = CustomerFeedback
