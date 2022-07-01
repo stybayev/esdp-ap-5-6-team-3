@@ -7,7 +7,10 @@
         <div class="card-body" style="color: #5C9900; margin-left: 5%">
             <h5 class="card-title" style="margin: 5px auto;">О НАС</h5>
             <p class="card-subtitle mb-2 text-muted" style="margin: 15px auto;">{{ aboutus.description }}</p>
-            <p class="card-subtitle mb-2 text-muted" style="margin: 5px auto;"> <b>Телефон: {{ aboutus.telephone_number }}</b></p>
+            <p class="card-subtitle mb-2 text-muted" style="margin: 5px auto;">
+                <b><a href="tel:+{{ aboutus.telephone_number }}" style="text-decoration: none; color: black;">
+                    Телефон: +{{ aboutus.telephone_number }}</a>
+                </b></p>
             {% if user.is_authenticated %}
                 <div class="detail_us_btn">
                     <a class="btn btn-outline-primary" href="{% url 'update_aboutus' aboutus.pk %}">Изменить</a>

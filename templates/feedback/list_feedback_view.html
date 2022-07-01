@@ -61,8 +61,9 @@
                 {% if user.is_authenticated %}
                     <div class="photo" data-title="Просмотр ответов на отзыв">
                         <a href="{% url 'detail_feedback' feedback.pk %}" style="text-decoration: none; color: white;">
-                            №{{ feedback.id }}⠀Автор: <b>{{ feedback.telegram_user_id.first_name }}</b>⠀Телефон: <b>{{ feedback.telegram_user_id.phone_number }}</b>
-                        </a>
+                            №{{ feedback.id }}⠀Автор: <b>{{ feedback.telegram_user_id.first_name }}</b>⠀</a>
+                        <a href="tel:+{{ feedback.telegram_user_id.phone_number }}" style="text-decoration: none; color: white;">
+                            Телефон: <b>+{{ feedback.telegram_user_id.phone_number }}</b></a>
                     </div>
                 {% else %}
                     <div class="photo" data-title="Для просмотра списков комментарии необходимо авторизоваться">
