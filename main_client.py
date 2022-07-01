@@ -51,6 +51,9 @@ response_categories = get(url_category).json()
 
 
 def text_basket(basket):
+    """
+        Функция для текстового отображение блюд, которые добавлены в корзину
+    """
     basket_text = (
         f"_Наименование_: "
         f"*{basket.product.id}-{basket.product.product_name}* \n"
@@ -64,6 +67,9 @@ def text_basket(basket):
 
 
 def text_menu(menu):
+    """
+        Функция для текстового отображание блюд в меню
+    """
     menu_text = (f"_Наименование_: *{menu['id']}-{menu['product_name']}* \n"
                  f"_Цена_: *{menu['price']}* тенге \n"
                  f"_Категория_: *{menu['category']}* \n"
@@ -72,18 +78,27 @@ def text_menu(menu):
 
 
 def subtract_meals(basket, menu):
+    """
+        Функция для изменения количества продукта в заказе, а именно убавление количества продукта в заказе
+    """
     basket.amount -= 1
     basket.product_total_price -= menu['price']
     basket.save()
 
 
 def add_meals(basket, menu):
+    """
+        Функция для изменения количества продукта в заказе, а именно добавление количества продукта в заказе
+    """
     basket.amount += 1
     basket.product_total_price += menu['price']
     basket.save()
 
 
 def button_basket(keyboard, basket):
+    """
+        Функция для инлайн кнопок, добавление и убавление количества продукта в корзине (кнопка Корзина)
+    """
     add_menu = types.InlineKeyboardButton(
         text=f"\U00002795\U0001F371Добавить в корзину",
         callback_data=f"add_basket_{basket.product.id}")
@@ -94,6 +109,9 @@ def button_basket(keyboard, basket):
 
 
 def button_menu(keyboard, basket):
+    """
+        Функция для инлайн кнопок, добавление и убавление количества продукта в меню (кнопка Меню)
+    """
     add_menu = types.InlineKeyboardButton(
         text=f"\U00002795\U0001F371Добавить в корзину",
         callback_data=f"add_menu_{basket.product.id}")
@@ -104,7 +122,10 @@ def button_menu(keyboard, basket):
 
 
 def order(call):
-    """"""
+    """
+        Функция для кнопки (Статус заказа), создает список ID заказов для
+        дальнейшего сравнение с обработчиком обратного вызова (функция callback_query_handler)
+    """
     value = []
     for orders in ShoppingCartOrder.objects.filter(
             telegram_user_id_id=call.from_user.id, status_id__lte=2):
@@ -114,7 +135,14 @@ def order(call):
 
 @bot.message_handler(commands=["start"])
 def start(m):
+    """
+        Функция для начального запуска маркап кнопок, проверяет клиента на регистрацию
+    """
     if TelegramUser.objects.filter(user_id=m.from_user.id):
+        """
+            Если клиент ранее зарегистрирован в базе, то отправляет 
+            приветственную текст клиенту и вызывает функцию def menu(m, text):
+        """
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
         msg = bot.send_message(
             m.chat.id, f'Приветствую Вас *{m.from_user.first_name}*!',
@@ -123,6 +151,10 @@ def start(m):
         menu(m, 'Выберите в меню операции!')
         bot.register_next_step_handler(msg, bot_message)
     else:
+        """
+            Если клиент не зарегистрирован в базе, то выводит 
+            маркап кнопку 'Поделиться номером'
+        """
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
         keyboard.add(types.KeyboardButton(
             text='\U0001F4F2Поделиться номером', request_contact=True))
@@ -131,6 +163,11 @@ def start(m):
 
 
 def menu(m, text):
+    """
+        Функция выводит маркап кнопок для зарегистрированных клиентов
+        (Меню, Корзина, О Нас, Оформить заказ, Статус заказа,
+        Выполненные заказы, Забронировать столик, Оценить ресторан)
+    """
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
                    ['\U0001F4D6\U0001F372\U0001F354Меню',
@@ -153,7 +190,14 @@ def menu(m, text):
 
 @bot.message_handler(content_types=["text", "contact"])
 def bot_message(m):
+    """
+        Функция для обработки маркап кнопок
+    """
     if m.contact is not None:
+        """
+            Если клиент не зарегистрирован в Базе, то после нажатие на кнопку 'Поделиться номером!' 
+            данные клиента (Имя, Фамилия, Телефон, Телеграмм ID) сохраняется в БД модели TelegramUser 
+        """
         TelegramUser.objects.get_or_create(
             user_id=m.contact.user_id, first_name=m.contact.first_name,
             last_name=m.contact.last_name, phone_number=m.contact.phone_number,
@@ -166,6 +210,10 @@ def bot_message(m):
         start(m)
 
     elif m.text == '\U0001F4D6\U0001F372\U0001F354Меню':
+        """
+            После нажатие на маркап кнопку 'Меню' выводится 
+            список инлайн кнопок категории продуктов
+        """
         keyboard = types.InlineKeyboardMarkup(row_width=1)
         for response_category in response_categories:
             category = types.InlineKeyboardButton(
@@ -180,6 +228,10 @@ def bot_message(m):
             reply_markup=keyboard, parse_mode="Markdown")
 
     elif m.text == '\U0001F4DCО Нас':
+        """
+            После нажатие на маркап кнопку 'О Нас' выводится 
+            контактный номер и информация о ресторане
+        """
         for about in Aboutus.objects.all():
             bot.send_message(
                 m.chat.id, f"*О НАС:* \n _{about.description}_ \n\n "
@@ -188,6 +240,9 @@ def bot_message(m):
 
     elif m.text == '\U0001f6cb\ufe0fЗабронировать столик' \
             or m.text == 'Изменить бронь':
+        """
+            После нажатие на маркап кнопку 'Забронировать столик' выводится календарь инлайн кнопок 
+        """
         now = datetime.datetime.now()  # Получение сегодняшней даты
         bot.send_message(
             m.chat.id,
@@ -199,6 +254,13 @@ def bot_message(m):
             ),
         )
     elif m.text == 'Бронировать':
+        """
+        После нажатие на маркап кнопку Бронировать в базе модель TableReservation 
+        создается бронь столика со статусном «Новый» и телеграмм боту мерчанта 
+        отправляется уведомление о поступление бронь стола с url инлайн кнопкой. 
+        После вызывается главный меню маркап кнопок (Меню, Корзина, О Нас, Оформить 
+        заказ, Статус заказа, Выполненные заказы, Забронировать столик, Оценить ресторан)
+        """
         TableReservation.objects.create(
             telegram_user_id_id=m.from_user.id,
             date=database[m.from_user.id]['date'],
@@ -219,9 +281,21 @@ def bot_message(m):
                 reply_markup=keyboard, parse_mode='Markdown')
         menu(m, "Вам придет ответа от менеджера")
     elif m.text == 'Вернуться в меню':
+        """
+            Маркап кнопка Вернуться в меню отменяет не завершенную операцию бронь столика
+        """
         del database[m.from_user.id]
         menu(m, 'Выберите операцию')
     elif m.text == '\U0001F371Корзина':
+        """
+            После нажатие на маркап кнопку "Корзина", Если корзина не пуста, то выводится 
+            список продуктов с фотографиями, с информацией и количество добавленных 
+            продуктов на единицу продукта, после вызывается функция "def button_basket(keyboard, basket)"  
+            для вызова инлайн кнопок добавление и убавление количества продукта, так же выводится 
+            инлайн кнопка "Оформить заказ".
+            
+            Если корзина пуста, то выводится только инлайн кнопка "Меню" с уведомлением корзина пуста
+        """
         order_keyboard = types.InlineKeyboardMarkup(row_width=2)
 
         order_processing = types.InlineKeyboardButton(
@@ -260,6 +334,14 @@ def bot_message(m):
                 reply_markup=keyboard, parse_mode="HTML")
 
     elif m.text == '\U0001F45DОформить заказ':
+        """
+            После нажатие на маркап кнопку 'Оформить заказ', если корзина не пуста 
+            то выводится информация о продукте, количества продукта, сумма продукта, 
+            итоговая сумма продукта и выводится две инлайн кнопки 'Оформить заказ' и 
+            'Изменить заказ – Корзина'
+            
+            Если корзина пуста, то выводится инлайн кнопка 'Меню'
+        """
         if not Basket.objects.filter(telegram_user_id_id=m.from_user.id):
             keyboard = types.InlineKeyboardMarkup(row_width=1)
             keyboard.add(
@@ -301,7 +383,11 @@ def bot_message(m):
                 reply_markup=keyboard, parse_mode='Markdown')
 
     elif m.text == '\U0001F55CСтатус заказа':
-
+        """
+            После нажатие на маркап кнопку 'Статус заказа' выводится активные заказы со 
+            статусом еще не принято или в обработке, а также внизу заказа выводится 
+            инлайн кнопка 'Детальный просмотр заказа №'
+        """
         for orders in ShoppingCartOrder.objects.filter(
                 telegram_user_id_id=m.from_user.id, status_id__lte=2):
             keyboard = types.InlineKeyboardMarkup(row_width=2)
@@ -326,6 +412,9 @@ def bot_message(m):
                     f"\n статус: *{orders.status.status}*",
                     reply_markup=keyboard, parse_mode='Markdown')
     elif m.text == 'Оценить ресторан':
+        """
+            После нажатие на маркап кнопку 'Оценить ресторан' опросник по 5 бальной шкале
+        """
         bot.send_poll(
             m.chat.id, 'Оцените по 5-ти бальной шкале '
                        'степень Вашей удовлетворенности',
@@ -335,6 +424,11 @@ def bot_message(m):
                      '3 - удовлетворительно', '4 - хорошо',
                      '5 - очень хорошо'])
     elif m.text == '\U0001F4F5Отменить оценку':
+        """
+            После нажатие на маркап кнопку Отменить оценку отменяет оценку очищая временную 
+            оценку и вызывает главный меню маркап кнопок (Меню, Корзина, О Нас, Оформить заказ, 
+            Статус заказа, Выполненные заказы, Забронировать столик, Оценить ресторан)
+        """
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
         keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
@@ -358,6 +452,10 @@ def bot_message(m):
                              reply_markup=keyboard)
 
     elif m.text == '\U0001F51AВыполненные заказы':
+        """
+            После нажатие на маркап кнопку Выполненные заказы выводиться 
+            список исполненных заказов в виде инлайн кнопок
+        """
         keyboard = types.InlineKeyboardMarkup(row_width=1)
         for orders in ShoppingCartOrder.objects.filter(telegram_user_id_id=m.from_user.id):
             detail_view_order = types.InlineKeyboardButton(
@@ -371,6 +469,11 @@ def bot_message(m):
             reply_markup=keyboard, parse_mode='Markdown')
 
     elif m.text == '\U0001F4DDОставить оценку':
+        """
+        После нажатие на маркап кнопку Оставить оценку оценки и отзывы клиента сохраняется в 
+        БД модель CustomerFeedback и выводится главный меню маркап кнопок (Меню, Корзина, О Нас, 
+        Оформить заказ, Статус заказа, Выполненные заказы, Забронировать столик, Оценить ресторан)
+        """
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
         keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
                        ['\U0001F4D6\U0001F372\U0001F354Меню',
@@ -403,6 +506,9 @@ def bot_message(m):
             customer_feedback.pop(m.from_user.id)
 
     else:
+        """
+            Сохраняет отзывы клиента на временную словарь customer_feedback = {} 
+        """
         for user_id in customer_feedback.keys():
             if user_id == m.from_user.id:
                 customer_feedback[m.from_user.id].update(
@@ -424,24 +530,19 @@ def bot_message(m):
 
 @bot.poll_answer_handler()
 def handle_poll_answer(quiz_answer: types.PollAnswer):
+    """
+        Сохраняет оценки клиента на временную словарь customer_feedback = {}
+    """
     print(quiz_answer)
     customer_feedback.update(
         {quiz_answer.user.id: {'user_id': quiz_answer.user.id,
                                'quiz_answer': quiz_answer.option_ids[0] + 1,
                                'text_client': None}})
 
-    # print(customer_feedback)
-    # print(customer_feedback.keys())
-    # for qwe in customer_feedback.keys():
-    #     print(qwe)
-
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-
     keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
                    ['\U0001F4F5Отменить оценку', '\U0001F4DDОставить оценку']])
-
     photo = open(f"photo/Telegram-mess.jpg", 'rb')
-
     bot.send_photo(
         quiz_answer.user.id, photo,
         caption='Прокомментируйте, пожалуйста, Ваше мнение. \n'
@@ -458,6 +559,9 @@ def handle_poll_answer(quiz_answer: types.PollAnswer):
     func=lambda call: call.data.startswith(calendar_1_callback.prefix)
 )
 def callback_inline(call: CallbackQuery):
+    """
+        В Бронирование столиков выводит инлайн кнопки календарь (дату) и время
+    """
     name, action, year, month, day = call.data.split(calendar_1_callback.sep)
     global date
     date_in = calendar.calendar_query_handler(
@@ -482,7 +586,15 @@ def callback_inline(call: CallbackQuery):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline2(call):
+    """
+        Обработчик обратного вызова, функция отвечает за обработку инлайн кнопок
+    """
     if call.data in order(call):
+        """
+            Выводит детальный просмотр заказов после нажатие на инлайн кнопку 'Детальный 
+            просмотр заказа №'  в маркап кнопке 'Статус заказа', в детальном просмотре 
+            отображается статус заказа, продукты и итоговая сумма  
+        """
         order_pk = call.data[13:]
         total_sum = 0
         if BasketToOrder.objects.filter(
@@ -516,6 +628,9 @@ def callback_inline2(call):
             f"Итого общая сумма: *{((total_sum * 10) / 100) + total_sum}*",
             parse_mode='Markdown')
     if call.data in TIME:
+        """
+        
+        """
         database[call.from_user.id]['time'] = call.data
         keyboard = InlineKeyboardMarkup(row_width=2)
         bot.edit_message_text(
@@ -525,6 +640,9 @@ def callback_inline2(call):
             reply_markup=get_persons(keyboard)
         )
     if call.data in PERSONS:
+        """
+        
+        """
         database[call.from_user.id]['persons'] = call.data
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
         keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
@@ -538,6 +656,13 @@ def callback_inline2(call):
             reply_markup=keyboard,
         )
     if call.data == 'order_processing':
+        """
+            После нажатие на инлайн кнопку «Оформить заказ» в базе модель «StatusShoppingCartOrder» 
+            создается заказ с следующими параметрами (№заказа, телеграммID, дата создание), после все 
+            продукты с временного базы модель «Basket» переносится на постоянную базу модель «BasketToOrder» 
+            с добавлением параметра заказа (т.е. ID заказа). Следом телеграмм боту мерчанта отправляется 
+            уведомление с инлайн кнопкой, в инлайн кнопке указывается ссылка на созданную заказ.
+        """
         for status in StatusShoppingCartOrder.objects.all():
             if status.status == 'Новый':
                 new_status = status
@@ -586,6 +711,9 @@ def callback_inline2(call):
                 reply_markup=keyboard, parse_mode='Markdown')
 
     elif call.data == '\U0001F45DОформить заказ':
+        """
+        
+        """
         if not Basket.objects.filter(
                 telegram_user_id_id=call.from_user.id):
             keyboard = types.InlineKeyboardMarkup(row_width=1)
@@ -626,7 +754,6 @@ def callback_inline2(call):
                 f"_10% за обслуживание:_ *{(total_sum * 10) / 100}* \n\n"
                 f"Итого общая сумма: *{((total_sum * 10) / 100) + total_sum}*",
                 reply_markup=keyboard, parse_mode='Markdown')
-    # for orders in ShoppingCartOrder.objects.filter(telegram_user_id_id=call.from_user.id):
     if call.data[:16] == f'completed_orders':
         if BasketToOrder.objects.filter(telegram_user_id_id=call.from_user.id, order_id=int(call.data[16:])):
             pdf = FPDF(orientation='P', unit='mm', format='A5')
