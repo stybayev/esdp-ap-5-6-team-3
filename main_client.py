@@ -11,16 +11,16 @@ from config import client_key, merchant_key
 import telebot
 from telebot import types
 from requests import get
-from cal import Calendar, CallbackData, RUSSIAN_LANGUAGE, \
-    get_time, TIME, get_persons, PERSONS
-from telebot.types import ReplyKeyboardRemove, CallbackQuery, \
-    InlineKeyboardMarkup
+from cal import (Calendar, CallbackData, RUSSIAN_LANGUAGE,
+                 get_time, TIME, get_persons, PERSONS)
+from telebot.types import (ReplyKeyboardRemove, CallbackQuery,
+                           InlineKeyboardMarkup)
 import time
-from product.models import TelegramUser, Basket, Aboutus, BasketToOrder, \
-    ShoppingCartOrder, StatusShoppingCartOrder, MerchantTelegramUser, \
-    TableReservation, CustomerFeedback
+from product.models import (TelegramUser, MerchantTelegramUser,
+                            ShoppingCartOrder, Basket, Aboutus,
+                            StatusShoppingCartOrder, BasketToOrder,
+                            TableReservation, CustomerFeedback)
 from fpdf import FPDF
-
 
 logger = telebot.logger
 bot = telebot.TeleBot(client_key)
@@ -429,31 +429,16 @@ def bot_message(m):
             оценку и вызывает главный меню маркап кнопок (Меню, Корзина, О Нас, Оформить заказ, 
             Статус заказа, Выполненные заказы, Забронировать столик, Оценить ресторан)
         """
-        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-
-        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                       ['\U0001F4D6\U0001F372\U0001F354Меню',
-                        '\U0001F371Корзина']])
-        keyboard.add(
-            *[types.KeyboardButton(bot_message) for bot_message in
-              ['\U0001F4DCО Нас', '\U0001F45DОформить заказ']])
-        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                       ['\U0001F55CСтатус заказа',
-                        '\U0001F51AВыполненные заказы']])
-        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                       ['\U0001f6cb\ufe0fЗабронировать столик',
-                        'Оценить ресторан']])
         if customer_feedback == {}:
-            bot.send_message(m.chat.id, 'Оценка отменен!',
-                             reply_markup=keyboard)
+            menu(m, 'Оценка отменен!')
+
         elif customer_feedback[m.from_user.id]:
             customer_feedback.pop(m.from_user.id)
-            bot.send_message(m.chat.id, 'Оценка отменен!',
-                             reply_markup=keyboard)
+            menu(m, 'Оценка отменен!')
 
     elif m.text == '\U0001F51AВыполненные заказы':
         """
-            После нажатие на маркап кнопку Выполненные заказы выводиться 
+            После нажатие на маркап кнопку 'Выполненные заказы' выводиться 
             список исполненных заказов в виде инлайн кнопок
         """
         keyboard = types.InlineKeyboardMarkup(row_width=1)
@@ -474,35 +459,18 @@ def bot_message(m):
         БД модель CustomerFeedback и выводится главный меню маркап кнопок (Меню, Корзина, О Нас, 
         Оформить заказ, Статус заказа, Выполненные заказы, Забронировать столик, Оценить ресторан)
         """
-        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                       ['\U0001F4D6\U0001F372\U0001F354Меню',
-                        '\U0001F371Корзина']])
-        keyboard.add(
-            *[types.KeyboardButton(bot_message) for bot_message in
-              ['\U0001F4DCО Нас', '\U0001F45DОформить заказ']])
-        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                       ['\U0001F55CСтатус заказа',
-                        '\U0001F51AВыполненные заказы']])
-        keyboard.add(*[types.KeyboardButton(bot_message) for bot_message in
-                       ['\U0001f6cb\ufe0fЗабронировать столик',
-                        'Оценить ресторан']])
 
         if customer_feedback == {}:
-            bot.send_message(
-                m.chat.id, 'Для начало просим поставить оценки',
-                reply_markup=keyboard)
+            menu(m, 'Для начало просим поставить оценки')
 
         elif customer_feedback[m.from_user.id]:
-
             CustomerFeedback.objects.create(
                 telegram_user_id_id=customer_feedback[m.from_user.id]
                 ['user_id'],
                 quiz_answer=customer_feedback[m.from_user.id]['quiz_answer'],
                 description=customer_feedback[m.from_user.id]['text_client']
             )
-            bot.send_message(
-                m.chat.id, 'Спасибо за отзыв', reply_markup=keyboard)
+            menu(m, 'Спасибо за отзыв')
             customer_feedback.pop(m.from_user.id)
 
     else:
@@ -712,7 +680,10 @@ def callback_inline2(call):
 
     elif call.data == '\U0001F45DОформить заказ':
         """
-        
+            После нажатие на инлайн кнопку «Перейти в оформление заказа» с корзины 
+            выводится информация о продукте, количества продукта, сумма продукта, 
+            итоговая сумма продукта и выводится две инлайн кнопки 'Оформить заказ'  
+            и 'Изменить заказ – Корзина'
         """
         if not Basket.objects.filter(
                 telegram_user_id_id=call.from_user.id):
@@ -755,6 +726,14 @@ def callback_inline2(call):
                 f"Итого общая сумма: *{((total_sum * 10) / 100) + total_sum}*",
                 reply_markup=keyboard, parse_mode='Markdown')
     if call.data[:16] == f'completed_orders':
+        """
+            В маркап кнопке «Выполненные заказы» отображается истории выполненных заказов в виде 
+            инлайн кнопок с указанием №заказа, общая сумма и дата выполненных операции. После 
+            нажатие на эти инлайн кнопки клиенту отправляется PDF файл с указанием номер заказа, 
+            список продуктов с количеством и суммой, итоговая сумма продукта и итоговая сумма с 
+            процентом мерчанта.  Сперва PDF файл формируется в проекте и сохраняется в корни проекта 
+            в папке PDF, после отправляется клиенту на телеграмм бот, после с папки PDF удаляется файл
+        """
         if BasketToOrder.objects.filter(telegram_user_id_id=call.from_user.id, order_id=int(call.data[16:])):
             pdf = FPDF(orientation='P', unit='mm', format='A5')
             pdf.add_page()
@@ -775,15 +754,13 @@ def callback_inline2(call):
                 total_sum += baskets.product_total_price
                 pdf.set_font('DejaVu', '', 12)
                 pdf.set_text_color(0, 0, 255)
-                pdf.cell(110, 10,
+                pdf.cell(120, 10,
                          txt=f'{baskets.product.product_name}: {baskets.product.price} тг. x '
                              f'{baskets.amount} шт. = {baskets.product_total_price} тенге',
                          ln=1, align="C")
-                print(f'{baskets.product.product_name}: {baskets.product.price} тг. x '
-                      f'{baskets.amount} шт. = {baskets.product_total_price} тенге')
 
-            pdf.set_font('DejaVu', '', 13)
-            pdf.ln(6)
+            # pdf.set_font('DejaVu', '', 13)
+            # pdf.ln(6)
             pdf.cell(110, 10, txt=f'Сумма {total_sum} тенге', ln=1, align="C")
             pdf.cell(110, 10, txt=f'10% за обслуживание {(total_sum * 10) / 100} тенге', ln=1, align="C")
             pdf.cell(110, 10, txt=f'Итоговая сумма {total_sum + (total_sum * 10) / 100} тенге', ln=1, align="C")
@@ -797,15 +774,20 @@ def callback_inline2(call):
     if call.data != '\U0001F4D6\U0001F372\U0001F354Меню':
         for menu in response_menu:
             if call.data == menu['category']:
+                """
+                    После нажатие на инлайн кнопку «Категории продукта» (например: Напитки) 
+                    отображается список продуктов под категории с указанием Фото продукта, 
+                    Наименование, Цена и Описание продукта, а также инлайн кнопка «Добавить в корзину».
+                    
+                    Если продукт добавлен в корзину, то еще отображается количество и сумма продукта, 
+                    а также две инлайн кнопки «Добавить в корзину» и «удалить с корзины»
+                """
                 for response_category in response_categories:
                     if menu['category'] == response_category['category_name'] \
                             and menu['available'] == 'Есть':
                         keyboard = types.InlineKeyboardMarkup(row_width=2)
-
                         print(menu['photo'][1:])
-
                         photo = open(menu['photo'][1:], 'rb')
-
                         if not Basket.objects.filter(
                                 product_id=menu['id'],
                                 telegram_user_id_id=call.from_user.id):
@@ -813,9 +795,7 @@ def callback_inline2(call):
                                 text=f"\U00002795\U0001F371"
                                      f"Добавить в корзину",
                                 callback_data=f"add_menu_{menu['id']}")
-
                             keyboard.add(add_menu)
-
                             bot.send_photo(
                                 call.message.chat.id, photo,
                                 caption=text_menu(menu), reply_markup=keyboard,
@@ -827,15 +807,16 @@ def callback_inline2(call):
                             basket = get_object_or_404(
                                 Basket, product_id=menu['id'],
                                 telegram_user_id_id=call.from_user.id)
-
                             button_menu(keyboard, basket)
-
                             bot.send_photo(
                                 call.message.chat.id, photo,
                                 caption=text_basket(basket),
                                 reply_markup=keyboard, parse_mode="Markdown")
 
             elif call.data == f"add_menu_{menu['id']}":
+                """
+                    Добавляет либо увеличивает количества продукта и сумму в Меню
+                """
                 if not Basket.objects.filter(
                         product_id=menu['id'],
                         telegram_user_id_id=call.from_user.id):
@@ -885,6 +866,9 @@ def callback_inline2(call):
                              f'\n Общая количество {basket.amount}')
 
             elif call.data == f"subtract_menu_{menu['id']}":
+                """
+                    Удаляет либо уменьшает количества продукта и сумму в Меню
+                """
                 for telegram_user in TelegramUser.objects.all():
                     if call.from_user.id == telegram_user.user_id:
                         if Basket.objects.filter(
@@ -936,6 +920,9 @@ def callback_inline2(call):
                                 reply_markup=keyboard, parse_mode="Markdown")
 
             elif call.data == f"add_basket_{menu['id']}":
+                """
+                    Добавляет либо увеличивает количества продукта и сумму в Корзине
+                """
                 if not Basket.objects.filter(
                         product_id=menu['id'],
                         telegram_user_id_id=call.from_user.id):
@@ -985,6 +972,9 @@ def callback_inline2(call):
                              f'\n Общая количество {basket.amount}')
 
             elif call.data == f"subtract_basket_{menu['id']}":
+                """
+                    Удаляет либо уменьшает количества продукта и сумму в Корзине
+                """
                 if Basket.objects.filter(
                         amount__gt=1, product_id=menu['id'],
                         telegram_user_id_id=call.from_user.id):
@@ -1038,6 +1028,10 @@ def callback_inline2(call):
                             reply_markup=keyboard, parse_mode='Markdown')
 
             elif call.data == 'edit_basket':
+                """
+                    После нажатие на инлайн кнопку «Изменить заказ - Корзина» открывается 
+                    корзина для дальнейшего редактирование списка и количество продукта.
+                """
                 if Basket.objects.filter(
                         product_id=menu['id'],
                         telegram_user_id_id=call.from_user.id):
@@ -1073,6 +1067,10 @@ def callback_inline2(call):
                         reply_markup=keyboard, parse_mode="HTML")
 
     elif call.data == '\U0001F4D6\U0001F372\U0001F354Меню':
+        """
+            После нажатие на инлайн кнопку «Меню» выводиться 
+            список категорий продуктов в виде инлайн кнопок
+        """
         keyboard = types.InlineKeyboardMarkup(row_width=1)
         for api_category in response_categories:
             category = types.InlineKeyboardButton(
@@ -1089,7 +1087,4 @@ def callback_inline2(call):
 if __name__ == '__main__':
     bot.polling(none_stop=True)
     while True:
-        time.sleep(200000)
-
-# bot.polling(none_stop=True, interval=0)
-# merchant_bot.polling(none_stop=True, interval=0)
+        time.sleep(3)
