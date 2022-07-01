@@ -19,7 +19,7 @@ import time
 from product.models import TelegramUser, Basket, Aboutus, BasketToOrder, \
     ShoppingCartOrder, StatusShoppingCartOrder, MerchantTelegramUser, \
     TableReservation, CustomerFeedback
-from fpdf import FPDF, HTMLMixin
+from fpdf import FPDF
 
 
 logger = telebot.logger
@@ -104,6 +104,7 @@ def button_menu(keyboard, basket):
 
 
 def order(call):
+    """"""
     value = []
     for orders in ShoppingCartOrder.objects.filter(
             telegram_user_id_id=call.from_user.id, status_id__lte=2):

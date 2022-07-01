@@ -54,8 +54,9 @@ border-radius: 10px;">
             {{ feedback.created_at }}
         </div>
         {% if user.is_authenticated %}
-            <form id="createForm" enctype="multipart/form-data" >
+            <form id="createForm" >
                 <div style="display: flex; justify-content: space-between">
+                    <input type="hidden" id="author" name="author" value="{{ request.user.id }}">
                     <input type="hidden" id="feedback" name="feedback" value="{{ feedback.id }}">
                     <textarea rows="2" class="form-control" id="text" style="border: none;"
                               name="text" placeholder="Добавьте комментарий..."></textarea>
@@ -70,10 +71,8 @@ border-radius: 10px;">
         {% include 'comment/list_comment_view.html' %}
     </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
-<script src="{% static 'js\comment.js' %}">
-
-</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script src="{% static 'js\comment.js' %}"></script>
 
 {% endblock %}
