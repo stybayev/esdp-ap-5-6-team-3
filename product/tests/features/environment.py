@@ -1,10 +1,13 @@
 from behave import fixture, use_fixture
-from selenium.webdriver import Chrome
+from selenium import webdriver
 
 
 @fixture
 def browser_chrome(context):
-    context.browser = Chrome()
+    driver = webdriver.Chrome()
+    driver.maximize_window()
+    driver.implicitly_wait(30)
+    context.browser = driver
     yield context.browser
     context.browser.quit()
 

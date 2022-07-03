@@ -15,7 +15,7 @@
                             {% csrf_token %}
                             <input type="hidden" name="status" value="В процессе">
                             <input type="hidden" name="telegram_user_id" id="telegram_user_id" value="{{ order.telegram_user_id_id }}">
-                            <input type="submit" class="btn btn-success" value="Принять">
+                            <input type="submit" class="btn btn-success" name="accept" value="Принять">
                         </form>
                     </div>
                     <div style="margin: 5px;">
@@ -28,7 +28,7 @@
                             {% csrf_token %}
                             <input type="hidden" name="status" value="Выполнено">
                             <input type="hidden" name="telegram_user_id" id="telegram_user_id" value="{{ order.telegram_user_id_id }}">
-                            <input type="submit" class="btn btn-success" value="Завершить заказ">
+                            <input type="submit" class="btn btn-success" name="finish" value="Завершить заказ">
                         </form>
                     </div>
                 {% endif %}
