@@ -3,7 +3,7 @@
 {% block content %}
     {% if user.is_authenticated %}
         <div class="button_my">
-            <a class="create btn btn-2 btn-sm" href="{% url 'create_category' %}">Добавить категорию</a>
+            <a class="create btn btn-2 btn-sm" name="add_category" href="{% url 'create_category' %}">Добавить категорию</a>
         </div>
     {% endif %}
 

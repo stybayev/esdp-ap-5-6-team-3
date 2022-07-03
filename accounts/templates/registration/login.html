@@ -10,10 +10,10 @@
                     <p class="form-error">Неверное имя пользователя или пароль.</p>
                 {% endif %}
                 <div class="login">
-                    <input type="text" placeholder="Имя пользователя" id="first_name" name="username" />
+                    <input required type="text" placeholder="Имя пользователя" id="first_name" name="username" />
                 </div>
-                <input type="password" placeholder="Пароль" name="password" />
-                <input type="submit" value="Войти" />
+                <input required type="password" placeholder="Пароль" name="password" />
+                <input type="submit" name="login" value="Войти" />
             </form>
         </div>
     </div>

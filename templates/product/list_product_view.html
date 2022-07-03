@@ -31,6 +31,7 @@
                 </div>
                 <div class="photo" data-title="Редактировать категорию {{ category.category_name }}">
                     <a class="btn" href="{% url 'update_category' category.pk %}" role="button" style="padding: 0"><img style="width: 30px; height: 25px" src="{% static 'images_common/edit.png' %}" alt=""></a>
+                    <input type="hidden" name="update_category" value="{{ category.pk }}">
                 </div>
             </div>
         {% endif %}

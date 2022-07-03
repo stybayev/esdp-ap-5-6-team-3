@@ -13,6 +13,9 @@ bot = telebot.TeleBot(client_key)
 
 
 class ProductAPIView(APIView):
+    """
+        API_View для GET запроса списка продукта
+    """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -22,6 +25,9 @@ class ProductAPIView(APIView):
 
 
 class CategoryAPIView(APIView):
+    """
+        API_View для GET запроса списка категории продукта
+    """
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
@@ -41,6 +47,9 @@ class BasketAPIView(APIView):
 
 
 class CommentsAPIView(APIView):
+    """
+        API_View для создания записи 'Комментария' с помощью JS
+    """
     queryset = Comments.objects.all()
     serializer_class = CommentsSerializer
     # permission_classes = [IsAuthenticated, ]
