@@ -10,6 +10,9 @@ from product.models import MerchantTelegramUser
 
 
 class LoginView(View):
+    """
+        View для аутентификации пользователя
+    """
     def get(self, request, *args, **kwargs):
         return render(request, 'registration/login.html', context={
             'next': request.GET.get('next')
@@ -33,12 +36,18 @@ class LoginView(View):
 
 
 class LogoutView(View):
+    """
+        View для выхода пользователя из авторизации CRM проекта
+    """
     def get(self, request, *args, **kwargs):
         logout(request)
         return redirect('list_category')
 
 
 def register(request, m):
+    """
+        Регистрация пользователя через телеграм бот мерчанта, а такше создание профиля пользователя
+    """
     user_form = UserCreationForm({'username': f'{m.contact.user_id}',
                                   'first_name': f'{m.contact.first_name}',
                                   'last_name': f'{m.contact.last_name}',
@@ -58,12 +67,18 @@ def register(request, m):
 
 
 class UserProfileView(DetailView):
+    """
+        Просмотр профиля пользователя
+    """
     model = get_user_model()
     template_name = 'profile/profile.html'
     context_object_name = 'user_obj'
 
 
 class UserProfileUpdateView(UpdateView):
+    """
+        Редактирование профиля пользователя
+    """
     model = get_user_model()
     form_class = UserChangeForm
     template_name = 'profile/user_profile_update.html'
@@ -114,6 +129,9 @@ class UserProfileUpdateView(UpdateView):
 
 
 class ChangePasswordView(LoginRequiredMixin, UpdateView):
+    """
+        Изменение пароля пользователя через профиль пользователя в CRM проекте
+    """
     model = get_user_model()
     template_name = 'registration/change_password.html'
     form_class = PasswordChangeForm
@@ -131,6 +149,9 @@ class ChangePasswordView(LoginRequiredMixin, UpdateView):
 
 
 def change_password(request, m):
+    """
+        Сброс\Изменение пароля через телеграм бот мерчанта
+    """
     for merchant in MerchantTelegramUser.objects.all():
         if merchant.user_id == m.from_user.id:
             user = merchant.auth_user
