@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'product',
     'accounts',
     'corsheaders',
+    'behave_django'
     # 'phonenumber_field',
 
 ]
