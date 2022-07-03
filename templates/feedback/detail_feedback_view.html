@@ -29,7 +29,9 @@
     <div class="card" style="margin-top: 3%; overflow-x: auto;
 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 border-radius: 10px;">
-        <div class="card-header">№{{ feedback.id }}⠀Телеграмм пользователь: <b>{{ feedback.telegram_user_id.first_name }}</b>⠀Телефон: <b>{{ feedback.telegram_user_id.phone_number }}</b>
+        <div class="card-header">№{{ feedback.id }}⠀Телеграмм пользователь: <b>{{ feedback.telegram_user_id.first_name }}</b>⠀
+            <a href="tel:+{{ feedback.telegram_user_id.phone_number }}" style="text-decoration: none; color: black;">
+                            Телефон: <b>+{{ feedback.telegram_user_id.phone_number }}</b></a>
         </div>
         <div class="card-body">
             <h5 class="card-title" style="display: flex">

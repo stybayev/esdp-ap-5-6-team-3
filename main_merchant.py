@@ -21,8 +21,15 @@ time.sleep(3)
 
 @merchant_bot.message_handler(commands=["start"])
 def start(m):
+    """
+        Функция для начального запуска маркап кнопок, проверяет мерчанта на регистрацию
+    """
     print(type(m.from_user.id))
     if MerchantTelegramUser.objects.filter(user_id=m.from_user.id):
+        """
+            Если мерчант ранее зарегистрирован в базе, то отправляет 
+            приветственную текст мерчанту и вызывает маркап кнопки:
+        """
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
         keyboard.add(*[types.KeyboardButton(bot_message) for
                        bot_message in ['Новые заказы', 'Сброс пароля']])
@@ -30,6 +37,10 @@ def start(m):
             m.chat.id, f'Приветствую Вас *{m.from_user.first_name}*!',
             reply_markup=keyboard, parse_mode="Markdown")
     else:
+        """
+            Если мерчант не зарегистрирован в базе, то выводит 
+            маркап кнопку 'Поделиться номером'
+        """
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
         keyboard.add(types.KeyboardButton(
             text='\U0001F4F2Поделиться номером', request_contact=True))
@@ -41,6 +52,12 @@ def start(m):
 @merchant_bot.message_handler(content_types=["text", "contact"])
 def bot_message(m):
     if m.contact is not None:
+        """
+            Если мерчант не зарегистрирован в Базе, то после нажатие на кнопку 
+            'Поделиться номером!' данные мерчанта (Имя, Фамилия, Телефон, Телеграмм ID) 
+            сохраняется в БД модели MerchantTelegramUser, также производиться регистрация 
+            пользователя в Админ панеле, т.е. создается аутентификационный логин и пароль 
+        """
         register(request, m)
         merchant_bot.send_message(
             m.chat.id, f'Пользователь *{m.contact.first_name} '
@@ -55,6 +72,9 @@ def bot_message(m):
         start(m)
 
     elif m.text == 'Сброс пароля':
+        """
+            Производиться сброс пароля на Админ панель
+        """
         change_password(request, m)
         for merchant in MerchantTelegramUser.objects.all():
             if merchant.user_id == m.chat.id:
@@ -64,6 +84,10 @@ def bot_message(m):
                     parse_mode="Markdown")
 
     elif m.text == 'Новые заказы':
+        """
+            После нажатие на маркап кнопку "Новые заказы" выводиться две новых
+            маркап кнопок 'Список Новых заказов' и 'В начало'
+        """
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
         keyboard.add(types.KeyboardButton('Список Новых заказов'))
         keyboard.add(types.KeyboardButton('В начало'))
@@ -72,6 +96,11 @@ def bot_message(m):
             reply_markup=keyboard)
 
     elif m.text == 'Список Новых заказов':
+        """
+            После нажатие на маркап кнопку 'Список Новых заказов' выводиться 
+            инлайн URL кнопки новых заказо, при нажатие на эти URL кнопки происходит
+            переход на Админ панель в страницу заказа
+        """
         for shop_cart in ShoppingCartOrder.objects.filter(status=1):
             keyboard = types.InlineKeyboardMarkup(row_width=1)
             new_order = types.InlineKeyboardButton(
@@ -87,6 +116,10 @@ def bot_message(m):
                 reply_markup=keyboard, parse_mode="Markdown")
 
     elif m.text == 'В начало':
+        """
+            При нажатие на маркап кнопку 'В начало' возвращется в главный меню
+            где отображается маркап кнопки 'Новые заказы' и 'Сброс пароля'
+        """
         keyboard = types.ReplyKeyboardMarkup(
             resize_keyboard=True)
         keyboard.add(*[types.KeyboardButton(bot_message) for
@@ -98,6 +131,7 @@ def bot_message(m):
 
 @merchant_bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
+    """ Ничего не выполняет """
     if call.data == "new_order_1" or call.data == "new_order_2":
         keyboard = types.InlineKeyboardMarkup(row_width=2)
         call_the_client = types.InlineKeyboardButton(
