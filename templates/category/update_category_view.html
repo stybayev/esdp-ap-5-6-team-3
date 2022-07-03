@@ -2,6 +2,7 @@
 {% block content %}
 
 <h2 style="color: #82d475; margin-top: 20px;">Редактирование категорий</h2>
+<input type="hidden" name="update_category" value="{{ category.pk }}">
 <form action="{% url 'update_category' category.pk %}" method="POST" >
   {% include 'partial/category/category_form.html' with button_text='Изменить' type=True%}
 </form>
