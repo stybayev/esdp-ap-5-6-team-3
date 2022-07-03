@@ -629,7 +629,9 @@ def callback_inline2(call):
             parse_mode='Markdown')
     if call.data in TIME:
         """
-        
+            Если выбранное время в бронирования столика находиться в константе TIME, 
+            то данное время записывается на временную словарь database для дальнейшего 
+            обработки данных
         """
         database[call.from_user.id]['time'] = call.data
         keyboard = InlineKeyboardMarkup(row_width=2)
@@ -641,7 +643,9 @@ def callback_inline2(call):
         )
     if call.data in PERSONS:
         """
-        
+            Если выбранное количество людей в бронирования столика находиться в константе PERSONS, 
+            то данные записывается на временную словарь database для дальнейшего 
+            обработки данных
         """
         database[call.from_user.id]['persons'] = call.data
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
