@@ -25,14 +25,16 @@ class CustomerFeedbackListView(SearchView):
     }
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        sum_quiz_answer = self.model.objects.aggregate(Sum('quiz_answer'))
-        avg_quiz_answer = self.model.objects.aggregate(Avg('quiz_answer'))
-        kwargs['sum_quiz_answer'] = sum_quiz_answer['quiz_answer__sum']
-        kwargs['avg_quiz_answer'] = round(
-            avg_quiz_answer['quiz_answer__avg'], 2)
-        kwargs['round_avg_quiz_answer'] = round(
-            avg_quiz_answer['quiz_answer__avg'])
-        return super().get_context_data(**kwargs)
+        feedback = self.model.objects.all()
+        if feedback.exists():
+            sum_quiz_answer = self.model.objects.aggregate(Sum('quiz_answer'))
+            avg_quiz_answer = self.model.objects.aggregate(Avg('quiz_answer'))
+            kwargs['sum_quiz_answer'] = sum_quiz_answer['quiz_answer__sum']
+            kwargs['avg_quiz_answer'] = round(
+                avg_quiz_answer['quiz_answer__avg'], 2)
+            kwargs['round_avg_quiz_answer'] = round(
+                avg_quiz_answer['quiz_answer__avg'])
+            return super().get_context_data(**kwargs)
 
 
 class CustomerFeedbackDetailView(LoginRequiredMixin, DetailView):
