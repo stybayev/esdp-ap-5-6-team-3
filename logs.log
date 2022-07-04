@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-03T17:53:50.447239Z", "level": "INFO"}
 {"message": "\"GET / HTTP/1.1\" 200 7331", "request": "<socket.socket fd=6, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 8000), raddr=('127.0.0.1', 51219)>", "server_time": "03/Jul/2022 23:53:55", "status_code": 200, "filename": "basehttp.py", "timestamp": "2022-07-03T17:53:55.974662Z", "level": "INFO"}
 {"message": "\"GET /static/images_common/food-stall.png HTTP/1.1\" 304 0", "request": "<socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 8000), raddr=('127.0.0.1', 51220)>", "server_time": "03/Jul/2022 23:53:56", "status_code": 304, "filename": "basehttp.py", "timestamp": "2022-07-03T17:53:56.009122Z", "level": "INFO"}
@@ -418,3 +419,5 @@
 {"message": "\"GET /aboutus/ HTTP/1.1\" 200 4167", "request": "<socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('172.20.0.3', 8080), raddr=('172.20.0.1', 49854)>", "server_time": "04/Jul/2022 17:42:03", "status_code": 200, "filename": "basehttp.py", "timestamp": "2022-07-04T11:42:03.098186Z", "level": "INFO"}
 {"message": "\"GET /feedbacks/ HTTP/1.1\" 200 6010", "request": "<socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('172.20.0.3', 8080), raddr=('172.20.0.1', 49854)>", "server_time": "04/Jul/2022 17:42:04", "status_code": 200, "filename": "basehttp.py", "timestamp": "2022-07-04T11:42:04.165605Z", "level": "INFO"}
 {"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-04T12:22:24.810396Z", "level": "INFO"}
+=======
+>>>>>>> 39b34f4ab5b7288199f7c15909439829363050c0
