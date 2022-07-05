@@ -5,7 +5,9 @@ from pythonjsonlogger import jsonlogger
 
 class CustomJsonFormatter(jsonlogger.JsonFormatter):
     def add_fields(self, log_record, record, message_dict):
-        super(CustomJsonFormatter, self).add_fields(log_record, record, message_dict)
+        super(CustomJsonFormatter, self).add_fields(log_record,
+                                                    record,
+                                                    message_dict)
         log_record['filename'] = record.filename
         if not log_record.get('timestamp'):
             # this doesn't use record.created, so it is slightly off
@@ -17,4 +19,7 @@ class CustomJsonFormatter(jsonlogger.JsonFormatter):
             log_record['level'] = record.levelname
 
 
-formatter = CustomJsonFormatter('%(timestamp)s %(level)s %(filename)s %(message)s')
+formatter = CustomJsonFormatter('%(timestamp)s '
+                                '%(level)s '
+                                '%(filename)s '
+                                '%(message)s')

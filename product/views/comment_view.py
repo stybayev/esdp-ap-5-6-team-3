@@ -3,12 +3,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.generic import CreateView
-
 from config import client_key
 from product.forms import CommentForm, SearchForm
 from product.helpers import SearchView
 from product.models import CustomerFeedback, Comments
-from product.services import comment_create
 
 bot = telebot.TeleBot(client_key)
 
@@ -41,7 +39,6 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         product = get_object_or_404(CustomerFeedback, pk=kwargs.get('pk'))
         form = self.form_class(data=request.POST)
         if form.is_valid():
-            # product = comment_create(request.POST, product, self.request.user)
             comment = form.save(commit=False)
             comment.feedback_id = product.pk
             comment.author = self.request.user

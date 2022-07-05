@@ -3,7 +3,8 @@ from selenium.webdriver.common.by import By
 
 
 def find_category_pk(context):
-    category_pk = context.browser.find_element(By.XPATH, "//input[@name='update_category']").get_attribute("value")
+    category_pk = context.browser.find_element(
+        By.XPATH, "//input[@name='update_category']").get_attribute("value")
     return category_pk
 
 
@@ -58,7 +59,9 @@ def should_be_at_create_category_page(context, text):
 
 @when(u'Я перехожу на страницу категории')
 def should_be_at_category_page(context):
-    assert context.browser.current_url == 'http://127.0.0.1:8000/product/%D0%A7%D1%82%D0%BE-%D1%82%D0%BE/'
+    assert \
+        context.browser.current_url == \
+        'http://127.0.0.1:8000/product/%D0%A7%D1%82%D0%BE-%D1%82%D0%BE/'
 
 
 @when(u'Я нажимаю на кнопку изменения категории')
@@ -75,11 +78,14 @@ def clear_field_category_for_update(context, name):
 @when(u'Перехожу на страницу изменения категории')
 def should_be_at_category_page(context):
     category_pk = find_category_pk(context)
-    assert context.browser.current_url == f'http://127.0.0.1:8000/category/{category_pk}/update'
+    assert \
+        context.browser.current_url == \
+        f'http://127.0.0.1:8000/category/{category_pk}/update'
 
 
 # 3 scenario
 @when(u'Я перехожу на страницу категории "Что-то-2"')
 def should_be_at_category_page(context):
-    assert context.browser.current_url == 'http://127.0.0.1:8000/product/%D0%A7%D1%82%D0%BE-%D1%82%D0%BE-2/'
-
+    assert \
+        context.browser.current_url == \
+        'http://127.0.0.1:8000/product/%D0%A7%D1%82%D0%BE-%D1%82%D0%BE-2/'
