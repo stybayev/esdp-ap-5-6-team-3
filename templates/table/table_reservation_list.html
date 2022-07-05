@@ -92,24 +92,15 @@
                             <td data-label="Действие">
                                 {% if status == 'Новый' %}
                                     {% load static %}
-                                    <div style="display: flex; color: red">
-                                        <div class="photo" data-title="Поставить бронь {{ reserv.telegram_user_id.first_name }}">
-                                            <button class="btn" form="table{{ reserv.id }}"><img style="width: 30px; height: 25px" src="{% static 'images_common/reserve.png' %}" alt=""></button>
-
-                                        </div>
-                                        <div class="photo" data-title="Отменить бронь {{ reserv.telegram_user_id.first_name }}">
-                                            <a class="btn" href="{% url 'delete_reserve' reserv.id %}"><img style="width: 30px; height: 25px" src="{% static 'images_common/cancel.png' %}" alt=""></a>
-
-                                        </div>
-                                        <div class="photo" data-title="Редактировать бронь {{ reserv.telegram_user_id.first_name }}">
-                                            <a href="{% url 'update_reserve' reserv.id %}" class="btn"><img style="width: 30px; height: 25px" src="{% static 'images_common/edit.png' %}" alt=""></a>
-
-                                        </div>
+                                    <div style="display: flex;">
+                                        <button class="btn" data-toggle="tooltip" title="Зарезервировать" data-bs-placement="bottom" form="table{{ reserv.id }}">
+                                            <img style="width: 30px; height: 25px" src="{% static 'images_common/reserve.png' %}" alt="">
+                                        </button>
+                                        <a class="btn" data-toggle="tooltip" title="Отменить бронь" data-bs-placement="bottom" href="{% url 'delete_reserve' reserv.id %}"><img style="width: 30px; height: 25px" src="{% static 'images_common/cancel.png' %}" alt=""></a>
+                                        <a href="{% url 'update_reserve' reserv.id %}" class="btn" data-toggle="tooltip" title="Редактировать" data-bs-placement="bottom" ><img style="width: 30px; height: 25px" src="{% static 'images_common/edit.png' %}" alt=""></a>
                                     </div>
                                 {% else %}
-                                    <div style="display: flex; color: red" class="photo" data-title="Редактировать бронь {{ reserv.telegram_user_id.first_name }}">
-                                        <a href="{% url 'update_reserve' reserv.id %}" class="btn"><img style="width: 30px; height: 25px" src="{% static 'images_common/edit.png' %}" alt=""></a>
-                                    </div>
+                                    <a href="{% url 'update_reserve' reserv.id %}" class="btn" data-toggle="tooltip" title="Редактировать" data-bs-placement="bottom"><img style="width: 30px; height: 25px" src="{% static 'images_common/edit.png' %}" alt=""></a>
                                 {% endif %}
                             </td>
                         </tr>
