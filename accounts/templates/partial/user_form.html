@@ -1,7 +1,7 @@
 <div class="form-group">
     <label for="first_name" class="form-label col-5">Имя</label>
     <input type="text" placeholder="Имя" name='first_name' id="first_name" value="{{ form.first_name.value|default:'' }}"
-           class="form-control {% if form.first_name.errors %} is-invalid {% endif %}">
+           class="form-control bot {% if form.first_name.errors %} is-invalid {% endif %}">
 
     {% for error in form.first_name.errors %}
         <div class="alert alert-danger" role="alert">
@@ -12,7 +12,7 @@
 <div class="form-group">
     <label for="last_name" class="form-label col-5">Фамилия</label>
     <input type="text" placeholder="Фамилия" name='last_name' id="last_name" value="{{ form.last_name.value|default:'' }}"
-           class="form-control {% if form.last_name.errors %} is-invalid {% endif %}">
+           class="form-control bot {% if form.last_name.errors %} is-invalid {% endif %}">
 
     {% for error in form.last_name.errors %}
         <div class="alert alert-danger" role="alert">
@@ -32,9 +32,9 @@
 {#</div>#}
 
 <div class="form-group">
-    <label for="email" class="form-label col-5">email</label>
+    <label for="email" class="form-label col-5">Email</label>
     <input type="email" name='email' placeholder="EMail" id="email" value="{{ form.email.value|default:'' }}"
-           class="form-control {% if form.email.errors %} is-invalid {% endif %}">
+           class="form-control bot {% if form.email.errors %} is-invalid {% endif %}">
 
     {% for error in form.email.errors %}
         <div class="alert alert-danger" role="alert">
