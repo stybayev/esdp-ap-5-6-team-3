@@ -102,7 +102,8 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         form = self.form_class(data=request.POST, files=self.request.FILES)
         category = Category.objects.get(pk=request.POST.get('category'))
         if form.is_valid():
-            self.object = product_create(request.POST, self.request.FILES, category)
+            self.object = product_create(request.POST,
+                                         self.request.FILES, category)
             return redirect(self.get_success_url())
         return render(request, self.template_name,
                       context={

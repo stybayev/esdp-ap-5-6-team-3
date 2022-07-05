@@ -1,7 +1,8 @@
 import pytest
 
-from product.services import category_create, aboutus_create, product_create, order_change_status, \
-    table_reservation_accept, cancel_order
+from product.services import (category_create, aboutus_create,
+                              product_create, order_change_status,
+                              table_reservation_accept, cancel_order)
 
 
 @pytest.mark.django_db
@@ -59,4 +60,5 @@ def test_table_reservation_accept(table_reservation):
     table_reservation_record = {
         'table_number': '1'
     }
-    assert table_reservation_accept(table_reservation_record, table_reservation)
+    assert table_reservation_accept(table_reservation_record,
+                                    table_reservation)
