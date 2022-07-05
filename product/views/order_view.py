@@ -1,17 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from config import client_key
 from django.db.models import Q
 from product.forms import SearchForm
 from product.helpers import SearchView
-from product.models import ShoppingCartOrder, StatusShoppingCartOrder, \
-    Basket
+from product.models import ShoppingCartOrder
 from django.views.generic import DetailView, TemplateView
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 import telebot
-from telebot import types
-
 from product.services import order_change_status, cancel_order
 
 bot = telebot.TeleBot(client_key)
@@ -75,7 +71,8 @@ class OrderChangeStatusView(LoginRequiredMixin, TemplateView):
                        kwargs={'status': self.order.status.status})
 
     def post(self, request, *args, **kwargs):
-        order_object = get_object_or_404(ShoppingCartOrder, pk=kwargs.get('pk'))
+        order_object = get_object_or_404(
+            ShoppingCartOrder, pk=kwargs.get('pk'))
         self.order = order_change_status(request.POST, order_object)
         return redirect(self.get_success_url())
 
@@ -91,6 +88,7 @@ class CancelOrder(TemplateView):
                        kwargs={'status': 'Новый'})
 
     def post(self, request, *args, **kwargs):
-        order_object = get_object_or_404(ShoppingCartOrder, pk=kwargs.get('pk'))
+        order_object = get_object_or_404(
+            ShoppingCartOrder, pk=kwargs.get('pk'))
         self.order = cancel_order(request.POST, order_object)
         return redirect(self.get_success_url())

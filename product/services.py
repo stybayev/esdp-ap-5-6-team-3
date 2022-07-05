@@ -1,5 +1,8 @@
-from product.models import Category, Aboutus, Product, ShoppingCartOrder, StatusShoppingCartOrder, TableReservation, \
-    Basket, CustomerFeedback, Comments
+from product.models import (Category, Aboutus,
+                            Product, ShoppingCartOrder,
+                            StatusShoppingCartOrder,
+                            TableReservation, Basket,
+                            CustomerFeedback, Comments)
 from transliterate import translit
 from googletrans import Translator
 from transliterate import get_translit_function
@@ -7,7 +10,6 @@ from telebot import types
 import telebot
 from config import client_key
 from django.contrib.auth.models import User
-
 
 translator = Translator()
 bot = telebot.TeleBot(client_key)
@@ -23,7 +25,8 @@ def cyrillic_check(text):
 
 def category_create(data: dict) -> Category:
     """
-        Функция для создания записи 'Категории'. Возвращает запись созданной категории.
+        Функция для создания записи 'Категории'.
+        Возвращает запись созданной категории.
     """
     category = Category.objects.create(category_name=data.get('category_name'))
     if cyrillic_check(category.category_name) is True:
@@ -50,9 +53,12 @@ def aboutus_create(data: dict) -> Aboutus:
     )
 
 
-def product_create(data: dict, files: dict, category: Category) -> Product:
+def product_create(
+        data: dict, files:
+        dict, category: Category) -> Product:
     """
-        Функция для создания записи 'Продукта'. Возвращает запись созданного продукта.
+        Функция для создания записи 'Продукта'.
+        Возвращает запись созданного продукта.
     """
     translit_ru = get_translit_function('ru')
     product = Product.objects.create(
@@ -87,9 +93,12 @@ def product_create(data: dict, files: dict, category: Category) -> Product:
     return product
 
 
-def order_change_status(data_1: dict, order: ShoppingCartOrder) -> ShoppingCartOrder:
+def order_change_status(
+        data_1: dict, order:
+        ShoppingCartOrder) -> ShoppingCartOrder:
     """
-        Функция для изменения статуса 'Заказа'. Возвращает запись заказа с измененным статусом.
+        Функция для изменения статуса 'Заказа'. Возвращает
+        запись заказа с измененным статусом.
     """
     current_status = data_1.get('status')
     telegram_user_id = data_1.get('telegram_user_id')
@@ -144,9 +153,12 @@ def cancel_order(data_1: dict, order: ShoppingCartOrder) -> ShoppingCartOrder:
     return order.delete()
 
 
-def table_reservation_accept(data_1: dict, reservation: TableReservation) -> TableReservation:
+def table_reservation_accept(
+        data_1: dict, reservation:
+        TableReservation) -> TableReservation:
     """
-        Функция для потверждения 'Брони столика'. Возвращает запись брони столика с измененным статусом.
+        Функция для потверждения 'Брони столика'.
+        Возвращает запись брони столика с измененным статусом.
     """
     reservation.status = 'Выполнено'
     reservation.table_number = data_1.get('table_number')
@@ -158,8 +170,9 @@ def table_reservation_accept(data_1: dict, reservation: TableReservation) -> Tab
     return reservation
 
 
-#Пока не работает. Описывать документацию к ней - не надо
-def comment_create(data: dict, product: CustomerFeedback, user: User) -> CustomerFeedback:
+# Пока неx работает. Описывать документацию к ней - не надо
+def comment_create(data: dict, product: CustomerFeedback,
+                   user: User) -> CustomerFeedback:
     comment = Comments.objects.create(text=data.get('text'))
     comment.feedback_id = product.pk
     comment.author = user
