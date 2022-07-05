@@ -1,20 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="card mb-3" style="width: 70%; margin-left: auto; margin-right: auto; border: none; margin-top: 1%">
-        <h2 style="text-align: center">Изменение информации профиля {{ request.user.first_name }}</h2>
+        <h2 style="text-align: center; margin-top: 30px">Редактирование профиля</h2>
         <div class="row g-0">
             <div class="col-md-2" style="text-align: center">
-
             </div>
             <div class="col-md-8">
-                <div class="text-center" style="width: 90%">
+                <div class="text-center">
                     <form action="{% url 'update_profile' %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         {% include 'partial/user_form.html' %}
                         {% include 'partial/profile_form.html' %}
-                        <div style="margin-top: 3%; justify-content: space-between; display: flex; margin-left: 5%; margin-right: 5%">
-                            <input class="btn btn-danger " type="submit" value="Изменить">
-                            <a class="btn btn-success " href="{% url 'profile' request.user.pk %}">Вернуться на страницу {{ request.user.first_name }}</a>
+                        <div style="margin-top: 20px; justify-content: space-between; display: flex; margin-left: 5%; margin-right: 5%">
+                            <input class="btn btn-3 btn-sm " type="submit" value="Изменить">
+                            <a class="btn btn-4 btn-sm " href="{% url 'profile' request.user.pk %}">Назад</a>
                         </div>
                     </form>
                 </div>

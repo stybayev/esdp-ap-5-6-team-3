@@ -3,7 +3,7 @@
     <input type="tel" name='phone_number' id="phone_number"
            value="{{ profile_form.phone_number.value|default:'' }}"
            placeholder="Номер телефона"
-           class="form-control {% if profile_form.phone_number.errors %} is-invalid {% endif %}">
+           class="form-control bot {% if profile_form.phone_number.errors %} is-invalid {% endif %}">
     {% for error in profile_form.phone_number.errors %}
         <div class="alert alert-danger" role="alert">
             {{ error }}
@@ -15,7 +15,7 @@
     <label for="vcard" class="form-label col-5">VCard </label>
     <input type="text" name='vcard' id="vcard"
            value="{{ profile_form.vcard.value|default:'' }}"
-           class="form-control {% if profile_form.vcard.errors %} is-invalid {% endif %}">
+           class="form-control bot {% if profile_form.vcard.errors %} is-invalid {% endif %}">
     {% for error in profile_form.vcard.errors %}
         <div class="alert alert-danger" role="alert">
             {{ error }}

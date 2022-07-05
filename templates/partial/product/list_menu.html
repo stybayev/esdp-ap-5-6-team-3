@@ -1,21 +1,4 @@
 {% load static %}
-<style>
-    .photo {
-        display: inline-block; /* Строчно-блочный элемент */
-        position: relative; /* Относительное позиционирование */
-    }
-    .photo:hover::after {
-        content: attr(data-title); /* Выводим текст */
-        position: absolute; /* Абсолютное позиционирование */
-        right: 0; top: 50%; /* Положение подсказки */
-        z-index: 1; /* Отображаем подсказку поверх других элементов */
-    {#background: rgba(255,255,230,0.9); /* Полупрозрачный цвет фона */#}
-        font-family: Arial, sans-serif; /* Гарнитура шрифта */
-        font-size: 15px; /* Размер текста подсказки */
-        padding: 5px 10px; /* Поля */
-    {#border: 1px solid #333; /* Параметры рамки */#}
-    }
-</style>
 {% block content %}
     <div class="button_my">
         <a class="btn" style="margin-right: 5%" href="{% url 'list_category' %}"><img style="width: 45px; height: 34px" src="{% static 'images_common/backward.png' %}" alt=""></a>
@@ -46,9 +29,10 @@
                         <p style="color: #6c757d">{{ product.available }}</p>
                     </td>
                     <td data-label="Действие">
-                        <div class="photo" data-title="Детальный просмотр">
-                            <a href="{% url 'detail_product' product.pk %}" class="btn btn-light" ><img style="width: 45px; height: 34px" src="{% static 'images_common/eye.png' %}" alt=""></a>
-                        </div>
+                        <a href="{% url 'detail_product' product.pk %}"
+                           class="btn btn-light" data-toggle="tooltip"
+                           title="Детальный просмотр" data-bs-placement="bottom" >
+                            <img style="width: 45px; height: 34px" src="{% static 'images_common/eye.png' %}" alt=""></a>
                     </td>
                 </tr>
             {% empty %}
