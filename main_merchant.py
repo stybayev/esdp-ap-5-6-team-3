@@ -15,7 +15,7 @@ from config import merchant_key
 
 merchant_bot = telebot.TeleBot(merchant_key)
 url_crm = 'http://127.0.0.1:8000'
-print(time.ctime())
+print("main-merchant запущен", time.ctime())
 time.sleep(3)
 
 
@@ -83,7 +83,7 @@ def bot_message(m):
             if merchant.user_id == m.chat.id:
                 merchant_bot.send_message(
                     m.chat.id,
-                    f'_Пароль сброшен на_ *{merchant.phone_number[1:]}*',
+                    f'_Пароль сброшен на_ *{merchant.phone_number}*',
                     parse_mode="Markdown")
 
     elif m.text == 'Новые заказы':

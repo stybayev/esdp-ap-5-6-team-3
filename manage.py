@@ -2,6 +2,11 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import subprocess
+
+
+subprocess.Popen(['python', 'main_client.py'])
+subprocess.Popen(['python', 'main_merchant.py'])
 
 
 def main():

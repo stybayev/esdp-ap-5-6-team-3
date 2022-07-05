@@ -29,20 +29,20 @@ calendar_1_callback = CallbackData(
     "calendar_1", "action", "year", "month", "day")
 merchant_bot = telebot.TeleBot(merchant_key)
 
-print(time.ctime())
+print("main-client запущен", time.ctime())
 time.sleep(3)
 
 # Для виртуального окружения
-# url_menu = 'http://localhost:8000/api/v1/menu/'
-# url_category = 'http://localhost:8000/api/v1/category/'
+url_menu = 'http://localhost:8000/api/v1/menu/'
+url_category = 'http://localhost:8000/api/v1/category/'
 
 url_crm = 'http://127.0.0.1:8000'
 base_url = f"https://api.telegram.org/bot{client_key}/sendPoll"
 print(base_url)
 
 # Для docker-compose
-url_menu = 'http://localhost:8080/api/v1/menu/'
-url_category = 'http://localhost:8080/api/v1/category/'
+# url_menu = 'http://localhost:8080/api/v1/menu/'
+# url_category = 'http://localhost:8080/api/v1/category/'
 
 database = {}
 customer_feedback = {}
@@ -812,7 +812,8 @@ def callback_inline2(call):
                                   f'{total_sum + (total_sum * 10) / 100} '
                                   f'тенге',
                      ln=1, align="C")
-
+            if not os.path.exists("PDF"):
+                os.mkdir("PDF")
             pdf.output(f"PDF/{call.data[16:]}-{call.from_user.id}.pdf")
 
         doc = open(f"PDF/{call.data[16:]}-{call.from_user.id}.pdf", 'rb')
