@@ -7,18 +7,24 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('product', '0053_merge_0050_merge_20220627_1839_0052_comments_author'),
+        ('product',
+         '0053_merge_0050_merge_20220627_1839_0052_comments_author'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='shoppingcartorder',
             name='status',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='product.statusshoppingcartorder'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                to='product.statusshoppingcartorder'
+            ),
         ),
         migrations.AlterField(
             model_name='statusshoppingcartorder',
             name='status',
-            field=models.CharField(default='Новый', max_length=20, verbose_name='Статус'),
+            field=models.CharField(default='Новый',
+                                   max_length=20,
+                                   verbose_name='Статус'),
         ),
     ]

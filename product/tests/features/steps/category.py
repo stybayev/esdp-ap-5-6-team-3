@@ -42,7 +42,8 @@ def click_button_category(context, text):
 
 @when(u'Я перехожу на страницу создания категории')
 def should_be_at_create_category_page(context):
-    assert context.browser.current_url == 'http://127.0.0.1:8000/category/add'
+    assert context.browser.current_url == \
+           'http://127.0.0.1:8000/category/add'
 
 
 @then(u'Я должен видеть категорию "{text}" в списке')

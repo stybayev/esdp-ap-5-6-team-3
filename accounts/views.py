@@ -46,8 +46,8 @@ class LogoutView(View):
 
 def register(request, m):
     """
-        Регистрация пользователя через телеграм
-        бот мерчанта, а такше создание профиля пользователя
+        Регистрация пользователя через телеграм бот мерчанта,
+        а такше создание профиля пользователя
     """
     user_form = UserCreationForm({'username': f'{m.contact.user_id}',
                                   'first_name': f'{m.contact.first_name}',

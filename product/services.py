@@ -54,8 +54,8 @@ def aboutus_create(data: dict) -> Aboutus:
 
 
 def product_create(
-        data: dict, files: dict,
-        category: Category) -> Product:
+        data: dict, files:
+        dict, category: Category) -> Product:
     """
         Функция для создания записи 'Продукта'.
         Возвращает запись созданного продукта.
@@ -94,7 +94,8 @@ def product_create(
 
 
 def order_change_status(
-        data_1: dict, order: ShoppingCartOrder) -> ShoppingCartOrder:
+        data_1: dict, order:
+        ShoppingCartOrder) -> ShoppingCartOrder:
     """
         Функция для изменения статуса 'Заказа'. Возвращает
         запись заказа с измененным статусом.
@@ -153,10 +154,11 @@ def cancel_order(data_1: dict, order: ShoppingCartOrder) -> ShoppingCartOrder:
 
 
 def table_reservation_accept(
-        data_1: dict, reservation: TableReservation) -> TableReservation:
+        data_1: dict, reservation:
+        TableReservation) -> TableReservation:
     """
-        Функция для потверждения 'Брони столика'. Возвращает
-        запись брони столика с измененным статусом.
+        Функция для потверждения 'Брони столика'.
+        Возвращает запись брони столика с измененным статусом.
     """
     reservation.status = 'Выполнено'
     reservation.table_number = data_1.get('table_number')

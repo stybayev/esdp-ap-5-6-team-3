@@ -36,7 +36,8 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     form_class = CommentForm
 
     def post(self, request, *args, **kwargs):
-        product = get_object_or_404(CustomerFeedback, pk=kwargs.get('pk'))
+        product = get_object_or_404(CustomerFeedback,
+                                    pk=kwargs.get('pk'))
         form = self.form_class(data=request.POST)
         if form.is_valid():
             comment = form.save(commit=False)

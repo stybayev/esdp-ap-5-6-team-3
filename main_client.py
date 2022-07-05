@@ -32,17 +32,18 @@ merchant_bot = telebot.TeleBot(merchant_key)
 print(time.ctime())
 time.sleep(3)
 
-# # Для виртуального окружения
-url_menu = 'http://localhost:8000/api/v1/menu/'
-url_category = 'http://localhost:8000/api/v1/category/'
-url_crm = 'http://127.0.0.1:8000'
+# Для виртуального окружения
+# url_menu = 'http://localhost:8000/api/v1/menu/'
+# url_category = 'http://localhost:8000/api/v1/category/'
 
+url_crm = 'http://127.0.0.1:8000'
 base_url = f"https://api.telegram.org/bot{client_key}/sendPoll"
 print(base_url)
 
 # Для docker-compose
-# url_menu = 'http://localhost:8080/api/v1/menu/'
-# url_category = 'http://localhost:8080/api/v1/category/'
+url_menu = 'http://localhost:8080/api/v1/menu/'
+url_category = 'http://localhost:8080/api/v1/category/'
+
 database = {}
 customer_feedback = {}
 
@@ -127,9 +128,9 @@ def button_menu(keyboard, basket):
 
 def order(call):
     """
-        Функция для кнопки (Статус заказа), создает список ID заказов для
-        дальнейшего сравнение с обработчиком обратного вызова (функция
-        callback_query_handler)
+        Функция для кнопки (Статус заказа), создает список ID
+        заказов для дальнейшего сравнение с обработчиком
+        обратного вызова (функция callback_query_handler)
     """
     value = []
     for orders in ShoppingCartOrder.objects.filter(
@@ -300,13 +301,13 @@ def bot_message(m):
     elif m.text == '\U0001F371Корзина':
         """
             После нажатие на маркап кнопку "Корзина", Если корзина не пуста,
-            то выводится список продуктов с фотографиями, с информацией и
-            количество добавленных продуктов на единицу продукта, после
+            то выводится список продуктов с фотографиями, с информацией
+            и количество добавленных продуктов на единицу продукта, после
             вызывается функция "def button_basket(keyboard, basket)" для
             вызова инлайн кнопок добавление и убавление количества продукта,
             так же выводится инлайн кнопка "Оформить заказ".
-            Если корзина пуста, то выводится только инлайн кнопка "Меню" с
-            уведомлением корзина пуста
+            Если корзина пуста, то выводится только инлайн кнопка "Меню"
+            с уведомлением корзина пуста
         """
         order_keyboard = types.InlineKeyboardMarkup(row_width=2)
 
@@ -454,8 +455,8 @@ def bot_message(m):
 
     elif m.text == '\U0001F51AВыполненные заказы':
         """
-            После нажатие на маркап кнопку 'Выполненные заказы' выводиться
-            список исполненных заказов в виде инлайн кнопок
+            После нажатие на маркап кнопку 'Выполненные заказы'
+            выводиться список исполненных заказов в виде инлайн кнопок
         """
         keyboard = types.InlineKeyboardMarkup(row_width=1)
         for orders in ShoppingCartOrder.objects.filter(
@@ -576,15 +577,15 @@ def callback_inline(call: CallbackQuery):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline2(call):
     """
-        Обработчик обратного вызова, функция отвечает
-        за обработку инлайн кнопок
+        Обработчик обратного вызова, функция
+        отвечает за обработку инлайн кнопок
     """
     if call.data in order(call):
         """
-            Выводит детальный просмотр заказов после нажатие на инлайн
-            кнопку 'Детальный просмотр заказа №'  в маркап кнопке
-            'Статус заказа', в детальном просмотре отображается статус
-            заказа, продукты и итоговая сумма
+            Выводит детальный просмотр заказов после нажатие
+            на инлайн кнопку 'Детальный просмотр заказа №' в
+            маркап кнопке 'Статус заказа', в детальном просмотре
+            отображается статус заказа, продукты и итоговая сумма
         """
         order_pk = call.data[13:]
         total_sum = 0
@@ -635,8 +636,9 @@ def callback_inline2(call):
     if call.data in PERSONS:
         """
             Если выбранное количество людей в бронирования столика
-            находиться в константе PERSONS, то данные записывается на
-            временную словарь database для дальнейшего обработки данных
+            находиться в константе PERSONS, то данные записывается
+            на временную словарь database для дальнейшего обработки
+            данных
         """
         database[call.from_user.id]['persons'] = call.data
         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -710,10 +712,11 @@ def callback_inline2(call):
 
     elif call.data == '\U0001F45DОформить заказ':
         """
-            После нажатие на инлайн кнопку «Перейти в оформление заказа»
-            с корзины выводится информация о продукте, количества продукта,
-            сумма продукта, итоговая сумма продукта и выводится две инлайн
-            кнопки 'Оформить заказ' и 'Изменить заказ – Корзина'
+            После нажатие на инлайн кнопку «Перейти в оформление
+            заказа» с корзины выводится информация о продукте,
+            количества продукта, сумма продукта, итоговая сумма
+            продукта и выводится две инлайн кнопки 'Оформить заказ'
+            и 'Изменить заказ – Корзина'
         """
         if not Basket.objects.filter(
                 telegram_user_id_id=call.from_user.id):
@@ -807,7 +810,8 @@ def callback_inline2(call):
                      ln=1, align="C")
             pdf.cell(110, 10, txt=f'Итоговая сумма '
                                   f'{total_sum + (total_sum * 10) / 100} '
-                                  f'тенге', ln=1, align="C")
+                                  f'тенге',
+                     ln=1, align="C")
 
             pdf.output(f"PDF/{call.data[16:]}-{call.from_user.id}.pdf")
 
@@ -1021,8 +1025,8 @@ def callback_inline2(call):
 
             elif call.data == f"subtract_basket_{menu['id']}":
                 """
-                    Удаляет либо уменьшает количества продукта
-                    и сумму в Корзине
+                    Удаляет либо уменьшает количества
+                    продукта и сумму в Корзине
                 """
                 if Basket.objects.filter(
                         amount__gt=1, product_id=menu['id'],

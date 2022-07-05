@@ -6,3 +6,4 @@ per-file-ignores =
     .\product\tests\features\steps\category.py: F811
     .\product\migrations\0054_alter_shoppingcartorder_status_and_more.py: E501
     .\api_client\yasg.py: E126,W605
+
