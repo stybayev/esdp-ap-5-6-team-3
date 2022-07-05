@@ -1,8 +1,8 @@
 from pytest import fixture
 
 from product.models import (Category, ShoppingCartOrder,
-                            StatusShoppingCartOrder, TelegramUser,
-                            TableReservation)
+                            StatusShoppingCartOrder,
+                            TelegramUser, TableReservation)
 
 
 @fixture

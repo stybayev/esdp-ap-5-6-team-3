@@ -1,4 +1,51 @@
 <<<<<<< HEAD
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-04T18:42:35.973833Z", "level": "INFO"}
+{"message": "\"GET / HTTP/1.1\" 200 4450", "request": "<socket.socket fd=6, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 8000), raddr=('127.0.0.1', 56005)>", "server_time": "05/Jul/2022 00:42:46", "status_code": 200, "filename": "basehttp.py", "timestamp": "2022-07-04T18:42:46.216611Z", "level": "INFO"}
+{"message": "\"GET /static/images_common/food-stall.png HTTP/1.1\" 200 19355", "request": "<socket.socket fd=8, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 8000), raddr=('127.0.0.1', 56007)>", "server_time": "05/Jul/2022 00:42:46", "status_code": 200, "filename": "basehttp.py", "timestamp": "2022-07-04T18:42:46.880032Z", "level": "INFO"}
+{"message": "\"GET /static/css/style.css HTTP/1.1\" 200 6421", "request": "<socket.socket fd=6, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 8000), raddr=('127.0.0.1', 56005)>", "server_time": "05/Jul/2022 00:42:46", "status_code": 200, "filename": "basehttp.py", "timestamp": "2022-07-04T18:42:46.883630Z", "level": "INFO"}
+{"message": "\"GET /static/images_common/menu.png HTTP/1.1\" 200 2267", "request": "<socket.socket fd=6, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 8000), raddr=('127.0.0.1', 56005)>", "server_time": "05/Jul/2022 00:42:46", "status_code": 200, "filename": "basehttp.py", "timestamp": "2022-07-04T18:42:46.889384Z", "level": "INFO"}
+{"message": "Not Found: /favicon.ico", "status_code": 404, "request": "<WSGIRequest: GET '/favicon.ico'>", "filename": "log.py", "timestamp": "2022-07-04T18:42:48.207443Z", "level": "WARNING"}
+{"message": "\"GET /favicon.ico HTTP/1.1\" 404 8222", "request": "<socket.socket fd=6, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 8000), raddr=('127.0.0.1', 56005)>", "server_time": "05/Jul/2022 00:42:48", "status_code": 404, "filename": "basehttp.py", "timestamp": "2022-07-04T18:42:48.208541Z", "level": "WARNING"}
+{"message": "\"GET /feedbacks/ HTTP/1.1\" 200 6010", "request": "<socket.socket fd=6, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 8000), raddr=('127.0.0.1', 56005)>", "server_time": "05/Jul/2022 00:42:48", "status_code": 200, "filename": "basehttp.py", "timestamp": "2022-07-04T18:42:48.742071Z", "level": "INFO"}
+{"message": "\"GET /aboutus/ HTTP/1.1\" 200 4167", "request": "<socket.socket fd=6, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 8000), raddr=('127.0.0.1', 56030)>", "server_time": "05/Jul/2022 00:42:50", "status_code": 200, "filename": "basehttp.py", "timestamp": "2022-07-04T18:42:50.593663Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/product/views/product_view.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-04T18:49:03.653257Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-04T18:49:05.174559Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/product/views/order_view.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-04T18:49:18.255542Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-04T18:49:19.681901Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/product/views/order_view.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-04T18:49:22.459179Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-04T18:49:23.887735Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/product/views/order_view.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-04T18:49:38.761344Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-04T18:49:39.922584Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/product/views/comment_view.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-04T18:49:47.199568Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-04T18:49:48.618369Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/product/views/comment_view.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-04T18:49:54.207324Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-04T18:49:55.808103Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/product/services.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-05T04:44:54.624877Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-05T04:44:59.247075Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/product/services.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-05T04:45:15.619865Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-05T04:45:16.785302Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/product/services.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-05T04:45:37.447758Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-05T04:45:38.464324Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/product/services.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-05T04:45:54.026651Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-05T04:45:55.099330Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/product/services.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-05T04:46:08.699204Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-05T04:46:10.021021Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/product/services.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-05T04:46:14.520433Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-05T04:46:15.806407Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/product/services.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-05T04:47:01.336730Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-05T04:47:03.380648Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/core/settings.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-05T04:47:20.554921Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-05T04:47:22.714203Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/accounts/views.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-05T04:48:03.413050Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-05T04:48:04.525012Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/accounts/views.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-05T04:48:13.197317Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-05T04:48:15.269882Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/log_formatters.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-05T05:12:51.774050Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-05T05:12:52.998059Z", "level": "INFO"}
+{"message": "/mnt/c/Users/Meir/Desktop/Python/ESDP-Group3/esdp-ap-5-6-team-3/log_formatters.py changed, reloading.", "filename": "autoreload.py", "timestamp": "2022-07-05T05:13:20.907768Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-05T05:13:22.204887Z", "level": "INFO"}
+=======
+<<<<<<< HEAD
 {"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-03T17:53:50.447239Z", "level": "INFO"}
 {"message": "\"GET / HTTP/1.1\" 200 7331", "request": "<socket.socket fd=6, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 8000), raddr=('127.0.0.1', 51219)>", "server_time": "03/Jul/2022 23:53:55", "status_code": 200, "filename": "basehttp.py", "timestamp": "2022-07-03T17:53:55.974662Z", "level": "INFO"}
 {"message": "\"GET /static/images_common/food-stall.png HTTP/1.1\" 304 0", "request": "<socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 8000), raddr=('127.0.0.1', 51220)>", "server_time": "03/Jul/2022 23:53:56", "status_code": 304, "filename": "basehttp.py", "timestamp": "2022-07-03T17:53:56.009122Z", "level": "INFO"}
@@ -421,3 +468,4 @@
 {"message": "Watching for file changes with StatReloader", "filename": "autoreload.py", "timestamp": "2022-07-04T12:22:24.810396Z", "level": "INFO"}
 =======
 >>>>>>> 39b34f4ab5b7288199f7c15909439829363050c0
+>>>>>>> 97ed8c1956a31fbd0b2f20bba284eaa99fa91e0c

@@ -24,8 +24,9 @@ def should_be_at_main(context):
 
 @then(u'Я должен быть на странице входа')
 def should_be_at_login(context):
-    assert context.browser.current_url == \
-           'http://127.0.0.1:8000/accounts/login/'
+    assert \
+        context.browser.current_url == \
+        'http://127.0.0.1:8000/accounts/login/'
 
 
 @then(u'Я должен видеть сообщение об ошибке с текстом "{text}"')

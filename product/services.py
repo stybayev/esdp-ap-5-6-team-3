@@ -26,7 +26,7 @@ def cyrillic_check(text):
 def category_create(data: dict) -> Category:
     """
         Функция для создания записи 'Категории'.
-         Возвращает запись созданной категории.
+        Возвращает запись созданной категории.
     """
     category = Category.objects.create(category_name=data.get('category_name'))
     if cyrillic_check(category.category_name) is True:
@@ -97,8 +97,8 @@ def order_change_status(
         data_1: dict, order:
         ShoppingCartOrder) -> ShoppingCartOrder:
     """
-        Функция для изменения статуса 'Заказа'.
-        Возвращает запись заказа с измененным статусом.
+        Функция для изменения статуса 'Заказа'. Возвращает
+        запись заказа с измененным статусом.
     """
     current_status = data_1.get('status')
     telegram_user_id = data_1.get('telegram_user_id')
@@ -170,7 +170,7 @@ def table_reservation_accept(
     return reservation
 
 
-# Пока не работает. Описывать документацию к ней - не надо
+# Пока неx работает. Описывать документацию к ней - не надо
 def comment_create(data: dict, product: CustomerFeedback,
                    user: User) -> CustomerFeedback:
     comment = Comments.objects.create(text=data.get('text'))

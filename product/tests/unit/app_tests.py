@@ -60,5 +60,5 @@ def test_table_reservation_accept(table_reservation):
     table_reservation_record = {
         'table_number': '1'
     }
-    assert table_reservation_accept(table_reservation_record,
-                                    table_reservation)
+    assert table_reservation_accept(
+        table_reservation_record, table_reservation)
