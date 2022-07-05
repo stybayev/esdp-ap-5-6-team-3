@@ -71,14 +71,14 @@ class ProductCategoryListView(SearchView):
             return super().get(request, *args, **kwargs)
         search_param = request.GET.get('search')
         result = self.model.objects.filter(
-            Q(product_name__icontains=search_param) | Q(
-                description__icontains=search_param) | Q(
-                category__category_name__icontains=search_param) | Q(
-                price__icontains=search_param) | Q(
-                translit_product_name__icontains=search_param) | Q(
-                translit_description__icontains=search_param) | Q(
-                product_name_translation__icontains=search_param) | Q(
-                description_translation__icontains=search_param),
+            Q(product_name__icontains=search_param) |
+            Q(description__icontains=search_param) |
+            Q(category__category_name__icontains=search_param) |
+            Q(price__icontains=search_param) |
+            Q(translit_product_name__icontains=search_param) |
+            Q(translit_description__icontains=search_param) |
+            Q(product_name_translation__icontains=search_param) |
+            Q(description_translation__icontains=search_param),
         )
         return render(request, self.template_name,
                       {self.context_object_name: result})

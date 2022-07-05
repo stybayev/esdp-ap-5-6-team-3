@@ -22,6 +22,8 @@ class CustomerFeedbackListView(SearchView):
     search_fields = {
         'quiz_answer': 'icontains',
         'description': 'icontains',
+        'telegram_user_id__first_name': 'icontains',
+        'telegram_user_id__last_name': 'icontains',
     }
 
     def get_context_data(self, *, object_list=None, **kwargs):
