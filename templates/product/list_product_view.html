@@ -6,14 +6,7 @@
             <p style="padding-right: 20px; font-size: 25px">Категория:</p>
             <p style="font-size: 25px; padding-right: 10px">{{ category.category_name }}</p>
         </div>
-        {% if user.is_authenticated %}
-            <div style="margin-top: 5px">
-                <button data-toggle="tooltip" title="Удалить" data-bs-placement="bottom" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn" style="padding: 0"><img style="width: 30px; height: 25px" src="{% static 'images_common/delete.png' %}" alt=""></button>
-                <a class="btn" data-toggle="tooltip" title="Редактировать" data-bs-placement="bottom" href="{% url 'update_category' category.pk %}" role="button" style="padding: 0"><img style="width: 30px; height: 25px" src="{% static 'images_common/edit.png' %}" alt=""></a>
-            </div>
-        {% endif %}
     </div>
     <h2 class="title_dish">Список блюд</h2>
     {% include 'partial/product/list_menu.html' %}
-    {% include 'common/delete_modal.html' with deleted_object=category view="delete_category" %}
 {% endblock %}
