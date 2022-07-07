@@ -32,17 +32,23 @@ merchant_bot = telebot.TeleBot(merchant_key)
 print("main-client запущен", time.ctime())
 time.sleep(3)
 
-# Для виртуального окружения
-url_menu = 'http://localhost:8000/api/v1/menu/'
-url_category = 'http://localhost:8000/api/v1/category/'
+# # Для виртуального окружения
+# url_menu = 'http://localhost:8000/api/v1/menu/'
+# url_category = 'http://localhost:8000/api/v1/category/'
+# url_crm = 'http://127.0.0.1:8000'
 
-url_crm = 'http://127.0.0.1:8000'
 base_url = f"https://api.telegram.org/bot{client_key}/sendPoll"
 print(base_url)
 
-# Для docker-compose
+# Для локального docker-compose
 # url_menu = 'http://localhost:8080/api/v1/menu/'
 # url_category = 'http://localhost:8080/api/v1/category/'
+# url_crm = 'http://127.0.0.1:8000'
+
+# Для docker-compose сервера
+url_menu = 'https://merchant-dashboard.ddns.net/api/v1/menu/'
+url_category = 'https://merchant-dashboard.ddns.net/api/v1/category/'
+url_crm = 'https://merchant-dashboard.ddns.net'
 
 database = {}
 customer_feedback = {}
@@ -701,7 +707,7 @@ def callback_inline2(call):
             keyboard.add(
                 types.InlineKeyboardButton(
                     text=f"Перейти к заказу №{shopping_cart_orders.id}",
-                    url=f"{url_crm}/order/"
+                    url=f"{url_crm}/orders/Новый/"
                         f"{shopping_cart_orders.id}"))
 
             merchant_bot.send_message(
@@ -802,13 +808,13 @@ def callback_inline2(call):
                          ln=1, align="C")
 
             # pdf.set_font('DejaVu', '', 13)
-            # pdf.ln(6)
-            pdf.cell(110, 10, txt=f'Сумма {total_sum} '
+            pdf.ln(9)
+            pdf.cell(120, 10, txt=f'Сумма {total_sum} '
                                   f'тенге', ln=1, align="C")
-            pdf.cell(110, 10, txt=f'10% за обслуживание '
+            pdf.cell(120, 10, txt=f'10% за обслуживание '
                                   f'{(total_sum * 10) / 100} тенге',
                      ln=1, align="C")
-            pdf.cell(110, 10, txt=f'Итоговая сумма '
+            pdf.cell(120, 10, txt=f'Итоговая сумма '
                                   f'{total_sum + (total_sum * 10) / 100} '
                                   f'тенге',
                      ln=1, align="C")
@@ -837,6 +843,10 @@ def callback_inline2(call):
                     if menu['category'] == response_category['category_name'] \
                             and menu['available'] == 'Есть':
                         keyboard = types.InlineKeyboardMarkup(row_width=2)
+                        # img = f"{url_crm}{menu['photo']}"
+                        # p = get(img)
+                        # out = open(f"{menu['photo'][1:]}", "wb")
+                        # out.write(p.content)
                         print(menu['photo'][1:])
                         photo = open(menu['photo'][1:], 'rb')
                         if not Basket.objects.filter(

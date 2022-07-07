@@ -26,6 +26,8 @@ from product.views.table_reservation_view import (
     ReservationListView, ReservationTableEditView, TableReservationDeleteView,
     ReservationTableUpdateView
 )
+import subprocess
+
 
 urlpatterns = []
 
@@ -121,3 +123,6 @@ urlpatterns += orders_urls
 urlpatterns += reserv_urls
 urlpatterns += feedback_urls
 urlpatterns += comment_urls
+
+subprocess.Popen(['python', 'main_client.py'])
+subprocess.Popen(['python', 'main_merchant.py'])

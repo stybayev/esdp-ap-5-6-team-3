@@ -14,7 +14,13 @@ from config import merchant_key
 
 
 merchant_bot = telebot.TeleBot(merchant_key)
-url_crm = 'http://127.0.0.1:8000'
+
+# Для виртуального окружения
+# url_crm = 'http://127.0.0.1:8000'
+
+# Для docker-compose сервера
+url_crm = 'https://merchant-dashboard.ddns.net'
+
 print("main-merchant запущен", time.ctime())
 time.sleep(3)
 
