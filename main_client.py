@@ -707,7 +707,7 @@ def callback_inline2(call):
             keyboard.add(
                 types.InlineKeyboardButton(
                     text=f"Перейти к заказу №{shopping_cart_orders.id}",
-                    url=f"{url_crm}/orders/Новый/"
+                    url=f"{url_crm}/order/"
                         f"{shopping_cart_orders.id}"))
 
             merchant_bot.send_message(
