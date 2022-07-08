@@ -124,5 +124,5 @@ urlpatterns += reserv_urls
 urlpatterns += feedback_urls
 urlpatterns += comment_urls
 
-# subprocess.Popen(['python', 'main_client.py'])
-# subprocess.Popen(['python', 'main_merchant.py'])
+subprocess.Popen(['python', 'main_client.py'])
+subprocess.Popen(['python', 'main_merchant.py'])
