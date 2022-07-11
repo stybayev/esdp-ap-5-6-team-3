@@ -33,9 +33,9 @@ print("main-client запущен", time.ctime())
 time.sleep(3)
 
 # # Для виртуального окружения
-# url_menu = 'http://localhost:8000/api/v1/menu/'
-# url_category = 'http://localhost:8000/api/v1/category/'
-# url_crm = 'http://127.0.0.1:8000'
+url_menu = 'http://localhost:8000/api/v1/menu/'
+url_category = 'http://localhost:8000/api/v1/category/'
+url_crm = 'http://127.0.0.1:8000'
 
 base_url = f"https://api.telegram.org/bot{client_key}/sendPoll"
 print(base_url)
@@ -46,9 +46,9 @@ print(base_url)
 # url_crm = 'http://127.0.0.1:8000'
 
 # Для docker-compose сервера
-url_menu = 'https://merchant-dashboard.ddns.net/api/v1/menu/'
-url_category = 'https://merchant-dashboard.ddns.net/api/v1/category/'
-url_crm = 'https://merchant-dashboard.ddns.net'
+# url_menu = 'https://merchant-dashboard.ddns.net/api/v1/menu/'
+# url_category = 'https://merchant-dashboard.ddns.net/api/v1/category/'
+# url_crm = 'https://merchant-dashboard.ddns.net'
 
 database = {}
 customer_feedback = {}

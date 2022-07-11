@@ -256,11 +256,11 @@ class Order(models.Model):
         (CASH, CASH), (CARD, CARD)
     )
 
-    phone_number = models.PositiveSmallIntegerField(
+    phone_number = models.BigIntegerField(
         blank=False, null=False, verbose_name="Номер телефона")
     comment = models.TextField(
         max_length=3000, null=True, blank=True, verbose_name="Комментарий")
-    telegram_user_id = models.PositiveSmallIntegerField(
+    telegram_user_id = models.BigIntegerField(
         null=False, blank=False, verbose_name="Telegram Id пользователя"
     )
     status = models.CharField(
@@ -282,13 +282,13 @@ class Order(models.Model):
 
 
 class TelegramUser(models.Model):
-    user_id = models.PositiveSmallIntegerField(
+    user_id = models.BigIntegerField(
         primary_key=True, unique=True, verbose_name="Telegram Id пользователя")
     first_name = models.CharField(
         max_length=100, null=True, blank=True, verbose_name="Имя")
     last_name = models.CharField(
         max_length=100, null=True, blank=True, verbose_name="Фамилия")
-    phone_number = models.PositiveSmallIntegerField(verbose_name="Телефон")
+    phone_number = models.BigIntegerField(verbose_name="Телефон")
     vcard = models.CharField(
         max_length=300, null=True, blank=True,
         verbose_name="Электронная карта")
@@ -298,13 +298,13 @@ class MerchantTelegramUser(models.Model):
     auth_user = models.OneToOneField(
         get_user_model(), related_name='auth_user_profile',
         on_delete=models.CASCADE, verbose_name='Пользователь', default=1)
-    user_id = models.PositiveSmallIntegerField(
+    user_id = models.BigIntegerField(
         primary_key=True, unique=True, verbose_name="Telegram Id пользователя")
     first_name = models.CharField(
         max_length=100, null=True, blank=True, verbose_name="Имя")
     last_name = models.CharField(
         max_length=100, null=True, blank=True, verbose_name="Фамилия")
-    phone_number = models.PositiveSmallIntegerField(verbose_name="Телефон")
+    phone_number = models.BigIntegerField(verbose_name="Телефон")
     vcard = models.CharField(
         max_length=300, null=True, blank=True,
         verbose_name="Электронная карта")
