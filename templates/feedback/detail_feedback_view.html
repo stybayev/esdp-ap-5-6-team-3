@@ -31,7 +31,7 @@ box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 border-radius: 10px;">
         <div class="card-header">№{{ feedback.id }}⠀Телеграмм пользователь: <b>{{ feedback.telegram_user_id.first_name }}</b>⠀
             <a href="tel:+{{ feedback.telegram_user_id.phone_number }}" style="text-decoration: none; color: black;">
-                            Телефон: <b>+{{ feedback.telegram_user_id.phone_number }}</b></a>
+                Телефон: <b>+{{ feedback.telegram_user_id.phone_number }}</b></a>
         </div>
         <div class="card-body">
             <h5 class="card-title" style="display: flex">
@@ -75,6 +75,25 @@ border-radius: 10px;">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
-    <script src="{% static 'js\comment.js' %}"></script>
+    <script>
+        console.log(Cookies.get('csrftoken'))
+        console.log($('#createForm').serialize())
+
+        $('#createForm').on("submit", function(e){
+            e.preventDefault()
+            var str = $(this).serialize()
+            console.log((str))
+            $.ajax({
+                url: 'http://localhost:8000/api/v1/create/',
+                type: 'POST',
+                headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
+                headers: {'X-CSRFToken':Cookies.get('csrftoken')},
+                data: str,
+                success: function (result) {
+                    location.reload()
+                    console.log(result)}
+            });
+        })
+    </script>
 
 {% endblock %}

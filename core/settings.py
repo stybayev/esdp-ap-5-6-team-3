@@ -28,37 +28,37 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CORS_ALLOWED_ORIGINS = [
-    "https://example.com",
-    "https://sub.example.com",
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-]
-CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1:8000/api/v1/create/',
-    'http://localhost:8000/api/v1/create/',
-    'http://127.0.0.1:8000/api/v1/',
-    'http://localhost:8000/api/v1/',
-]
-
-CORS_ORIGIN_ALLOW_ALL = False
-
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8000',
-    'http://localhost:8000/api/v1/create/',
-    'http://localhost:8000/api/v1/',
-    'http://127.0.0.1:8000',
-    'http://127.0.0.1:8000/api/v1/create/',
-    'http://127.0.0.1:8000/api/v1/')
-
-CORS_ALLOW_METHODS = [
-    "DELETE",
-    "GET",
-    "OPTIONS",
-    "PATCH",
-    "POST",
-    "PUT",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "https://example.com",
+#     "https://sub.example.com",
+#     "http://localhost:8000",
+#     "http://127.0.0.1:8000",
+# ]
+# CSRF_TRUSTED_ORIGINS = [
+#     'http://127.0.0.1:8000/api/v1/create/',
+#     'http://localhost:8000/api/v1/create/',
+#     'http://127.0.0.1:8000/api/v1/',
+#     'http://localhost:8000/api/v1/',
+# ]
+#
+# CORS_ORIGIN_ALLOW_ALL = False
+#
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:8000',
+#     'http://localhost:8000/api/v1/create/',
+#     'http://localhost:8000/api/v1/',
+#     'http://127.0.0.1:8000',
+#     'http://127.0.0.1:8000/api/v1/create/',
+#     'http://127.0.0.1:8000/api/v1/')
+#
+# CORS_ALLOW_METHODS = [
+#     "DELETE",
+#     "GET",
+#     "OPTIONS",
+#     "PATCH",
+#     "POST",
+#     "PUT",
+# ]
 
 # Application definition
 
@@ -92,7 +92,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
 ]
 
 LOGGING = {
