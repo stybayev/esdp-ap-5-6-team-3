@@ -259,7 +259,7 @@ def bot_message(m):
             После нажатие на маркап кнопку 'Забронировать столик'
             выводится календарь инлайн кнопок
         """
-        now = datetime.datetime.now()  # Получение сегодняшней даты
+        now = datetime.now()  # Получение сегодняшней даты
         bot.send_message(
             m.chat.id,
             "Выберите дату",
@@ -568,7 +568,7 @@ def callback_inline(call: CallbackQuery):
     max_date = datetime.now().timestamp() + 1209600
     if action == "DAY":
         if date_in.timestamp() < datetime.now().timestamp():
-            now = datetime.datetime.now()  # Получение сегодняшней даты
+            now = datetime.now()  # Получение сегодняшней даты
             bot.send_message(
                 chat_id=call.from_user.id,
                 text="Выбранная дата уже прошла, выберите корректную дату",
@@ -579,7 +579,7 @@ def callback_inline(call: CallbackQuery):
                 ),
             )
         elif date_in.timestamp() > max_date:
-            now = datetime.datetime.now()  # Получение сегодняшней даты
+            now = datetime.now()  # Получение сегодняшней даты
             bot.send_message(
                 chat_id=call.from_user.id,
                 text="Мы принимаем бронь до двух недель, выбранная дата превышает лимит, выберите другую дату",
