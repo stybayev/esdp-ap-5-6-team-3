@@ -69,9 +69,10 @@ def bot_message(m):
             логин и пароль
         """
         password = ''
-        for x in range(12):  # Количество символов (16)
+        for x in range(12):
             password = password + random.choice(list(
-                '!#$%&*+-=?@1234567890abcdefghigklmnopqrstuvyxwzABCDEFGHIGKLMNOPQRSTUVYXWZ'))
+                '!#$%&*+-=?@1234567890abcdefghigklmnopqrstuvyxwz'
+                'ABCDEFGHIGKLMNOPQRSTUVYXWZ'))
         print('your password is: ', password)
         register(request, m, password)
         merchant_bot.send_message(
@@ -93,7 +94,8 @@ def bot_message(m):
         password = ''
         for x in range(12):
             password = password + random.choice(list(
-                '!#$%&*+-=?@1234567890abcdefghigklmnopqrstuvyxwzABCDEFGHIGKLMNOPQRSTUVYXWZ'
+                '!#$%&*+-=?@1234567890abcdefghigklmnopqrstuvyxwz'
+                'ABCDEFGHIGKLMNOPQRSTUVYXWZ'
             ))
         print('your change password is: ', password)
         change_password(request, m, password)

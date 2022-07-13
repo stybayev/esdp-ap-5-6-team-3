@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('product', '0054_alter_shoppingcartorder_status_and_more'),
     ]
@@ -18,7 +17,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='merchanttelegramuser',
             name='user_id',
-            field=models.BigIntegerField(primary_key=True, serialize=False, unique=True, verbose_name='Telegram Id пользователя'),
+            field=models.BigIntegerField(
+                primary_key=True, serialize=False, unique=True,
+                verbose_name='Telegram Id пользователя'
+            ),
         ),
         migrations.AlterField(
             model_name='order',
@@ -28,7 +30,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='order',
             name='telegram_user_id',
-            field=models.BigIntegerField(verbose_name='Telegram Id пользователя'),
+            field=models.BigIntegerField(
+                verbose_name='Telegram Id пользователя'
+            ),
         ),
         migrations.AlterField(
             model_name='telegramuser',
@@ -38,6 +42,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='telegramuser',
             name='user_id',
-            field=models.BigIntegerField(primary_key=True, serialize=False, unique=True, verbose_name='Telegram Id пользователя'),
+            field=models.BigIntegerField(
+                primary_key=True,
+                serialize=False,
+                unique=True,
+                verbose_name='Telegram Id пользователя'
+            ),
         ),
     ]

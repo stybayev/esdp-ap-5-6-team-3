@@ -26,7 +26,6 @@ from product.views.table_reservation_view import (
     ReservationListView, ReservationTableEditView, TableReservationDeleteView,
     ReservationTableUpdateView
 )
-import subprocess
 
 
 urlpatterns = []
