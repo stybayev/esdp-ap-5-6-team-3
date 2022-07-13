@@ -1,86 +1,15 @@
 {% csrf_token %}
 <form id="createForm" action="{% url 'create_comment' feedback.pk %}" method="post">
     {% csrf_token %}
-    <div style="display: flex; justify-content: space-between">
+    <div>
         <div>
             <input placeholder="Добавьте комментарий..." name="text" id="text"
-                   style="border: none; width: 500px;"
+                    class="form-control"
                    required>
         </div>
-        <div style="height: 10%; display: flex; width: 20%; justify-content: space-between">
-            <input style="border: none; background-color: white; color: #4f4f4f" type="submit"
+        <div style="height: 10%; display: flex; width: 20%; justify-content: space-between; margin-top: 25px">
+            <input class="btn btn-4 btn-sm" type="submit"
                    value="{{ button_text }}">
         </div>
     </div>
 </form>
-
-
-
-{##}
-{#{% csrf_token %}#}
-{##}
-{##}
-{#<div class="form-group" style="display: flex; flex-direction: column; ">#}
-{#{{ form }}#}
-{##}
-{#</div>#}
-{#<button style="margin-top: 2%" class="btn btn-sm btn-primary" type="submit">{{ button_text }}</button>#}
-
-{#{% csrf_token %}#}
-{##}
-{#<div class="form-group text-muted" style="display: flex; flex-direction: column; ">#}
-{#    {{ form }}#}
-{##}
-{#</div>#}
-{#<button class="btn btn-outline-primary" type="submit">{{ button_text }}</button>#}
-
-
-
-{#<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">#}
-{#    <div class="modal-dialog">#}
-{#        <div class="modal-content">#}
-{#            <form action="{% url 'create_comment' %}" method="POST" enctype="multipart/form-data">#}
-{##}
-{#                <div class="modal-header">#}
-{#                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>#}
-{#                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
-{#                </div>#}
-{#                <div class="modal-body">#}
-{#                    {% csrf_token %}#}
-{##}
-{#                    <input type="text" value="{{ feedback.id }}">#}
-{##}
-{##}
-{#                    {{ form }}#}
-{##}
-{#                </div>#}
-{#                <div class="modal-footer">#}
-{#                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>#}
-{#                    <button type="button" class="btn btn-primary">Save changes</button>#}
-{#                </div>#}
-{#            </form>#}
-{##}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}
-
-{#<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">#}
-{#    <div class="modal-dialog">#}
-{#        <div class="modal-content">#}
-{#            <div class="modal-header">#}
-{#                <h5 class="modal-title" id="exampleModalLabel">Удаление</h5>#}
-{#                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
-{#            </div>#}
-{#            <div class="modal-body">#}
-{#                Вы действиткльно хотите удалить {{ feedback_object }}?#}
-{#            </div>#}
-{#            <div class="modal-footer">#}
-{#                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>#}
-{#                <form action="{% url 'create_comment' %}" method="POST">#}
-{#                    {% csrf_token %}#}
-{#                    <input type="submit" class="btn btn-danger" data-bs-dismiss="modal" value="Подтвердить">#}
-{#                </form>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}

@@ -44,21 +44,6 @@ CSRF_COOKIE_SECURE = False
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-# CORS_ORIGIN_WHITELIST = [
-#    'http://localhost:8000',
-#    'http://localhost:8000/api/v1/create/',
-#    'http://localhost:8000/api/v1/',
-#    'http://127.0.0.1:8000',
-#    'http://127.0.0.1:8000/api/v1/create/',
-#    'http://127.0.0.1:8000/api/v1/',
-#    'https://merchant-dashboard.ddns.net/api/v1/create/',
-#    'https://merchant-dashboard.ddns.net/api/v1/',
-#    'https://merchant-dashboard.ddns.net',
-#    'https://merchant-dashboard.ddns.net/api/v1/create/',
-#    'https://merchant-dashboard.ddns.net/api/v1/',
-#    'https://merchant-dashboard.ddns.net',
-#    'https://merchant-dashboard.ddns.net/accounts/login/',]
-
 CORS_ALLOW_METHODS = [
     "DELETE",
     "GET",
