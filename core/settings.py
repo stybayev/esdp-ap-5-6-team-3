@@ -78,7 +78,7 @@ INSTALLED_APPS = [
     'api_client',
     'product',
     'accounts',
-    'corsheaders',
+    # 'corsheaders',
     'behave_django'
     # 'phonenumber_field',
 
@@ -92,7 +92,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
 ]
 
 LOGGING = {
