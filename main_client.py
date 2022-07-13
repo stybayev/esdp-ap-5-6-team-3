@@ -6,13 +6,14 @@ import django
 
 django.setup()
 import datetime
+from datetime import datetime
 from django.shortcuts import get_object_or_404
 from config import client_key, merchant_key
 import telebot
 from telebot import types
 from requests import get
-from cal import (Calendar, CallbackData, RUSSIAN_LANGUAGE,
-                 get_time, TIME, get_persons, PERSONS)
+from auxiliary.cal import (Calendar, CallbackData, RUSSIAN_LANGUAGE,
+                           get_time, TIME, get_persons, PERSONS)
 from telebot.types import (ReplyKeyboardRemove, CallbackQuery,
                            InlineKeyboardMarkup)
 import time
@@ -258,7 +259,7 @@ def bot_message(m):
             После нажатие на маркап кнопку 'Забронировать столик'
             выводится календарь инлайн кнопок
         """
-        now = datetime.datetime.now()  # Получение сегодняшней даты
+        now = datetime.now()  # Получение сегодняшней даты
         bot.send_message(
             m.chat.id,
             "Выберите дату",
@@ -564,20 +565,44 @@ def callback_inline(call: CallbackQuery):
         bot=bot, call=call, name=name, action=action,
         year=year, month=month, day=day
     )
+    max_date = datetime.now().timestamp() + 1209600
     if action == "DAY":
-        database.setdefault(
-            call.from_user.id, {'date': date_in.strftime('%Y-%m-%d')})
-        bot.send_message(
-            chat_id=call.from_user.id,
-            text=f"Выбранная дата: {database[call.from_user.id].get('date')}",
-            reply_markup=ReplyKeyboardRemove(),
-        )
-        keyboard = InlineKeyboardMarkup(row_width=4)
-        bot.send_message(
-            chat_id=call.from_user.id,
-            text="Выберите время",
-            reply_markup=get_time(keyboard),
-        )
+        if date_in.timestamp() < datetime.now().timestamp():
+            now = datetime.now()  # Получение сегодняшней даты
+            bot.send_message(
+                chat_id=call.from_user.id,
+                text="Выбранная дата уже прошла, выберите корректную дату",
+                reply_markup=calendar.create_calendar(
+                    name=calendar_1_callback.prefix,
+                    year=now.year,
+                    month=now.month,
+                ),
+            )
+        elif date_in.timestamp() > max_date:
+            now = datetime.now()  # Получение сегодняшней даты
+            bot.send_message(
+                chat_id=call.from_user.id,
+                text="Мы принимаем бронь до двух недель, выбранная дата превышает лимит, выберите другую дату",
+                reply_markup=calendar.create_calendar(
+                    name=calendar_1_callback.prefix,
+                    year=now.year,
+                    month=now.month,
+                ),
+            )
+        else:
+            database.setdefault(
+                call.from_user.id, {'date': date_in.strftime('%Y-%m-%d')})
+            bot.send_message(
+                chat_id=call.from_user.id,
+                text=f"Выбранная дата: {database[call.from_user.id].get('date')}",
+                reply_markup=ReplyKeyboardRemove(),
+            )
+            keyboard = InlineKeyboardMarkup(row_width=4)
+            bot.send_message(
+                chat_id=call.from_user.id,
+                text="Выберите время",
+                reply_markup=get_time(keyboard),
+            )
 
 
 @bot.callback_query_handler(func=lambda call: True)
