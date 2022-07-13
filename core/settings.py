@@ -24,32 +24,39 @@ SECRET_KEY = \
     'django-insecure-g3q$#@c&(5162w56vodqo6g51@ixzromk^b6#*=#9^9sflrcnp'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
+    "https://merchant-dashboard.ddns.net",
     "https://example.com",
     "https://sub.example.com",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
 ]
-CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1:8000/api/v1/create/',
-    'http://localhost:8000/api/v1/create/',
-    'http://127.0.0.1:8000/api/v1/',
-    'http://localhost:8000/api/v1/',
-]
 
-CORS_ORIGIN_ALLOW_ALL = False
+CSRF_TRUSTED_ORIGINS = ["https://merchant-dashboard.ddns.net", ]
 
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8000',
-    'http://localhost:8000/api/v1/create/',
-    'http://localhost:8000/api/v1/',
-    'http://127.0.0.1:8000',
-    'http://127.0.0.1:8000/api/v1/create/',
-    'http://127.0.0.1:8000/api/v1/')
+CSRF_COOKIE_SECURE = False
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+# CORS_ORIGIN_WHITELIST = [
+#    'http://localhost:8000',
+#    'http://localhost:8000/api/v1/create/',
+#    'http://localhost:8000/api/v1/',
+#    'http://127.0.0.1:8000',
+#    'http://127.0.0.1:8000/api/v1/create/',
+#    'http://127.0.0.1:8000/api/v1/',
+#    'https://merchant-dashboard.ddns.net/api/v1/create/',
+#    'https://merchant-dashboard.ddns.net/api/v1/',
+#    'https://merchant-dashboard.ddns.net',
+#    'https://merchant-dashboard.ddns.net/api/v1/create/',
+#    'https://merchant-dashboard.ddns.net/api/v1/',
+#    'https://merchant-dashboard.ddns.net',
+#    'https://merchant-dashboard.ddns.net/accounts/login/',]
 
 CORS_ALLOW_METHODS = [
     "DELETE",
@@ -64,7 +71,6 @@ CORS_ALLOW_METHODS = [
 
 
 # sys.modules['fontawesome_free'] = __import__('fontawesome-free')
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -124,7 +130,6 @@ LOGGING = {
 }
 
 ROOT_URLCONF = 'core.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -154,7 +159,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': 5432,
     }
 }
@@ -167,7 +172,6 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.'
@@ -202,9 +206,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+# STATICFILES_DIRS = [
+#    BASE_DIR / 'static'
+# ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
