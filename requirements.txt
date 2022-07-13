@@ -24,11 +24,13 @@ django-imagekit==4.1.0
 django-phonenumber-field==6.1.0
 django-utils-six==2.0
 djangorestframework==3.13.1
+django-environ==0.8.1
 docker==5.0.3
 docker-compose==1.29.2
 dockerpty==0.4.1
 docopt==0.6.2
 drf-yasg==1.20.0
+gunicorn==19.7.1
 fontawesome-free==5.15.4
 fpdf==1.7.2
 googletrans==4.0.0rc1
