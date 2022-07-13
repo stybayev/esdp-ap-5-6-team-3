@@ -11,7 +11,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
+<<<<<<< HEAD
 from log_formatters import CustomJsonFormatter
+=======
+from auxiliary.log_formatters import CustomJsonFormatter
+import environ
+>>>>>>> 94ededbc19dab7ae9f20a6a69cd5189a848781ed
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
