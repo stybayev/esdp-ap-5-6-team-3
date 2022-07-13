@@ -44,7 +44,7 @@ class LogoutView(View):
         return redirect('list_category')
 
 
-def register(request, m):
+def register(request, m, password):
     """
         Регистрация пользователя через телеграм бот мерчанта,
         а такше создание профиля пользователя
@@ -52,9 +52,9 @@ def register(request, m):
     user_form = UserCreationForm({'username': f'{m.contact.user_id}',
                                   'first_name': f'{m.contact.first_name}',
                                   'last_name': f'{m.contact.last_name}',
-                                  'password': f'{m.contact.phone_number[1:]}',
+                                  'password': f'{password}',
                                   'password_confirm':
-                                      f'{m.contact.phone_number[1:]}',
+                                      f'{password}',
                                   'email': ''})
     print(m.contact.phone_number[1:])
     if user_form.is_valid():
@@ -149,12 +149,12 @@ class ChangePasswordView(LoginRequiredMixin, UpdateView):
         return self.model.objects.get(id=self.request.user.id)
 
 
-def change_password(request, m):
+def change_password(request, m, password):
     """
         Сброс/Изменение пароля через телеграм бот мерчанта
     """
     for merchant in MerchantTelegramUser.objects.all():
         if merchant.user_id == m.from_user.id:
             user = merchant.auth_user
-            user.set_password(f'{merchant.phone_number}')
+            user.set_password(f'{password}')
             user.save()

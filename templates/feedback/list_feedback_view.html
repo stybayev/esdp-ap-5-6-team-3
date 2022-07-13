@@ -20,7 +20,10 @@
                 {% else %}
                     <a href="{% url 'detail_feedback' feedback.pk %}" style="text-decoration: none">
                         №{{ feedback.id }}
-                        Автор: <b>{{ feedback.telegram_user_id.first_name }}</b> Телефон: <b>{{ feedback.telegram_user_id.phone_number }}</b>
+                        Автор: <b>{{ feedback.telegram_user_id.first_name }}</b>
+                        {% if user.is_authenticated %}
+                        Телефон: <b>{{ feedback.telegram_user_id.phone_number }}</b>
+                        {% endif %}
                     </a>
                 {% endif %}
             </div>
