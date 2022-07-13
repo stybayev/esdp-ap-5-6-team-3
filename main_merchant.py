@@ -11,6 +11,7 @@ import time
 from product.models import (MerchantTelegramUser,
                             ShoppingCartOrder)
 from config import merchant_key
+import random
 
 
 merchant_bot = telebot.TeleBot(merchant_key)
@@ -67,7 +68,12 @@ def bot_message(m):
             пользователя в Админ панеле, т.е. создается аутентификационный
             логин и пароль
         """
-        register(request, m)
+        password = ''
+        for x in range(12):  # Количество символов (16)
+            password = password + random.choice(list(
+                '!#$%&*+-=?@1234567890abcdefghigklmnopqrstuvyxwzABCDEFGHIGKLMNOPQRSTUVYXWZ'))
+        print('your password is: ', password)
+        register(request, m, password)
         merchant_bot.send_message(
             m.chat.id, f'Пользователь *{m.contact.first_name} '
                        f'{m.contact.last_name} '
@@ -76,7 +82,7 @@ def bot_message(m):
         merchant_bot.send_message(
             m.chat.id, f'Вы автоматическии зарегистрированы в Админ панеле \n'
             f'на вход систему используйте нижеуказанные Лигин и пароль \n'
-            f'Логин: *{m.contact.user_id}*  Пароль *{m.contact.phone_number}*',
+            f'Логин: *{m.contact.user_id}*  Пароль *{password}*',
             parse_mode="Markdown")
         start(m)
 
@@ -84,12 +90,18 @@ def bot_message(m):
         """
             Производиться сброс пароля на Админ панель
         """
-        change_password(request, m)
+        password = ''
+        for x in range(12):
+            password = password + random.choice(list(
+                '!#$%&*+-=?@1234567890abcdefghigklmnopqrstuvyxwzABCDEFGHIGKLMNOPQRSTUVYXWZ'
+            ))
+        print('your change password is: ', password)
+        change_password(request, m, password)
         for merchant in MerchantTelegramUser.objects.all():
             if merchant.user_id == m.chat.id:
                 merchant_bot.send_message(
                     m.chat.id,
-                    f'_Пароль сброшен на_ *{merchant.phone_number}*',
+                    f'_Пароль сброшен на_ *{password}*',
                     parse_mode="Markdown")
 
     elif m.text == 'Новые заказы':
