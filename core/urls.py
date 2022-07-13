@@ -23,12 +23,12 @@ from django.conf import settings
 
 
 urlpatterns = [
-                  path('admin/', admin.site.urls),
-                  path('', include('product.urls')),
-                  path('accounts/', include('accounts.urls')),
-                  path('api/v1/', include('api_client.urls')),
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
-              + static(settings.STATIC_URL,
-                       document_root=settings.STATIC_ROOT)
+    path('admin/', admin.site.urls),
+    path('', include('product.urls')),
+    path('accounts/', include('accounts.urls')),
+    path('api/v1/', include('api_client.urls')),
+] + static(settings.MEDIA_URL,
+           document_root=settings.MEDIA_ROOT) + static(
+    settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # urlpatterns += doc_urls

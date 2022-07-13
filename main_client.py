@@ -5,7 +5,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 import django
 
 django.setup()
-import datetime
+# import datetime
 from datetime import datetime
 from django.shortcuts import get_object_or_404
 from config import client_key, merchant_key
@@ -582,7 +582,8 @@ def callback_inline(call: CallbackQuery):
             now = datetime.now()  # Получение сегодняшней даты
             bot.send_message(
                 chat_id=call.from_user.id,
-                text="Мы принимаем бронь до двух недель, выбранная дата превышает лимит, выберите другую дату",
+                text="Мы принимаем бронь до двух недель, выбранная дата "
+                     "превышает лимит, выберите другую дату",
                 reply_markup=calendar.create_calendar(
                     name=calendar_1_callback.prefix,
                     year=now.year,
@@ -591,7 +592,9 @@ def callback_inline(call: CallbackQuery):
             )
         else:
             database.setdefault(
-                call.from_user.id, {'date': date_in.strftime('%Y-%m-%d')})
+                call.from_user.id,
+                {'date': date_in.strftime('%Y-%m-%d')}
+            )
             bot.send_message(
                 chat_id=call.from_user.id,
                 text=f"Выбранная дата: {database[call.from_user.id].get('date')}",
