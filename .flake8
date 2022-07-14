@@ -7,4 +7,6 @@ per-file-ignores =
     .\product\migrations\0054_alter_shoppingcartorder_status_and_more.py: E501
     .\api_client\yasg.py: E126,W605
     .\product\views\product_view.py: W504
+    .\product\migrations\**.py: E501
+    .\core\settings.py: E121
 
