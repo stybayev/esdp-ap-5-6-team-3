@@ -293,6 +293,10 @@ class TelegramUser(models.Model):
         max_length=300, null=True, blank=True,
         verbose_name="Электронная карта")
 
+    class Meta:
+        verbose_name = 'Клиент'
+        verbose_name_plural = 'Клиенты'
+
 
 class MerchantTelegramUser(models.Model):
     auth_user = models.OneToOneField(
@@ -308,6 +312,10 @@ class MerchantTelegramUser(models.Model):
     vcard = models.CharField(
         max_length=300, null=True, blank=True,
         verbose_name="Электронная карта")
+
+    class Meta:
+        verbose_name = 'Мерчант'
+        verbose_name_plural = 'Мерчант'
 
 
 class TableReservation(models.Model):
