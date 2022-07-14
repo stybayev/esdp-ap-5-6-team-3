@@ -34,7 +34,7 @@ class Entity(models.Model):
 class Aboutus(models.Model):
     description = models.CharField(
         max_length=500, verbose_name="О Нас")
-    telephone_number = models.PositiveIntegerField(
+    telephone_number = models.BigIntegerField(
         verbose_name="Телефон компании")
 
     def __str__(self):
