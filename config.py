@@ -9,3 +9,5 @@ environ.Env.read_env()
 
 merchant_key = os.getenv('MERCHANT_KEY')
 client_key = os.getenv('CLIENT_KEY')
+print(merchant_key)
+print(merchant_key)
