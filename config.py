@@ -6,5 +6,6 @@ load_dotenv()
 env = environ.Env()
 environ.Env.read_env()
 
+
 merchant_key = os.getenv('MERCHANT_KEY')
 client_key = os.getenv('CLIENT_KEY')
