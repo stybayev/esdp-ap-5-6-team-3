@@ -13,7 +13,11 @@ import os
 from pathlib import Path
 from auxiliary.log_formatters import CustomJsonFormatter
 from dotenv import load_dotenv
+import environ
 
+
+env = environ.Env()
+environ.Env.read_env()
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
