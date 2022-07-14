@@ -1,41 +1,18 @@
 stages:
   - build
   - release
-#  - test
-
-#workflow:
-#  rules:
-#    - if: $CI_COMMIT_BRANCH == "develop"
-
-
-#test:
-#  stage: test
-#  script:
-#    - cp /home/gitlab-runner/configs/.env ./
-#    - docker-compose -f test.docker-compose.yml build
-#    - docker-compose -f test.docker-compose.yml up -d
-#    - docker-compose -f test.docker-compose.yml run test_app pytest -v --junitxml="result.xml"
-#     - docker-compose -f test.docker-compose.yml run test_app flake8
-#  artifacts:
-#    when: always
-#    paths:
-#      - result.xml
-#    reports:
-#      junit: result.xml
 
 
 build:
   stage: build
   script:
-#    - cp /home/gitlab-runner/configs/.env ./
     - docker-compose build
 
 release:
   stage: release
   script:
-#    - cp /home/gitlab-runner/configs/.env ./
     - docker-compose -f docker-compose.yml -f prod.certbot.yml up -d
     - docker-compose exec -T app python manage.py collectstatic -h
 
   only:
-    - main
+    - gitlab-ci
