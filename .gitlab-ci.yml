@@ -1,6 +1,21 @@
 stages:
   - build
   - release
+  - test
+
+test:
+  stage: test
+  script:
+    - cp /home/gitlab-runner/configs/.env ./
+    - docker-compose -f test.docker-compose.yml build
+    - docker-compose -f test.docker-compose.yml up -d
+    - docker-compose -f test.docker-compose.yml run test_app pytest -v --junitxml="result.xml"
+  artifacts:
+    when: always
+    paths:
+      - result.xml
+    reports:
+      junit: result.xml
 
 
 build:
