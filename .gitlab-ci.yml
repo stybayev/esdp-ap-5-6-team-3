@@ -3,6 +3,10 @@ stages:
   - release
   - test
 
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "gitlab-ci.yml"
+
 test:
   stage: test
   script:
