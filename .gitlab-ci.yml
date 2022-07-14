@@ -17,4 +17,5 @@ release:
     - docker-compose exec -T app python manage.py collectstatic --no-input
 
   only:
-    - gitlab-ci
+    - gitlab-ci.yml
+
