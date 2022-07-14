@@ -1,7 +1,6 @@
 from django.contrib import admin
-
-# Register your models here.
-from product.models import Product, Category, StatusShoppingCartOrder
+from product.models import (Product, Category, StatusShoppingCartOrder,
+                            TelegramUser, MerchantTelegramUser)
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -28,6 +27,26 @@ class StatusAdmin(admin.ModelAdmin):
     fields = ['status']
 
 
+class TelegramUserAdmin(admin.ModelAdmin):
+    list_display = ('user_id', 'first_name', 'last_name',
+                    'phone_number', 'vcard')
+    list_filter = ['first_name']
+    search_fields = ['first_name', 'last_name', 'phone_number']
+    fields = ['first_name']
+    readonly_fields = ['user_id']
+
+
+class MerchantTelegramUserAdmin(admin.ModelAdmin):
+    list_display = ('user_id', 'first_name', 'last_name',
+                    'phone_number', 'vcard')
+    list_filter = ['first_name']
+    search_fields = ['first_name', 'last_name', 'phone_number']
+    fields = ['first_name']
+    readonly_fields = ['user_id']
+
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(StatusShoppingCartOrder, StatusAdmin)
+admin.site.register(TelegramUser, TelegramUserAdmin)
+admin.site.register(MerchantTelegramUser, MerchantTelegramUserAdmin)

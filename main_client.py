@@ -597,7 +597,8 @@ def callback_inline(call: CallbackQuery):
             )
             bot.send_message(
                 chat_id=call.from_user.id,
-                text=f"Выбранная дата: {database[call.from_user.id].get('date')}",
+                text=f"Выбранная дата: "
+                     f"{database[call.from_user.id].get('date')}",
                 reply_markup=ReplyKeyboardRemove(),
             )
             keyboard = InlineKeyboardMarkup(row_width=4)
@@ -1178,6 +1179,6 @@ def callback_inline2(call):
 
 
 if __name__ == '__main__':
-    bot.polling(none_stop=True)
-    while True:
-        time.sleep(3)
+    bot.polling(none_stop=True, interval=0)
+    # while True:
+    #     time.sleep(3)
