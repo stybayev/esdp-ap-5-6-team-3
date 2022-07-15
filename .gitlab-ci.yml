@@ -2,6 +2,7 @@ stages:
   - build
   - release
   - test
+  - linting
 
 workflow:
   rules:
@@ -14,13 +15,24 @@ test:
     - docker-compose -f test.docker-compose.yml build
     - docker-compose -f test.docker-compose.yml up -d
     - docker-compose -f test.docker-compose.yml run test_app pytest -v --junitxml="result.xml"
-    - docker-compose -f test.docker-compose.yml run test_app flake8
-#  artifacts:
-#    when: always
-#    paths:
-#      - result.xml
-#    reports:
-#      junit: result.xml
+  artifacts:
+    when: always
+    paths:
+      - result.xml
+    reports:
+      junit: result.xml
+
+
+linting:
+  stage: linting
+  tags:
+    - docker
+  before_script:
+    - pip3 install flake8
+  script:
+    - flake8 --ignore=E501 .
+  only:
+    - gitlab-ci.yml
 
 
 build:
