@@ -6,7 +6,7 @@ stages:
 
 workflow:
   rules:
-    - if: $CI_COMMIT_BRANCH == "gitlab-ci.yml"
+    - if: $CI_COMMIT_BRANCH == "develop"
 
 test:
   stage: test
@@ -31,7 +31,7 @@ linting:
     - docker-compose -f test.docker-compose.yml up -d
     - docker-compose -f test.docker-compose.yml run test_app flake8
   only:
-    - gitlab-ci.yml
+    - develop
 
 
 build:
@@ -48,5 +48,5 @@ release:
     - docker-compose exec -T app python manage.py collectstatic --no-input
 
   only:
-    - gitlab-ci.yml
+    - develop
 
