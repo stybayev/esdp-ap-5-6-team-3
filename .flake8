@@ -1,5 +1,5 @@
 [flake8]
-ignore = E226, E302, E41, EXE002, A003, W503 **/migrations/** ALL
+ignore =  W605, F811, W504, F541, E402, E226, E302, E41, EXE002, A003, W503 **/migrations/** ALL
 max-line-length = 120
 exclude = .git,__pycache__,docs/source/conf.py,old,build,dist
 per-file-ignores =
