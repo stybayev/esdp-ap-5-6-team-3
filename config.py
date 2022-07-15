@@ -1,3 +1,10 @@
-merchant_key = '5465636954:AAGz8wRqP5EKF_D3x3ZLL1rbO18-QX63qlc'
+import os
+import environ
+from dotenv import load_dotenv
 
-client_key = '5465636954:AAGz8wRqP5EKF_D3x3ZLL1rbO18-QX63qlc'
+load_dotenv()
+env = environ.Env()
+environ.Env.read_env()
+
+merchant_key = os.getenv('MERCHANT_KEY')
+client_key = os.getenv('CLIENT_KEY')
