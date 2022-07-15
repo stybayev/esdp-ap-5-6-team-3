@@ -15,12 +15,12 @@ test:
     - docker-compose -f test.docker-compose.yml up -d
     - docker-compose -f test.docker-compose.yml run test_app pytest -v --junitxml="result.xml"
     - docker-compose -f test.docker-compose.yml run test_app flake8
-  artifacts:
-    when: always
-    paths:
-      - result.xml
-    reports:
-      junit: result.xml
+#  artifacts:
+#    when: always
+#    paths:
+#      - result.xml
+#    reports:
+#      junit: result.xml
 
 
 build:
