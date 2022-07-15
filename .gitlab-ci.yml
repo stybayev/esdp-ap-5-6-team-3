@@ -6,7 +6,7 @@ stages:
 
 workflow:
   rules:
-    - if: $CI_COMMIT_BRANCH == "develop"
+    - if: $CI_COMMIT_BRANCH == "main"
 
 test:
   stage: test
@@ -31,7 +31,7 @@ linting:
     - docker-compose -f test.docker-compose.yml up -d
     - docker-compose -f test.docker-compose.yml run test_app flake8
   only:
-    - develop
+    - main
 
 
 build:
@@ -48,5 +48,5 @@ release:
     - docker-compose exec -T app python manage.py collectstatic --no-input
 
   only:
-    - develop
+    - main
 
