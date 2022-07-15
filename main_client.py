@@ -284,7 +284,8 @@ def bot_message(m):
             date=database[m.from_user.id]['date'],
             time=database[m.from_user.id]['time'],
             persons_number=database[m.from_user.id]['persons'])
-        del database[m.from_user.id]
+        database.pop(m.from_user.id)
+        # del database[m.from_user.id]
         for users in MerchantTelegramUser.objects.all():
             keyboard = types.InlineKeyboardMarkup()
             keyboard.add(
@@ -303,7 +304,8 @@ def bot_message(m):
             Маркап кнопка Вернуться в меню отменяет не
             завершенную операцию бронь столика
         """
-        del database[m.from_user.id]
+        database.pop(m.from_user.id)
+        # del database[m.from_user.id]
         menu(m, 'Выберите операцию')
     elif m.text == '\U0001F371Корзина':
         """
@@ -560,7 +562,6 @@ def callback_inline(call: CallbackQuery):
         В Бронирование столиков выводит инлайн кнопки календарь (дату) и время
     """
     name, action, year, month, day = call.data.split(calendar_1_callback.sep)
-    global date
     date_in = calendar.calendar_query_handler(
         bot=bot, call=call, name=name, action=action,
         year=year, month=month, day=day
