@@ -46,7 +46,6 @@ release:
     - cp /home/gitlab-runner/configs/.env ./
     - docker-compose -f docker-compose.yml -f prod.certbot.yml up -d
     - docker-compose exec -T app python manage.py collectstatic --no-input
-
   only:
     - dev
 
