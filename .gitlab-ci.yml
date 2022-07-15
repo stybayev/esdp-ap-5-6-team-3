@@ -29,7 +29,7 @@ linting:
     - cp /home/gitlab-runner/configs/.env ./
     - docker-compose -f test.docker-compose.yml build
     - docker-compose -f test.docker-compose.yml up -d
-    - docker-compose -f dev.docker-compose.yml run test_app flake8
+    - docker-compose -f test.docker-compose.yml run test_app flake8
   only:
     - gitlab-ci.yml
 
