@@ -1,5 +1,6 @@
 [flake8]
-ignore = E402, F541
+ignore =  W605, F811, W504, F541, E402, E226, E302, E41, EXE002, A003, W503 **/migrations/** ALL
+max-line-length = 120
 exclude = .git,__pycache__,docs/source/conf.py,old,build,dist
 per-file-ignores =
     .\product\tests\features\steps\orders.py: F811,E501
@@ -7,4 +8,6 @@ per-file-ignores =
     .\product\migrations\0054_alter_shoppingcartorder_status_and_more.py: E501
     .\api_client\yasg.py: E126,W605
     .\product\views\product_view.py: W504
+    .\product\migrations\**.py: E501
+    .\core\settings.py: E121
 
