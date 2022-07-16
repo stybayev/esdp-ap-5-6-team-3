@@ -40,7 +40,6 @@ build:
     - cp /home/gitlab-runner/configs/.env ./
     - docker-compose build
 
-
 release:
   stage: release
   script:
