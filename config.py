@@ -1,3 +1,4 @@
+
 import os
 import environ
 from dotenv import load_dotenv
@@ -8,3 +9,4 @@ environ.Env.read_env()
 
 merchant_key = os.getenv('MERCHANT_KEY')
 client_key = os.getenv('CLIENT_KEY')
+
